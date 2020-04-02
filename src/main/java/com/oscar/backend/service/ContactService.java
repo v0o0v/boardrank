@@ -42,4 +42,13 @@ public class ContactService {
         contactRepository.save(contact);
     }
 
+    public List<Contact> findAll(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return contactRepository.findAll();
+        } else {
+//            return contactRepository.search(stringFilter);
+            return  contactRepository.findByFirstNameContainsOrLastNameContains(stringFilter, stringFilter);
+        }
+    }
+
 }
