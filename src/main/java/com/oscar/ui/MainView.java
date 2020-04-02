@@ -3,29 +3,40 @@ package com.oscar.ui;
 import com.oscar.backend.entity.Company;
 import com.oscar.backend.entity.Contact;
 import com.oscar.backend.service.ContactService;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route("")
+@CssImport("./styles/shared-styles.css")
 public class MainView extends VerticalLayout {
 
     private ContactService contactService;
 
     private Grid<Contact> grid = new Grid<>(Contact.class);
     private TextField filterText = new TextField();
+    private ContactForm contactForm = new ContactForm();
 
     public MainView(ContactService contactService) {
         this.contactService = contactService;
 
         addClassName("list-view");
         setSizeFull();
-        configureFilter();
-        configureGrid();
 
-        add(filterText, grid);
+        configureGrid();
+        configureFilter();
+
+        Div content = new Div();
+        content.setSizeFull();
+        content.addClassName("content");
+        content.add(grid, this.contactForm);
+
+        add(filterText, content);
+
         updateList();
     }
 
