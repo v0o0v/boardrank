@@ -37,6 +37,8 @@ public class MainView extends VerticalLayout {
             Company company = contact.getCompany();
             return company == null ? "-" : company.getName();
         }).setHeader("Company");
+
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
     private void updateList() {
