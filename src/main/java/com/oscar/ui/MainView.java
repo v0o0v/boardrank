@@ -1,5 +1,6 @@
 package com.oscar.ui;
 
+import com.oscar.backend.entity.Company;
 import com.oscar.backend.entity.Contact;
 import com.oscar.backend.service.ContactService;
 import com.vaadin.flow.component.grid.Grid;
@@ -28,7 +29,14 @@ public class MainView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("contact-grid");
         grid.setSizeFull();
-        grid.setColumns("firstName", "lastName", "email", "status");
+        grid.setColumns("firstName", "lastName", "email", "status","company");
+
+        grid.removeColumnByKey("company");
+
+        grid.addColumn(contact -> {
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company");
     }
 
     private void updateList() {
