@@ -2,6 +2,7 @@ package com.oscar.ui;
 
 import com.oscar.backend.entity.Company;
 import com.oscar.backend.entity.Contact;
+import com.oscar.backend.service.CompanyService;
 import com.oscar.backend.service.ContactService;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -16,13 +17,16 @@ import com.vaadin.flow.router.Route;
 public class MainView extends VerticalLayout {
 
     private ContactService contactService;
+    private CompanyService companyService;
 
     private Grid<Contact> grid = new Grid<>(Contact.class);
     private TextField filterText = new TextField();
-    private ContactForm contactForm = new ContactForm();
+    private ContactForm contactForm;
 
-    public MainView(ContactService contactService) {
+    public MainView(ContactService contactService, CompanyService companyService) {
         this.contactService = contactService;
+        this.companyService = companyService;
+        contactForm = new ContactForm(this.companyService.findAll());
 
         addClassName("list-view");
         setSizeFull();
