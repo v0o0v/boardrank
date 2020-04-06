@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 
 @Route("")
 @CssImport("./styles/shared-styles.css")
-public class MainView extends VerticalLayout {
+public class ListView extends VerticalLayout {
 
     private ContactService contactService;
     private CompanyService companyService;
@@ -25,7 +25,7 @@ public class MainView extends VerticalLayout {
     private TextField filterText = new TextField();
     private ContactForm form;
 
-    public MainView(ContactService contactService, CompanyService companyService) {
+    public ListView(ContactService contactService, CompanyService companyService) {
         this.contactService = contactService;
         this.companyService = companyService;
 
@@ -38,7 +38,6 @@ public class MainView extends VerticalLayout {
         form.addListener(ContactForm.CloseEvent.class, e -> closeEditor());
 
         configureGrid();
-//        configureFilter();
 
         Div content = new Div(grid, form);
         content.addClassName("content");
