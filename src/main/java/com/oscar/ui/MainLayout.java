@@ -1,5 +1,6 @@
 package com.oscar.ui;
 
+import com.oscar.ui.view.dashboard.DashboardView;
 import com.oscar.ui.view.list.ListView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -39,6 +40,9 @@ public class MainLayout extends AppLayout {
         RouterLink listLink = new RouterLink("List", ListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(listLink));
+        addToDrawer(new VerticalLayout(
+                listLink,
+                new RouterLink("Dashboard", DashboardView.class)
+        ));
     }
 }
