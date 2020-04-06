@@ -1,4 +1,4 @@
-package com.oscar.ui;
+package com.oscar.ui.view.list;
 
 import com.oscar.backend.entity.Company;
 import com.oscar.backend.entity.Contact;

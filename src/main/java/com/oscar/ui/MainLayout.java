@@ -1,5 +1,6 @@
 package com.oscar.ui;
 
+import com.oscar.ui.view.list.ListView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
