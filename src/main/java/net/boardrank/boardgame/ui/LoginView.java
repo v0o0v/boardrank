@@ -1,4 +1,4 @@
-package net.boardrank.Boardgame.ui;
+package net.boardrank.boardgame.ui;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
@@ -17,6 +17,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginForm login = new LoginForm();
 
     public LoginView() {
+        this.login.setForgotPasswordButtonVisible(false);
+
         addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);

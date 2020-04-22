@@ -1,4 +1,4 @@
-package net.boardrank.Boardgame.domain;
+package net.boardrank.boardgame.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,19 +7,23 @@ import lombok.Setter;
 import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Entity
-public class Paticiant {
+public class RankEntry {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "paticipant_key")
-    private Set<Account> accounts;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    private Double score;
+
+    private Integer rank;
 }

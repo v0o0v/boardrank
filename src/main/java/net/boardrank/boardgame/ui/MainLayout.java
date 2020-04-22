@@ -1,4 +1,4 @@
-package net.boardrank.Boardgame.ui;
+package net.boardrank.boardgame.ui;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -8,7 +8,6 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 
@@ -36,12 +35,12 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        RouterLink listLink = new RouterLink("List", ListView.class);
+        RouterLink listLink = new RouterLink("List", GameListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(
-                listLink,
-                new RouterLink("Dashboard", DashboardView.class)
-        ));
+//        addToDrawer(new VerticalLayout(
+//                listLink,
+//                new RouterLink("Dashboard", DashboardView.class)
+//        ));
     }
 }

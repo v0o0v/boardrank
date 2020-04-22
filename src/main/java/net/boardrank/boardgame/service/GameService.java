@@ -20,7 +20,7 @@ public class GameService {
     @Autowired
     AccountRepository accountRepository;
 
-    public List<Game> getGamesOfCurrentSessionAuth() {
+    public List<Game> getGamesOfCurrentSessionAccount() {
         UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account = accountRepository.findByEmail(details.getUsername()).orElseThrow(RuntimeException::new);
 

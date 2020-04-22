@@ -1,4 +1,4 @@
-package net.boardrank.Boardgame.domain;
+package net.boardrank.boardgame.domain;
 
 import lombok.*;
 

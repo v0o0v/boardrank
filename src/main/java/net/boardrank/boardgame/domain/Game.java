@@ -1,4 +1,4 @@
-package net.boardrank.Boardgame.domain;
+package net.boardrank.boardgame.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,7 +7,9 @@ import lombok.Setter;
 import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,8 +37,30 @@ public class Game {
     @Enumerated(EnumType.ORDINAL)
     private GameStatus gameStatus;
     private LocalDateTime createdTime;
+    private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
     private String gameTitle;
     private String chatId;
 
+    public String getWinnerByString() {
+        if (this.scoreBoard == null)
+            return "";
+
+        List<Account> winnerList = this.scoreBoard.getWinnerList();
+        if (winnerList == null)
+            return "";
+
+        StringBuilder winnerString = new StringBuilder();
+        for (Account account : winnerList)
+            winnerString.append(account.getName() + " ");
+
+        return winnerString.toString().trim();
+    }
+
+    public String getPlayingTime() {
+        if (startedTime == null || finishedTime == null)
+            return "";
+
+        return ""+Duration.between(startedTime,finishedTime).abs().toMinutes();
+    }
 }
