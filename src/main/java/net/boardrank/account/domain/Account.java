@@ -12,11 +12,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "email")
+@EqualsAndHashCode(of = "id")
 public class Account {
 
-    @Id
+    @Id @GeneratedValue
+    private Long id;
+
     private String email;
+
+    private String name;
 
     @JsonIgnore
     private String password;
@@ -25,15 +29,19 @@ public class Account {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AccountRole> roles = new HashSet<>();
 
-    @Builder
-    public Account(String email, String password, Set<AccountRole> roles) {
-        Assert.notNull(email, "Not Null");
-        Assert.notNull(password, "Not Null");
-        Assert.notNull(roles, "Not Null");
-        Assert.isTrue(roles.size() >= 1, "Not Null");
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner")
+    private Set<Friend> friends = new HashSet<>();
 
+    @Builder
+    public Account(String email, String password, Set<AccountRole> roles, String name) {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.name = name;
+    }
+
+    public void addFriend(Friend friend){
+        this.friends.add(friend);
     }
 }

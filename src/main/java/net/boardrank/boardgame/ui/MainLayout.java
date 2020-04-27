@@ -1,5 +1,7 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -23,9 +25,14 @@ public class MainLayout extends AppLayout {
     private void createHeader() {
         H1 logo = new H1("Board Rank");
         logo.addClassName("logo");
+
         Anchor logout = new Anchor("/logout", "Log out");
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
+        Button createMatch = new Button("Create New Match");
+        MatchCreateDialog matchCreateDialog = new MatchCreateDialog();
+        createMatch.addClickListener(event -> matchCreateDialog.open());
+
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, createMatch, logout);
         header.expand(logo);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidth("100%");
@@ -35,12 +42,13 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        RouterLink listLink = new RouterLink("List", GameListView.class);
+        RouterLink listLink = new RouterLink("Match History", GameListView.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-//        addToDrawer(new VerticalLayout(
-//                listLink,
-//                new RouterLink("Dashboard", DashboardView.class)
-//        ));
+        addToDrawer(new VerticalLayout(
+                new RouterLink("My Rank", GameListView.class)
+                , new RouterLink("My Friends", FriendListView.class)
+                , listLink
+        ));
     }
 }

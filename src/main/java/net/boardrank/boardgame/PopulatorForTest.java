@@ -2,11 +2,13 @@ package net.boardrank.boardgame;
 
 import net.boardrank.account.domain.Account;
 import net.boardrank.account.domain.AccountRole;
+import net.boardrank.account.domain.Friend;
 import net.boardrank.account.domain.repository.AccountRepository;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.BoardGameRepository;
 import net.boardrank.boardgame.domain.repository.GameRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
+import net.boardrank.boardgame.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -36,6 +38,9 @@ public class PopulatorForTest implements ApplicationRunner {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    FriendService friendService;
+
 
     @Override
     @Transactional
@@ -50,6 +55,9 @@ public class PopulatorForTest implements ApplicationRunner {
         accountRepository.save(a);
         accountRepository.save(b);
         accountRepository.save(c);
+
+        this.friendService.makeFriend(a,b);
+        this.friendService.makeFriend(a,c);
 
 
         Game g1 = new Game();

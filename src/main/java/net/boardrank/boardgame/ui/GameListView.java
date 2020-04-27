@@ -1,16 +1,11 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Game;
 import net.boardrank.boardgame.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "", layout = MainLayout.class)
 public class GameListView extends VerticalLayout {
@@ -117,14 +112,6 @@ public class GameListView extends VerticalLayout {
         }).setHeader("방인원");
 
         grid.addColumn(game -> {
-            return game.getGameStatus().name();
-        }).setHeader("방상태");
-
-        grid.addColumn(game -> {
-            return game.getStartedTime();
-        }).setHeader("시작시간");
-
-        grid.addColumn(game -> {
             return game.getFinishedTime();
         }).setHeader("종료시간");
 
@@ -134,7 +121,11 @@ public class GameListView extends VerticalLayout {
 
 //        grid.setColumns("보드게임", "방이름", "1등", "방인원", "방상태", "시작시간", "완료시간");
 
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+        grid.getColumns().forEach(col -> {
+            col.setAutoWidth(true);
+            col.setResizable(true);
+
+        });
 
 //        grid.asSingleSelect().addValueChangeListener(event ->
 //                editContact(event.getValue()));

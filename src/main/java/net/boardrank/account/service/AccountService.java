@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,14 +32,9 @@ public class AccountService implements UserDetailsService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Account account = this.accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
-//        return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
-
-        return User.withUsername("user")
-                .password("{noop}password")
-                .roles("USER")
-                .build();
+    public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
+        Account account = this.accountRepository.findByEmail(username).orElseThrow(EntityNotFoundException::new);
+        return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
     }
 
     public Account getAccountByUsername(String username) throws UsernameNotFoundException {
@@ -72,4 +70,14 @@ public class AccountService implements UserDetailsService {
 
         return this.accountRepository.findAll(pageable);
     }
+
+    public List<Account> getAllByEmailContaining(String txt){
+        return this.accountRepository.getAllByEmailContaining(txt);
+    }
+
+    public Account getCurrentAccount() {
+        UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return accountRepository.findByEmail(details.getUsername()).orElseThrow(RuntimeException::new);
+    }
+
 }

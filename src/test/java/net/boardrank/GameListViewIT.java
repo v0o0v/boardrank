@@ -10,7 +10,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-public class ListViewIT extends AbstractViewTest {
+public class GameListViewIT extends AbstractViewTest {
 
     @Test
     public void clickingButtonShowsNotification() {
