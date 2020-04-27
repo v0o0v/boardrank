@@ -37,7 +37,7 @@ public class MatchCreateDialog extends Dialog {
 
         HorizontalLayout layout_matchName = new HorizontalLayout();
         Label lbl_matchName = new Label("매치 이름 : ");
-        TextField txt_matchName = new TextField("보드게임 " + LocalDateTime.now().toString());
+        TextField txt_matchName = new TextField();
         layout_matchName.add(lbl_matchName, txt_matchName);
         content.add(layout_matchName);
 
