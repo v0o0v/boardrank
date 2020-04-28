@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -47,6 +48,7 @@ public class FriendListView extends VerticalLayout {
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
             col.setResizable(true);
+            col.setTextAlign(ColumnTextAlign.CENTER);
         });
 
     }

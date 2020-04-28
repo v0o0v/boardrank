@@ -31,6 +31,8 @@ public class MainLayout extends AppLayout {
 
         createHeader();
         createDrawer();
+
+        UI.getCurrent().navigate(MyRankListView.class);
     }
 
     private void createHeader() {
@@ -59,7 +61,7 @@ public class MainLayout extends AppLayout {
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
         Button btn_myRank = new Button("My Rank", new Icon(VaadinIcon.CHART_3D));
-        btn_myRank.addClickListener(e -> UI.getCurrent().navigate(GameListView.class));
+        btn_myRank.addClickListener(e -> UI.getCurrent().navigate(MyRankListView.class));
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
@@ -73,6 +75,7 @@ public class MainLayout extends AppLayout {
         btn_friend.setWidthFull();
         tabs.add(new Tab(btn_friend));
 
+        tabs.setSelectedIndex(0);
         addToDrawer(tabs);
     }
 }

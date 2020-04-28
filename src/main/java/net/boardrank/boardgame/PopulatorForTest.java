@@ -50,8 +50,11 @@ public class PopulatorForTest implements ApplicationRunner {
         roles.add(AccountRole.USER);
 
         Account a = Account.builder().email("a").name("a").password(passwordEncoder.encode("1")).roles(roles).build();
+        a.setBoardPoint(1150);
         Account b = Account.builder().email("b").name("b").password(passwordEncoder.encode("1")).roles(roles).build();
+        b.setBoardPoint(930);
         Account c = Account.builder().email("c").name("c").password(passwordEncoder.encode("1")).roles(roles).build();
+        c.setBoardPoint(1000);
         accountRepository.save(a);
         accountRepository.save(b);
         accountRepository.save(c);

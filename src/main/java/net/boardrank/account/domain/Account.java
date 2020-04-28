@@ -22,6 +22,8 @@ public class Account {
 
     private String name;
 
+    private Integer boardPoint;
+
     @JsonIgnore
     private String password;
 
@@ -39,6 +41,7 @@ public class Account {
         this.password = password;
         this.roles = roles;
         this.name = name;
+        this.boardPoint = 1000;
     }
 
     public void addFriend(Friend friend){
