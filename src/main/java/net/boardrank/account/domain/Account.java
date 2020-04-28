@@ -44,4 +44,9 @@ public class Account {
     public void addFriend(Friend friend){
         this.friends.add(friend);
     }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

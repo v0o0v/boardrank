@@ -14,12 +14,21 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
+import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.service.BoardGameService;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("Board Rank")
 public class MainLayout extends AppLayout {
 
-    public MainLayout() {
+    private AccountService accountService;
+
+    private BoardGameService boardGameService;
+
+    public MainLayout(AccountService accountService, BoardGameService boardGameService) {
+        this.accountService = accountService;
+        this.boardGameService = boardGameService;
+
         createHeader();
         createDrawer();
     }
@@ -31,8 +40,10 @@ public class MainLayout extends AppLayout {
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
 
         Button createMatch = new Button("Create New Match");
-        MatchCreateDialog matchCreateDialog = new MatchCreateDialog();
-        createMatch.addClickListener(event -> matchCreateDialog.open());
+        createMatch.addClickListener(event -> {
+            MatchCreateDialog matchCreateDialog = new MatchCreateDialog(accountService, boardGameService);
+            matchCreateDialog.open();
+        });
 
         HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, createMatch, logout);
         header.expand(logo);
@@ -45,19 +56,20 @@ public class MainLayout extends AppLayout {
 
     private void createDrawer() {
         Tabs tabs = new Tabs();
+        tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
-        Button btn_myRank = new Button("My Rank" , new Icon(VaadinIcon.CHART_3D));
-        btn_myRank.addClickListener( e -> UI.getCurrent().navigate(GameListView.class));
+        Button btn_myRank = new Button("My Rank", new Icon(VaadinIcon.CHART_3D));
+        btn_myRank.addClickListener(e -> UI.getCurrent().navigate(GameListView.class));
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
-        Button btn_matchHistory = new Button("Match History" , new Icon(VaadinIcon.LINE_CHART));
-        btn_matchHistory.addClickListener( e -> UI.getCurrent().navigate(GameListView.class));
+        Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
+        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameListView.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
 
-        Button btn_friend = new Button("My Friends" , new Icon(VaadinIcon.GROUP));
-        btn_friend.addClickListener( e -> UI.getCurrent().navigate(FriendListView.class));
+        Button btn_friend = new Button("My Friends", new Icon(VaadinIcon.GROUP));
+        btn_friend.addClickListener(e -> UI.getCurrent().navigate(FriendListView.class));
         btn_friend.setWidthFull();
         tabs.add(new Tab(btn_friend));
 

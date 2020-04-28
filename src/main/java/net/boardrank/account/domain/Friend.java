@@ -24,4 +24,8 @@ public class Friend {
     @OneToOne
     private Account friend;
 
+    @Override
+    public String toString() {
+        return friend.toString();
+    }
 }

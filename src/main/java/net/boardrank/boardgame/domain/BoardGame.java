@@ -19,4 +19,8 @@ public class BoardGame {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
