@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Route(value = "MyRankListView", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 public class MyRankListView extends VerticalLayout {
 
     AccountService accountService;
@@ -52,6 +52,7 @@ public class MyRankListView extends VerticalLayout {
             col.setAutoWidth(true);
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
+            col.setSortable(true);
         });
     }
 
@@ -68,5 +69,6 @@ public class MyRankListView extends VerticalLayout {
             return o2.getBoardPoint().compareTo(o1.getBoardPoint());
         });
         grid.setItems(accounts);
+        grid.select(this.accountService.getCurrentAccount());
     }
 }

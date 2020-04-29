@@ -147,7 +147,7 @@ public class PopulatorForTest implements ApplicationRunner {
         g2.setGameStatus(GameStatus.resultAccepted);
         g2.setCreatedTime(LocalDateTime.now().minusHours(42));
         g2.setStartedTime(LocalDateTime.now().minusMinutes(128));
-        g2.setFinishedTime(LocalDateTime.now());
+        g2.setFinishedTime(LocalDateTime.now().minusMinutes(777));
         g2.setGameTitle("a vs c");
         g2.setChatId("4654g");
 

@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.service.BoardGameService;
 
@@ -66,7 +67,7 @@ public class MainLayout extends AppLayout {
         tabs.add(new Tab(btn_myRank));
 
         Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
-        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameListView.class));
+        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(MatchHistoryView.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
 

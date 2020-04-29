@@ -4,12 +4,14 @@ import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
+import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Game;
 import net.boardrank.boardgame.service.GameService;
 
-@Route(value = "", layout = MainLayout.class)
-public class GameListView extends VerticalLayout {
+@Route(value = "MatchHistoryView", layout = MainLayout.class)
+public class MatchHistoryView extends VerticalLayout {
 
     GameService gameService;
 
@@ -17,7 +19,7 @@ public class GameListView extends VerticalLayout {
 //    private TextField filterText = new TextField();
 //    private ContactForm form;
 
-    public GameListView(GameService gameService) {
+    public MatchHistoryView(GameService gameService) {
         this.gameService = gameService;
 
         addClassName("list-view");
@@ -112,9 +114,10 @@ public class GameListView extends VerticalLayout {
             return game.getPaticiant().getAccounts().size();
         }).setHeader("방인원");
 
-        grid.addColumn(game -> {
-            return game.getFinishedTime();
-        }).setHeader("종료시간");
+        grid.addColumn(new LocalDateTimeRenderer<>(
+                Game::getFinishedTime,
+                "yyyy-MM-dd HH:mm"))
+                .setHeader("종료시간");
 
         grid.addColumn(game -> {
             return game.getPlayingTime();
@@ -126,6 +129,7 @@ public class GameListView extends VerticalLayout {
             col.setAutoWidth(true);
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
+            col.setSortable(true);
 
         });
 

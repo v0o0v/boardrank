@@ -40,4 +40,10 @@ public class FriendService {
         this.accountRepository.save(b);
     }
 
+    @Transactional
+    public void removeFriend(Account me, Friend friend) {
+        me.getFriends().remove(friend);
+        accountRepository.save(me);
+        friendRepository.delete(friend);
+    }
 }
