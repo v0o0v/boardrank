@@ -50,8 +50,8 @@ public class FriendListView extends VerticalLayout {
         grid.addColumn(new ComponentRenderer<>(friend -> {
             Button remove = new Button("Remove", event -> {
 
-                ConfirmDialog dialog = new ConfirmDialog("친구 삭제",
-                        "삭제하시겠습니까? 삭제를 해도 상대방 친구 리스트에는 내가 그대로 남아있습니다.",
+                ConfirmDialog dialog = new ConfirmDialog("삭제하시겠습니까?",
+                        "삭제를 해도 상대방 친구 리스트에는 그대로 남아있습니다.",
                         "삭제", deleteEvent -> {
                     friendService.removeFriend(accountService.getCurrentAccount(), friend);
                     updateList();
