@@ -129,11 +129,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.h2database</groupId>-->
+        <!--            <artifactId>h2</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -263,6 +263,33 @@
                                     <goal>build-frontend</goal>
                                 </goals>
                                 <phase>compile</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>prepare</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <unzip src="${project.build.directory}/${project.build.finalName}.jar"
+                                               dest="${project.build.directory}/${project.build.finalName}"/>
+                                        <copy todir="${project.build.directory}/${project.build.finalName}/"
+                                              overwrite="false">
+                                            <fileset dir="./" includes=".ebextensions/**"/>
+                                        </copy>
+                                        <zip compress="false"
+                                             destfile="${project.build.directory}/${project.build.finalName}.jar"
+                                             basedir="${project.build.directory}/${project.build.finalName}"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
