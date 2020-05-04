@@ -40,7 +40,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        add(new H1("Board Rank Login"), login, btn_signup);
+        add(new H1("BoardRank Login"), login, btn_signup);
     }
 
     @Override
