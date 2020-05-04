@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
@@ -57,10 +58,15 @@ public class AccountService implements UserDetailsService {
         return this.accountRepository.saveAndFlush(account);
     }
 
-    public boolean isExist(String email) {
+    public boolean isExistEmail(String email) {
         return this.accountRepository.findByEmail(email).isPresent();
     }
 
+    public boolean isExistName(String name) {
+        return this.accountRepository.findByName(name).isPresent();
+    }
+
+    @Transactional
     public Account addAccount(Account account) {
         account.setPassword(this.passwordEncoder.encode(account.getPassword()));
         return this.accountRepository.saveAndFlush(account);
@@ -80,4 +86,15 @@ public class AccountService implements UserDetailsService {
         return accountRepository.findByEmail(details.getUsername()).orElseThrow(RuntimeException::new);
     }
 
+    public void addNewAccount(String email, String pw, String name) {
+        if(isExistEmail(email))
+            throw new RuntimeException("Duplicated email");
+
+        if(isExistName(name))
+            throw new RuntimeException("Duplicated name");
+
+        Account account = new Account(email,pw,name);
+
+        this.addAccount(account);
+    }
 }

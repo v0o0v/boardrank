@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Route("login")
-//@PageTitle("Login")
 public class MatchCreateDialog extends Dialog {
 
     private Button confirm;

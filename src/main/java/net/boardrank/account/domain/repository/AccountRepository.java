@@ -16,4 +16,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> getAllByEmailContaining(String txt);
 
+    Optional<String> findByName(String name);
 }

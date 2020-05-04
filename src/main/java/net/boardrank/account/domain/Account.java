@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +44,10 @@ public class Account {
         this.roles = roles;
         this.name = name;
         this.boardPoint = 1000;
+    }
+
+    public Account(String email, String pw, String name) {
+        this(email, pw, new HashSet<>(Arrays.asList(AccountRole.USER)), name);
     }
 
     public void addFriend(Friend friend){

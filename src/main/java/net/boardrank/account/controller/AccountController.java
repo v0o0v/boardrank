@@ -34,7 +34,7 @@ public class AccountController {
     @PostMapping("/create")
     public ResponseEntity<Account> createAccount(@RequestBody @Valid AccountDTO.AccountCreateDTO dto) {
 
-        if (this.accountService.isExist(dto.getEmail())) {
+        if (this.accountService.isExistEmail(dto.getEmail())) {
             throw new BusinessException("This account already exists.", ErrorCode.EMAIL_DUPLICATION);
         }
 
