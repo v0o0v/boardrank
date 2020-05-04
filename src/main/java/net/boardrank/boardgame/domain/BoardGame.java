@@ -1,10 +1,12 @@
 package net.boardrank.boardgame.domain;
 
 import lombok.*;
+import net.boardrank.account.domain.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -18,6 +20,9 @@ public class BoardGame {
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    private Account creator;
 
     @Override
     public String toString() {

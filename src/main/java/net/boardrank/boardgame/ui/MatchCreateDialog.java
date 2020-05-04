@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 
 public class MatchCreateDialog extends Dialog {
 
-    private Button confirm;
-
     private AccountService accountService;
 
     private BoardGameService boardGameService;
@@ -34,10 +32,6 @@ public class MatchCreateDialog extends Dialog {
         createHeader();
         createContent();
         createFooter();
-    }
-
-    public void addConfirmationListener(ComponentEventListener listener) {
-        confirm.addClickListener(listener);
     }
 
     private void createHeader() {
@@ -105,10 +99,13 @@ public class MatchCreateDialog extends Dialog {
     }
 
     private void createFooter() {
-        Button abort = new Button("Abort");
+        Button abort = new Button("취소");
         abort.addClickListener(buttonClickEvent -> close());
-        confirm = new Button("Confirm");
-        confirm.addClickListener(buttonClickEvent -> close());
+        Button confirm = new Button("Match 생성");
+        confirm.addClickListener(buttonClickEvent -> {
+
+            close();
+        });
 
         HorizontalLayout footer = new HorizontalLayout();
         footer.add(abort, confirm);

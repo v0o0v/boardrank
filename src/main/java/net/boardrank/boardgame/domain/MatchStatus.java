@@ -1,6 +1,6 @@
 package net.boardrank.boardgame.domain;
 
-public enum GameStatus {
+public enum MatchStatus {
     init //만든 직후
     ,proceeding //게임 시작 후
     ,finished //게임 끝난 후

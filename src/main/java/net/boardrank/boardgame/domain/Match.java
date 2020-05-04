@@ -16,7 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Entity
-public class Game {
+public class Match {
 
     @Id
     @GeneratedValue
@@ -35,11 +35,11 @@ public class Game {
     private ScoreBoard scoreBoard;
 
     @Enumerated(EnumType.ORDINAL)
-    private GameStatus gameStatus;
+    private MatchStatus matchStatus;
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
-    private String gameTitle;
+    private String matchTitle;
     private String chatId;
 
     public String getWinnerByString() {

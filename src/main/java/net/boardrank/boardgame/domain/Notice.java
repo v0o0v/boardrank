@@ -7,18 +7,25 @@ import lombok.Setter;
 import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Entity
-public class Paticiant {
+public class Notice {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Account> accounts;
+    @ManyToOne
+    private Account from;
+
+    @ManyToOne
+    private Account to;
+
+    @Enumerated(EnumType.ORDINAL)
+    private NoticeType noticeType;
+
 }

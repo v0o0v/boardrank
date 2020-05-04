@@ -3,18 +3,18 @@ package net.boardrank.boardgame.service;
 import net.boardrank.account.domain.Account;
 import net.boardrank.account.domain.repository.AccountRepository;
 import net.boardrank.account.service.AccountService;
-import net.boardrank.boardgame.domain.Game;
-import net.boardrank.boardgame.domain.repository.GameRepository;
+import net.boardrank.boardgame.domain.Match;
+import net.boardrank.boardgame.domain.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GameService {
+public class MatchService {
 
     @Autowired
-    GameRepository gameRepository;
+    MatchRepository matchRepository;
 
     @Autowired
     AccountRepository accountRepository;
@@ -22,10 +22,10 @@ public class GameService {
     @Autowired
     AccountService accountService;
 
-    public List<Game> getGamesOfCurrentSessionAccount() {
+    public List<Match> getGamesOfCurrentSessionAccount() {
         Account account = this.accountService.getCurrentAccount();
 
-        List<Game> gamesByPaticiantAccountsContaining = this.gameRepository.findGamesByPaticiantAccountsContaining(account);
+        List<Match> gamesByPaticiantAccountsContaining = this.matchRepository.findGamesByPaticiantAccountsContaining(account);
         return gamesByPaticiantAccountsContaining;
     }
 
