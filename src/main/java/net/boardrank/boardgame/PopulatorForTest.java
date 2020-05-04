@@ -5,7 +5,7 @@ import net.boardrank.account.domain.AccountRole;
 import net.boardrank.account.domain.repository.AccountRepository;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.BoardgameRepository;
-import net.boardrank.boardgame.domain.repository.MatchRepository;
+import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
 import net.boardrank.boardgame.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Set;
 public class PopulatorForTest implements ApplicationRunner {
 
     @Autowired
-    MatchRepository matchRepository;
+    GameMatchRepository gameMatchRepository;
 
     @Autowired
     AccountRepository accountRepository;
@@ -62,8 +62,8 @@ public class PopulatorForTest implements ApplicationRunner {
         this.friendService.makeFriend(a,c);
 
 
-        Match g1 = new Match();
-        matchRepository.save(g1);
+        GameMatch g1 = new GameMatch();
+        gameMatchRepository.save(g1);
 
         Boardgame boardgame1 = new Boardgame();
         boardgame1.setName("boardgame1");
@@ -99,18 +99,18 @@ public class PopulatorForTest implements ApplicationRunner {
         scoreBoard1.setRankEntrySet(rankEntrySet1);
         g1.setScoreBoard(scoreBoard1);
 
-        g1.setMatchStatus(MatchStatus.init);
+        g1.setGameMatchStatus(GameMatchStatus.init);
         g1.setCreatedTime(LocalDateTime.now().minusHours(2));
         g1.setStartedTime(LocalDateTime.now().minusHours(1));
         g1.setFinishedTime(LocalDateTime.now());
         g1.setMatchTitle("a vs b");
         g1.setChatId("dsfdfdf");
 
-        matchRepository.saveAndFlush(g1);
+        gameMatchRepository.saveAndFlush(g1);
 
         // ========================================
 
-        Match g2 = new Match();
+        GameMatch g2 = new GameMatch();
 
         Boardgame boardgame2 = new Boardgame();
         boardgame2.setName("boardgame2");
@@ -143,14 +143,14 @@ public class PopulatorForTest implements ApplicationRunner {
         scoreBoard2.setRankEntrySet(res2);
         g2.setScoreBoard(scoreBoard2);
 
-        g2.setMatchStatus(MatchStatus.resultAccepted);
+        g2.setGameMatchStatus(GameMatchStatus.resultAccepted);
         g2.setCreatedTime(LocalDateTime.now().minusHours(42));
         g2.setStartedTime(LocalDateTime.now().minusMinutes(128));
         g2.setFinishedTime(LocalDateTime.now().minusMinutes(777));
         g2.setMatchTitle("a vs c");
         g2.setChatId("4654g");
 
-        matchRepository.save(g2);
+        gameMatchRepository.save(g2);
     }
 
 }

@@ -6,18 +6,18 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.router.Route;
-import net.boardrank.boardgame.domain.Match;
-import net.boardrank.boardgame.service.MatchService;
+import net.boardrank.boardgame.domain.GameMatch;
+import net.boardrank.boardgame.service.GameMatchService;
 
-@Route(value = "MatchHistoryView", layout = MainLayout.class)
-public class MatchHistoryView extends VerticalLayout {
+@Route(value = "GameMatchHistoryView", layout = MainLayout.class)
+public class GameMatchHistoryView extends VerticalLayout {
 
-    MatchService matchService;
+    GameMatchService gameMatchService;
 
-    private Grid<Match> grid = new Grid<>(Match.class);
+    private Grid<GameMatch> grid = new Grid<>(GameMatch.class);
 
-    public MatchHistoryView(MatchService matchService) {
-        this.matchService = matchService;
+    public GameMatchHistoryView(GameMatchService gameMatchService) {
+        this.gameMatchService = gameMatchService;
 
         addClassName("list-view");
         setSizeFull();
@@ -57,7 +57,7 @@ public class MatchHistoryView extends VerticalLayout {
         }).setHeader("방인원");
 
         grid.addColumn(new LocalDateTimeRenderer<>(
-                Match::getFinishedTime,
+                GameMatch::getFinishedTime,
                 "yyyy-MM-dd HH:mm"))
                 .setHeader("종료시간");
 
@@ -78,6 +78,6 @@ public class MatchHistoryView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(this.matchService.getGamesOfCurrentSessionAccount());
+        grid.setItems(this.gameMatchService.getGamesOfCurrentSessionAccount());
     }
 }

@@ -7,6 +7,8 @@ import lombok.Setter;
 import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -19,6 +21,10 @@ public class Paticiant {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Account> accounts;
+
+    public Paticiant(List<Account> parties) {
+        this.accounts = new HashSet<>(parties);
+    }
 }

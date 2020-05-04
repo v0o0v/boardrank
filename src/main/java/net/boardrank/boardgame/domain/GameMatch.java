@@ -16,31 +16,41 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Entity
-public class Match {
+public class GameMatch {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     private Boardgame boardGame;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Paticiant paticiant;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     private Account createdMember;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private ScoreBoard scoreBoard;
 
     @Enumerated(EnumType.ORDINAL)
-    private MatchStatus matchStatus;
+    private GameMatchStatus gameMatchStatus;
+
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
     private String matchTitle;
     private String chatId;
+
+    public GameMatch(String name, Boardgame bg, Paticiant paticiant, Account createdMember) {
+        this.boardGame = bg;
+        this.paticiant = paticiant;
+        this.createdMember = createdMember;
+        this.gameMatchStatus = GameMatchStatus.init;
+        this.createdTime = LocalDateTime.now();
+        this.matchTitle = name;
+    }
 
     public String getWinnerByString() {
         if (this.scoreBoard == null)

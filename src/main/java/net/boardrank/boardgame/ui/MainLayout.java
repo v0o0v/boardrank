@@ -16,6 +16,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
+import net.boardrank.boardgame.service.GameMatchService;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("Board Rank")
@@ -25,9 +26,15 @@ public class MainLayout extends AppLayout {
 
     private BoardgameService boardGameService;
 
-    public MainLayout(AccountService accountService, BoardgameService boardGameService) {
+    private GameMatchService gameMatchService;
+
+    public MainLayout(AccountService accountService
+            , BoardgameService boardGameService
+            , GameMatchService gameMatchService
+    ) {
         this.accountService = accountService;
         this.boardGameService = boardGameService;
+        this.gameMatchService = gameMatchService;
 
         createHeader();
         createDrawer();
@@ -43,8 +50,9 @@ public class MainLayout extends AppLayout {
 
         Button createMatch = new Button("Create New Match");
         createMatch.addClickListener(event -> {
-            MatchCreateDialog matchCreateDialog = new MatchCreateDialog(accountService, boardGameService);
-            matchCreateDialog.open();
+            GameMatchCreateDialog gameMatchCreateDialog =
+                    new GameMatchCreateDialog(accountService, boardGameService, gameMatchService);
+            gameMatchCreateDialog.open();
         });
 
         HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, createMatch, logout);
@@ -66,7 +74,7 @@ public class MainLayout extends AppLayout {
         tabs.add(new Tab(btn_myRank));
 
         Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
-        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(MatchHistoryView.class));
+        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryView.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
 
