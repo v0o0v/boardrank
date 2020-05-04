@@ -1,19 +1,19 @@
 package net.boardrank.boardgame.service;
 
-import net.boardrank.boardgame.domain.BoardGame;
-import net.boardrank.boardgame.domain.repository.BoardGameRepository;
+import net.boardrank.boardgame.domain.Boardgame;
+import net.boardrank.boardgame.domain.repository.BoardgameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BoardGameService {
+public class BoardgameService {
 
     @Autowired
-    BoardGameRepository boardGameRepository;
+    BoardgameRepository boardGameRepository;
 
-    public List<BoardGame> getAllBoardgame(){
+    public List<Boardgame> getAllBoardgame(){
         return boardGameRepository.findAll();
     }
 

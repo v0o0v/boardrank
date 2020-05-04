@@ -14,9 +14,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import net.boardrank.account.service.AccountService;
-import net.boardrank.boardgame.service.BoardGameService;
+import net.boardrank.boardgame.service.BoardgameService;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("Board Rank")
@@ -24,9 +23,9 @@ public class MainLayout extends AppLayout {
 
     private AccountService accountService;
 
-    private BoardGameService boardGameService;
+    private BoardgameService boardGameService;
 
-    public MainLayout(AccountService accountService, BoardGameService boardGameService) {
+    public MainLayout(AccountService accountService, BoardgameService boardGameService) {
         this.accountService = accountService;
         this.boardGameService = boardGameService;
 

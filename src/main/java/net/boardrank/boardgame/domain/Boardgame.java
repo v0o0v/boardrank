@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Entity
-public class BoardGame {
+public class Boardgame {
 
     @Id
     @GeneratedValue

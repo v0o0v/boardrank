@@ -4,7 +4,7 @@ import net.boardrank.account.domain.Account;
 import net.boardrank.account.domain.AccountRole;
 import net.boardrank.account.domain.repository.AccountRepository;
 import net.boardrank.boardgame.domain.*;
-import net.boardrank.boardgame.domain.repository.BoardGameRepository;
+import net.boardrank.boardgame.domain.repository.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.MatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
 import net.boardrank.boardgame.service.FriendService;
@@ -29,7 +29,7 @@ public class PopulatorForTest implements ApplicationRunner {
     AccountRepository accountRepository;
 
     @Autowired
-    BoardGameRepository boardGameRepository;
+    BoardgameRepository boardGameRepository;
 
     @Autowired
     RankEntryRepository rankEntryRepository;
@@ -65,10 +65,10 @@ public class PopulatorForTest implements ApplicationRunner {
         Match g1 = new Match();
         matchRepository.save(g1);
 
-        BoardGame boardGame1 = new BoardGame();
-        boardGame1.setName("boardgame1");
-        boardGameRepository.save(boardGame1);
-        g1.setBoardGame(boardGame1);
+        Boardgame boardgame1 = new Boardgame();
+        boardgame1.setName("boardgame1");
+        boardGameRepository.save(boardgame1);
+        g1.setBoardGame(boardgame1);
 
         Paticiant p1 = new Paticiant();
         Set<Account> s1 = new HashSet();
@@ -112,10 +112,10 @@ public class PopulatorForTest implements ApplicationRunner {
 
         Match g2 = new Match();
 
-        BoardGame boardGame2 = new BoardGame();
-        boardGame2.setName("boardgame2");
-        boardGameRepository.save(boardGame2);
-        g2.setBoardGame(boardGame2);
+        Boardgame boardgame2 = new Boardgame();
+        boardgame2.setName("boardgame2");
+        boardGameRepository.save(boardgame2);
+        g2.setBoardGame(boardgame2);
 
         Paticiant p2 = new Paticiant();
         Set<Account> s2 = new HashSet();

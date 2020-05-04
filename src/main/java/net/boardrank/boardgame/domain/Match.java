@@ -23,7 +23,7 @@ public class Match {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private BoardGame boardGame;
+    private Boardgame boardGame;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Paticiant paticiant;

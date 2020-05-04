@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -12,8 +11,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import net.boardrank.account.domain.Account;
 import net.boardrank.account.service.AccountService;
-import net.boardrank.boardgame.domain.BoardGame;
-import net.boardrank.boardgame.service.BoardGameService;
+import net.boardrank.boardgame.domain.Boardgame;
+import net.boardrank.boardgame.service.BoardgameService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +22,9 @@ public class MatchCreateDialog extends Dialog {
 
     private AccountService accountService;
 
-    private BoardGameService boardGameService;
+    private BoardgameService boardGameService;
 
-    public MatchCreateDialog(AccountService accountService, BoardGameService boardGameService) {
+    public MatchCreateDialog(AccountService accountService, BoardgameService boardGameService) {
         this.accountService = accountService;
         this.boardGameService = boardGameService;
 
@@ -54,7 +53,7 @@ public class MatchCreateDialog extends Dialog {
         //보드게임
         VerticalLayout layout_boardGame = new VerticalLayout();
         content.add("보드게임 설정", layout_boardGame);
-        ComboBox<BoardGame> boardGameComboBox = new ComboBox<>();
+        ComboBox<Boardgame> boardGameComboBox = new ComboBox<>();
         boardGameComboBox.setItems(this.boardGameService.getAllBoardgame());
         layout_boardGame.add(boardGameComboBox);
 
