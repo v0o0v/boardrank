@@ -88,10 +88,10 @@ public class AccountService implements UserDetailsService {
 
     public void addNewAccount(String email, String pw, String name) {
         if(isExistEmail(email))
-            throw new RuntimeException("Duplicated email");
+            throw new RuntimeException("이미 있는 email입니다.");
 
         if(isExistName(name))
-            throw new RuntimeException("Duplicated name");
+            throw new RuntimeException("이미 있는 name입니다.");
 
         Account account = new Account(email,pw,name);
 
