@@ -5,6 +5,7 @@ import net.boardrank.account.domain.repository.AccountRepository;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
+import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.domain.Paticiant;
 import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.PaticiantRepository;
@@ -43,5 +44,10 @@ public class GameMatchService {
         GameMatch match = new GameMatch(name, bg, paticiant, createdAccount);
 
         return this.gameMatchRepository.save(match);
+    }
+
+    public List<GameMatch> getPlayingMatches(Account account) {
+        return this.gameMatchRepository
+                .findGameMatchesByPaticiantAccountsContainingAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
     }
 }

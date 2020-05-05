@@ -73,6 +73,11 @@ public class MainLayout extends AppLayout {
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
+        Button btn_currentMatch = new Button("Current Match", new Icon(VaadinIcon.PLAY));
+        btn_currentMatch.addClickListener(e -> UI.getCurrent().navigate(CurrentMatchListView.class));
+        btn_currentMatch.setWidthFull();
+        tabs.add(new Tab(btn_currentMatch));
+
         Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
         btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryView.class));
         btn_matchHistory.setWidthFull();
