@@ -49,11 +49,11 @@ public class PopulatorForTest implements ApplicationRunner {
         Set<AccountRole> roles = new HashSet<>();
         roles.add(AccountRole.USER);
 
-        Account a = Account.builder().email("a").name("a").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account a = Account.builder().email("a").name("aaaaaaa").password(passwordEncoder.encode("1")).roles(roles).build();
         a.setBoardPoint(1150);
-        Account b = Account.builder().email("b").name("b").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account b = Account.builder().email("b").name("bbbbbbbbb").password(passwordEncoder.encode("1")).roles(roles).build();
         b.setBoardPoint(930);
-        Account c = Account.builder().email("c").name("c").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account c = Account.builder().email("c").name("v0o0v").password(passwordEncoder.encode("1")).roles(roles).build();
         c.setBoardPoint(1000);
         accountRepository.save(a);
         accountRepository.save(b);
@@ -63,14 +63,14 @@ public class PopulatorForTest implements ApplicationRunner {
         this.friendService.makeFriend(a,c);
 
         Boardgame boardgame2 = new Boardgame();
-        boardgame2.setName("boardgame2");
+        boardgame2.setName("boardgame111111");
         boardGameRepository.save(boardgame2);
 
         GameMatch g1 = new GameMatch();
         gameMatchRepository.save(g1);
 
         Boardgame boardgame1 = new Boardgame();
-        boardgame1.setName("boardgame1");
+        boardgame1.setName("boardgame2222222");
         boardGameRepository.save(boardgame1);
         g1.setBoardGame(boardgame1);
 
@@ -115,7 +115,7 @@ public class PopulatorForTest implements ApplicationRunner {
         // ========================================
 
         for(int i=0;i<10;i++)
-            makeNewMatch(a, c, boardgame1, RandomString.make(10));
+            makeNewMatch(a, c, boardgame2, RandomString.make(10));
     }
 
     private void makeNewMatch(Account a, Account c, Boardgame boardgame, String name) {
