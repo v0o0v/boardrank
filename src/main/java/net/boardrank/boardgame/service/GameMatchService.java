@@ -46,7 +46,7 @@ public class GameMatchService {
         return this.gameMatchRepository.save(match);
     }
 
-    public List<GameMatch> getPlayingMatches(Account account) {
+    public List<GameMatch> getInprogressMatches(Account account) {
         return this.gameMatchRepository
                 .findGameMatchesByPaticiantAccountsContainingAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
     }
