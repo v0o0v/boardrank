@@ -8,6 +8,7 @@ import net.boardrank.boardgame.domain.repository.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
 import net.boardrank.boardgame.service.FriendService;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -61,6 +62,9 @@ public class PopulatorForTest implements ApplicationRunner {
         this.friendService.makeFriend(a,b);
         this.friendService.makeFriend(a,c);
 
+        Boardgame boardgame2 = new Boardgame();
+        boardgame2.setName("boardgame2");
+        boardGameRepository.save(boardgame2);
 
         GameMatch g1 = new GameMatch();
         gameMatchRepository.save(g1);
@@ -110,12 +114,14 @@ public class PopulatorForTest implements ApplicationRunner {
 
         // ========================================
 
+        for(int i=0;i<10;i++)
+            makeNewMatch(a, c, boardgame1, RandomString.make(10));
+    }
+
+    private void makeNewMatch(Account a, Account c, Boardgame boardgame, String name) {
         GameMatch g2 = new GameMatch();
 
-        Boardgame boardgame2 = new Boardgame();
-        boardgame2.setName("boardgame2");
-        boardGameRepository.save(boardgame2);
-        g2.setBoardGame(boardgame2);
+        g2.setBoardGame(boardgame);
 
         Paticiant p2 = new Paticiant();
         Set<Account> s2 = new HashSet();
@@ -143,11 +149,11 @@ public class PopulatorForTest implements ApplicationRunner {
         scoreBoard2.setRankEntrySet(res2);
         g2.setScoreBoard(scoreBoard2);
 
-        g2.setGameMatchStatus(GameMatchStatus.resultAccepted);
+        g2.setGameMatchStatus(GameMatchStatus.finished);
         g2.setCreatedTime(LocalDateTime.now().minusHours(42));
         g2.setStartedTime(LocalDateTime.now().minusMinutes(128));
         g2.setFinishedTime(LocalDateTime.now().minusMinutes(777));
-        g2.setMatchTitle("a vs c");
+        g2.setMatchTitle(name);
         g2.setChatId("4654g");
 
         gameMatchRepository.save(g2);
