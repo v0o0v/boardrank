@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -29,6 +30,24 @@ public class GameMatchHistoryView extends VerticalLayout {
 
         add(content);
         updateList();
+
+        initResposive();
+    }
+
+    private void initResposive() {
+        UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
+            int height = event.getHeight();
+            int width = event.getWidth();
+
+            if(width<=800){
+                grid.getColumnByKey("종료시간").setVisible(false);
+                grid.getColumnByKey("방이름").setVisible(false);
+            }else{
+                grid.getColumnByKey("종료시간").setVisible(true);
+                grid.getColumnByKey("방이름").setVisible(true);
+            }
+
+        });
     }
 
     private void configureGrid() {
@@ -37,16 +56,12 @@ public class GameMatchHistoryView extends VerticalLayout {
         grid.removeAllColumns();
 
         grid.addColumn(match -> {
-            return match.getId();
-        }).setHeader("ID");
-
-        grid.addColumn(match -> {
             return match.getBoardGame().getName();
         }).setHeader("보드게임");
 
         grid.addColumn(match -> {
             return match.getMatchTitle();
-        }).setHeader("방이름");
+        }).setHeader("방이름").setKey("방이름");
 
         grid.addColumn(match -> {
             return match.getWinnerByString();
@@ -59,7 +74,7 @@ public class GameMatchHistoryView extends VerticalLayout {
         grid.addColumn(new LocalDateTimeRenderer<>(
                 GameMatch::getFinishedTime,
                 "yyyy-MM-dd HH:mm"))
-                .setHeader("종료시간");
+                .setHeader("종료시간").setKey("종료시간");
 
         grid.addColumn(match -> {
             return match.getPlayingTime();
