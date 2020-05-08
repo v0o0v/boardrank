@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
@@ -31,6 +32,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+        UI.getCurrent().getPage().setTitle("BoardRank");
 
         Button btn_signup = new Button("신규 가입");
         btn_signup.addClickListener(event -> {

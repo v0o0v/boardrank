@@ -14,13 +14,15 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.server.InitialPageSettings;
+import com.vaadin.flow.server.PageConfigurator;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
 @CssImport("./styles/shared-styles.css")
-@PageTitle("Board Rank")
-public class MainLayout extends AppLayout {
+@PageTitle("BoardRank")
+public class MainLayout extends AppLayout implements PageConfigurator {
 
     private AccountService accountService;
 
@@ -39,11 +41,12 @@ public class MainLayout extends AppLayout {
         createHeader();
         createDrawer();
 
+        UI.getCurrent().getPage().setTitle("BoardRank");
         UI.getCurrent().navigate(MyRankListView.class);
     }
 
     private void createHeader() {
-        H1 logo = new H1("Board Rank");
+        H1 logo = new H1("BoardRank");
         logo.addClassName("logo");
 
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
@@ -90,5 +93,11 @@ public class MainLayout extends AppLayout {
 
         tabs.setSelectedIndex(0);
         addToDrawer(tabs);
+    }
+
+    @Override
+    public void configurePage(InitialPageSettings settings) {
+        settings.addLink("shortcut icon", "icons/icon.png");
+        settings.addFavIcon("icon", "icons/icon.png", "32x32");
     }
 }

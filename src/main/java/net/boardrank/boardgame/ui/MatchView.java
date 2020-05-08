@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.board.Row;
 import com.vaadin.flow.component.button.Button;
@@ -9,7 +10,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
@@ -53,14 +53,19 @@ public class MatchView extends VerticalLayout {
         layout_title.setPadding(false);
         layout_title.setSpacing(false);
         layout_title.setAlignItems(Alignment.CENTER);
-        TextField txt_title = new TextField();
-        txt_title.setValue(gameMatch.getMatchTitle());
-        txt_title.setTitle("Match 이름");
-        txt_title.setWidthFull();
-        txt_title.setMaxWidth("500px");
-        txt_title.setMaxLength(20);
-        txt_title.setMinLength(1);
-        layout_title.addAndExpand(txt_title);
+        layout_title.addAndExpand(new H2(gameMatch.getMatchTitle()));
+
+//        ==============================================
+//        TextField txt_title = new TextField();
+//        txt_title.setValue(gameMatch.getMatchTitle());
+//        txt_title.setTitle("Match 이름");
+//        txt_title.setWidthFull();
+//        txt_title.setMaxWidth("500px");
+//        txt_title.setMaxLength(20);
+//        txt_title.setMinLength(1);
+//        layout_title.addAndExpand(txt_title);
+//        ==============================================
+
 
         //중간 사이드
         Board layout_mid = new Board();
@@ -176,11 +181,9 @@ public class MatchView extends VerticalLayout {
     }
 
     private void initLayout() {
+        UI.getCurrent().getPage().setTitle("BoardRank");
         getStyle().set("border", "2px solid #101010");
         getStyle().set("margin-bottom", "50px");
-//        getStyle().set("border", "1px solid #9E9E9E");
-//        setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-//        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.STRETCH);
     }
 
 }

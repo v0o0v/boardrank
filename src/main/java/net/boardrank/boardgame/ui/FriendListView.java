@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -26,6 +27,7 @@ public class FriendListView extends VerticalLayout {
         this.accountService = accountService;
         this.friendService = friendService;
 
+        UI.getCurrent().getPage().setTitle("BoardRank");
         addClassName("list-view");
         setSizeFull();
         configureGrid();

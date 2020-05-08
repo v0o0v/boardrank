@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -23,6 +24,7 @@ public class MyRankListView extends VerticalLayout {
     public MyRankListView(AccountService accountService) {
         this.accountService = accountService;
 
+        UI.getCurrent().getPage().setTitle("BoardRank");
         addClassName("list-view");
         setSizeFull();
         configureGrid();
