@@ -9,6 +9,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
@@ -52,8 +53,14 @@ public class MatchView extends VerticalLayout {
         layout_title.setPadding(false);
         layout_title.setSpacing(false);
         layout_title.setAlignItems(Alignment.CENTER);
-        H2 h1_title = new H2(gameMatch.getMatchTitle());
-        layout_title.add(h1_title);
+        TextField txt_title = new TextField();
+        txt_title.setValue(gameMatch.getMatchTitle());
+        txt_title.setTitle("Match 이름");
+        txt_title.setWidthFull();
+        txt_title.setMaxWidth("500px");
+        txt_title.setMaxLength(20);
+        txt_title.setMinLength(1);
+        layout_title.addAndExpand(txt_title);
 
         //중간 사이드
         Board layout_mid = new Board();
@@ -141,10 +148,13 @@ public class MatchView extends VerticalLayout {
                 });
 
         //Bottom 사이드
-        HorizontalLayout layout_bottom = new HorizontalLayout();
+        VerticalLayout layout_bottom = new VerticalLayout();
         add(layout_bottom);
-        layout_bottom.setAlignItems(Alignment.STRETCH);
+        layout_bottom.setAlignItems(Alignment.CENTER);
+//        layout_bottom.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         btn_matchStatus = new Button();
+        btn_matchStatus.setWidthFull();
+        btn_matchStatus.setMaxWidth("500px");
         layout_bottom.addAndExpand(btn_matchStatus);
     }
 
@@ -166,8 +176,8 @@ public class MatchView extends VerticalLayout {
     }
 
     private void initLayout() {
-        getStyle().set("border-bottom", "2px solid #101010");
-        getStyle().set("margin", "1px");
+        getStyle().set("border", "2px solid #101010");
+        getStyle().set("margin-bottom", "50px");
 //        getStyle().set("border", "1px solid #9E9E9E");
 //        setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 //        setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.STRETCH);
