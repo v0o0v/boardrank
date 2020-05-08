@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.GameMatch;
+import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.service.GameMatchService;
 
 @Route(value = "GameMatchHistoryView", layout = MainLayout.class)
@@ -81,8 +82,6 @@ public class GameMatchHistoryView extends VerticalLayout {
             return match.getPlayingTime();
         }).setHeader("플레이시간(분)");
 
-//        grid.setColumns("보드게임", "방이름", "1등", "방인원", "방상태", "시작시간", "완료시간");
-
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
             col.setResizable(true);
@@ -94,6 +93,6 @@ public class GameMatchHistoryView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(this.gameMatchService.getGamesOfCurrentSessionAccount());
+        grid.setItems(this.gameMatchService.getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus.resultAccepted));
     }
 }

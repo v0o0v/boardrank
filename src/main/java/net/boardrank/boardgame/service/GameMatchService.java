@@ -33,13 +33,13 @@ public class GameMatchService {
     RankEntryRepository rankEntryRepository;
 
     public List<GameMatch> getGamesOfCurrentSessionAccount() {
-//        Account account = this.accountService.getCurrentAccount();
-//
-//        List<GameMatch> gamesByPaticiantAccountsContaining =
-//                this.gameMatchRepository.findGameMatchesByRankEntriesIsContaining(account);
-//        return gamesByPaticiantAccountsContaining;
+        return this.gameMatchRepository.findGameMatchesByRankentriesAccount(this.accountService.getCurrentAccount());
+    }
 
-        return this.gameMatchRepository.findAll();
+    public List<GameMatch> getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus gameMatchStatus) {
+        return this.gameMatchRepository.findGameMatchesByRankentriesAccountAndGameMatchStatusIs(
+                this.accountService.getCurrentAccount()
+                , GameMatchStatus.resultAccepted);
     }
 
     @Transactional
@@ -56,9 +56,7 @@ public class GameMatchService {
     }
 
     public List<GameMatch> getInprogressMatches(Account account) {
-//        return this.gameMatchRepository
-//                .findGameMatchesByRankEntriesContainsAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
-//        return this.gameMatchRepository.findGameMatchesByRankentries(account);
-        return this.gameMatchRepository.findAll();
+        return this.gameMatchRepository
+                .findGameMatchesByRankentriesAccountAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
     }
 }
