@@ -9,7 +9,10 @@ import net.boardrank.account.domain.Account;
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,38 +28,44 @@ public class GameMatch {
     @OneToOne(fetch = FetchType.EAGER)
     private Boardgame boardGame;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Paticiant paticiant;
-
     @OneToOne(fetch = FetchType.EAGER)
     private Account createdMember;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private ScoreBoard scoreBoard;
-
     @Enumerated(EnumType.ORDINAL)
     private GameMatchStatus gameMatchStatus;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "gamematch_key")
+    private Set<RankEntry> rankentries = new HashSet<>();
 
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
     private String matchTitle;
-    private String chatId;
+    private String place;
 
-    public GameMatch(String name, Boardgame bg, Paticiant paticiant, Account createdMember) {
+    public GameMatch(String name, Boardgame bg, Account createdMember) {
         this.boardGame = bg;
-        this.paticiant = paticiant;
         this.createdMember = createdMember;
         this.gameMatchStatus = GameMatchStatus.init;
         this.createdTime = LocalDateTime.now();
         this.matchTitle = name;
+        this.place = "";
+    }
+
+    public List<Account> getWinnerList() {
+        List<Account> winnerList = new ArrayList<>();
+        rankentries.forEach(rankEntry -> {
+            if (rankEntry.getRank() != null && rankEntry.getRank().equals(1))
+                winnerList.add(rankEntry.getAccount());
+        });
+
+        if (winnerList.isEmpty()) return null;
+        return winnerList;
     }
 
     public String getWinnerByString() {
-        if (this.scoreBoard == null)
-            return "";
-
-        List<Account> winnerList = this.scoreBoard.getWinnerList();
+        List<Account> winnerList = this.getWinnerList();
         if (winnerList == null)
             return "";
 
@@ -71,6 +80,14 @@ public class GameMatch {
         if (startedTime == null || finishedTime == null)
             return "";
 
-        return ""+Duration.between(startedTime,finishedTime).abs().toMinutes();
+        return "" + Duration.between(startedTime, finishedTime).abs().toMinutes();
+    }
+
+    @Override
+    public String toString() {
+        return "GameMatch{" +
+                "id=" + id +
+                ", matchTitle='" + matchTitle + '\'' +
+                '}';
     }
 }

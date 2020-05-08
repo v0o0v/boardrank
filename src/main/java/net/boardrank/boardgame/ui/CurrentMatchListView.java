@@ -41,11 +41,13 @@ public class CurrentMatchListView extends VerticalLayout {
         List<GameMatch> inprogressMatches = gameMatchService.getInprogressMatches(account);
         Board board = new Board();
 
-        inprogressMatches.stream()
-                .forEach(gameMatch -> {
-                    MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService);
-                    board.addRow(matchView);
-                });
+        if (inprogressMatches != null) {
+            inprogressMatches.stream()
+                    .forEach(gameMatch -> {
+                        MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService);
+                        board.addRow(matchView);
+                    });
+        }
         add(board);
 
     }

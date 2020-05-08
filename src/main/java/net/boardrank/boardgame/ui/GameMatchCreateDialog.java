@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import lombok.extern.slf4j.Slf4j;
 import net.boardrank.account.domain.Account;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.domain.Boardgame;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class GameMatchCreateDialog extends Dialog {
 
     private AccountService accountService;
@@ -53,7 +55,7 @@ public class GameMatchCreateDialog extends Dialog {
     }
 
     private void createHeader() {
-        add(new Label("새 매치"));
+        add(new Label("Match 생성"));
     }
 
 
@@ -116,7 +118,6 @@ public class GameMatchCreateDialog extends Dialog {
         btn_addParty.setWidthFull();
         layout_pati.add(btn_addParty);
 
-
         add(content);
     }
 
@@ -145,7 +146,7 @@ public class GameMatchCreateDialog extends Dialog {
     }
 
     private void makeGameMatch() {
-        GameMatch match = this.gameMatchService.addMatch(
+        GameMatch match = this.gameMatchService.makeNewMatch(
                 this.txt_matchName.getValue()
                 , this.combo_boardGame.getValue()
                 , this.comboList_party.stream()
@@ -153,6 +154,8 @@ public class GameMatchCreateDialog extends Dialog {
                         .collect(Collectors.toList())
                 , this.me.getValue()
         );
+
+        log.info("새로운 match가 생성되었습니다 : "+match);
     }
 
     private void checkValidation() {

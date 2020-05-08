@@ -20,10 +20,14 @@ public class RankEntry {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account")
     private Account account;
 
     private Double score;
 
     private Integer rank;
+
+    public RankEntry(Account account) {
+        this.account = account;
+    }
 }

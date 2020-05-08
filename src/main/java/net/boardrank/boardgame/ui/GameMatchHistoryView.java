@@ -69,7 +69,7 @@ public class GameMatchHistoryView extends VerticalLayout {
         }).setHeader("1등");
 
         grid.addColumn(match -> {
-            return match.getPaticiant().getAccounts().size();
+            return match.getRankentries().size();
         }).setHeader("방인원");
 
         grid.addColumn(new LocalDateTimeRenderer<>(
