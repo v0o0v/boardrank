@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,5 +59,23 @@ public class GameMatchService {
     public List<GameMatch> getInprogressMatches(Account account) {
         return this.gameMatchRepository
                 .findGameMatchesByRankentriesAccountAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
+    }
+
+    @Transactional
+    public GameMatch setGameMatchStatus(GameMatch gameMatch, GameMatchStatus gameMatchStatus) {
+        gameMatch.setGameMatchStatus(gameMatchStatus);
+        return this.gameMatchRepository.save(gameMatch);
+    }
+
+    @Transactional
+    public GameMatch setStartTime(GameMatch gameMatch, LocalDateTime dateTime) {
+        gameMatch.setStartedTime(dateTime);
+        return this.gameMatchRepository.save(gameMatch);
+    }
+
+    @Transactional
+    public GameMatch setFinishTime(GameMatch gameMatch, LocalDateTime dateTime) {
+        gameMatch.setFinishedTime(dateTime);
+        return this.gameMatchRepository.save(gameMatch);
     }
 }

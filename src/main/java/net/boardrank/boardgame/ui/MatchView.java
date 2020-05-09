@@ -21,6 +21,8 @@ import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
+import java.time.LocalDateTime;
+
 public class MatchView extends VerticalLayout {
 
     private GameMatchService gameMatchService;
@@ -48,23 +50,42 @@ public class MatchView extends VerticalLayout {
         initComponent();
         initEvent();
         applyGameStatus();
+        resetValue();
     }
 
     private void initEvent() {
         this.btn_changeMatchStatus.addClickListener(event -> {
             switch (gameMatch.getGameMatchStatus()) {
                 case init:
-                    gameMatch.setGameMatchStatus(GameMatchStatus.proceeding);
+                    this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.proceeding);
+                    this.gameMatch = gameMatchService.setStartTime(gameMatch, LocalDateTime.now());
                     break;
                 case proceeding:
-                    gameMatch.setGameMatchStatus(GameMatchStatus.finished);
+                    this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.finished);
+                    this.gameMatch = gameMatchService.setFinishTime(gameMatch, LocalDateTime.now());
                     break;
                 case finished:
                     break;
                 case resultAccepted:
             }
             applyGameStatus();
+            resetValue();
         });
+    }
+
+    private void resetValue(){
+        startDate.clear();
+        if(gameMatch.getStartedTime()!=null)
+            startDate.setValue(gameMatch.getStartedTime().toLocalDate());
+        startTime.clear();
+        if(gameMatch.getStartedTime()!=null)
+            startTime.setValue(gameMatch.getStartedTime().toLocalTime());
+        finishedDate.clear();
+        if (gameMatch.getFinishedTime() != null)
+            finishedDate.setValue(gameMatch.getStartedTime().toLocalDate());
+        finishedTime.clear();
+        if (gameMatch.getFinishedTime() != null)
+            finishedTime.setValue(gameMatch.getStartedTime().toLocalTime());
     }
 
     private void initComponent() {
@@ -136,15 +157,9 @@ public class MatchView extends VerticalLayout {
         startDate = new DatePicker("시작 날짜");
         layout_startTime.add(startDate);
         startDate.setWidthFull();
-        startDate.clear();
-        if(gameMatch.getStartedTime()!=null)
-            startDate.setValue(gameMatch.getStartedTime().toLocalDate());
         startTime = new TimePicker("시작 시간");
         layout_startTime.add(startTime);
         startTime.setWidthFull();
-        startTime.clear();
-        if(gameMatch.getStartedTime()!=null)
-            startTime.setValue(gameMatch.getStartedTime().toLocalTime());
         //////종료시간
         HorizontalLayout layout_finishedTime = new HorizontalLayout();
         layout_down_left.add(layout_finishedTime);
@@ -152,15 +167,8 @@ public class MatchView extends VerticalLayout {
         layout_finishedTime.setAlignItems(Alignment.STRETCH);
         finishedDate = new DatePicker("종료 날짜");
         layout_finishedTime.addAndExpand(finishedDate);
-        finishedDate.clear();
-        if (gameMatch.getFinishedTime() != null)
-            finishedDate.setValue(gameMatch.getStartedTime().toLocalDate());
         finishedTime = new TimePicker("종료 시간");
         layout_finishedTime.addAndExpand(finishedTime);
-        finishedTime.clear();
-        if (gameMatch.getFinishedTime() != null)
-            finishedTime.setValue(gameMatch.getStartedTime().toLocalTime());
-
         ////아래오른쪽 사이드
         VerticalLayout layout_down_right = new VerticalLayout();
         row.add(layout_down_right);
@@ -220,7 +228,7 @@ public class MatchView extends VerticalLayout {
                 this.setEditable(true);
                 break;
             case proceeding:
-                this.btn_changeMatchStatus.setText("게임 결과 입력 하기");
+                this.btn_changeMatchStatus.setText("게임 종료. 결과 입력 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(true);
                 break;
