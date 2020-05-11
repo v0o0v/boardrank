@@ -9,6 +9,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -41,6 +42,8 @@ public class MatchView extends VerticalLayout {
     private TimePicker finishedTime;
     private Grid<RankEntry> gridParty;
 
+    private Image img_status = new Image("icons/Ready.png","Ready");
+
     public MatchView(GameMatchService gameMatchService, GameMatch gameMatch, BoardgameService boardgameService) {
         this.gameMatchService = gameMatchService;
         this.boardgameService = boardgameService;
@@ -51,6 +54,7 @@ public class MatchView extends VerticalLayout {
         initEvent();
         applyGameStatus();
         resetValue();
+
     }
 
     private void initEvent() {
@@ -96,6 +100,15 @@ public class MatchView extends VerticalLayout {
         layout_up.setMargin(false);
         layout_up.setPadding(false);
         layout_up.setSpacing(false);
+        ////Match 상태
+        VerticalLayout layout_gameStatus = new VerticalLayout();
+        layout_up.add(layout_gameStatus);
+        layout_gameStatus.setMargin(false);
+        layout_gameStatus.setPadding(false);
+        layout_gameStatus.setSpacing(false);
+        layout_gameStatus.setAlignItems(Alignment.END);
+        layout_gameStatus.add(img_status);
+
         ////타이틀
         VerticalLayout layout_title = new VerticalLayout();
         layout_up.add(layout_title);
@@ -122,7 +135,7 @@ public class MatchView extends VerticalLayout {
         add(layout_mid);
         Row row = new Row();
         layout_mid.add(row);
-        ////아래왼쪽 사이드
+        ////중간왼쪽 사이드
         VerticalLayout layout_down_left = new VerticalLayout();
         row.add(layout_down_left);
         layout_down_left.setAlignItems(Alignment.STRETCH);
@@ -164,7 +177,7 @@ public class MatchView extends VerticalLayout {
         HorizontalLayout layout_finishedTime = new HorizontalLayout();
         layout_down_left.add(layout_finishedTime);
         layout_finishedTime.setSizeFull();
-        layout_finishedTime.setAlignItems(Alignment.STRETCH);
+        layout_finishedTime.setAlignItems(Alignment.AUTO);
         finishedDate = new DatePicker("종료 날짜");
         layout_finishedTime.addAndExpand(finishedDate);
         finishedTime = new TimePicker("종료 시간");
@@ -226,21 +239,25 @@ public class MatchView extends VerticalLayout {
                 this.btn_changeMatchStatus.setText("게임 시작 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(true);
+                this.img_status.setSrc("icons/Ready.png");
                 break;
             case proceeding:
-                this.btn_changeMatchStatus.setText("게임 종료. 결과 입력 하기");
+                this.btn_changeMatchStatus.setText("참석자별 결과 입력 및 게임 종료하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(true);
+                this.img_status.setSrc("icons/In-Progress.png");
                 break;
             case finished:
-                this.btn_changeMatchStatus.setText("결과 승인 하기");
+                this.btn_changeMatchStatus.setText("게임 결과 승인 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(false);
+                this.img_status.setSrc("icons/Waiting-Result.png");
                 break;
             case resultAccepted:
-                this.btn_changeMatchStatus.setText("게임 결과 승인 완료");
+                this.btn_changeMatchStatus.setText("게임 결과 승인 완료되어 랭크에 반영됨");
                 this.btn_changeMatchStatus.setEnabled(false);
                 this.setEditable(false);
+                this.img_status.setSrc("icons/Finished.png");
         }
     }
 
