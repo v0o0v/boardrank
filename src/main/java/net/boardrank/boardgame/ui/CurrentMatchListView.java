@@ -39,8 +39,10 @@ public class CurrentMatchListView extends VerticalLayout {
     private void initComponent() {
         Account account = accountService.getCurrentAccount();
         List<GameMatch> inprogressMatches = gameMatchService.getInprogressMatches(account);
-        Board board = new Board();
+        inprogressMatches.sort((o1, o2) -> o2.getCreatedTime().compareTo(o1.getCreatedTime()));
 
+
+        Board board = new Board();
         if (inprogressMatches != null) {
             inprogressMatches.stream()
                     .forEach(gameMatch -> {
