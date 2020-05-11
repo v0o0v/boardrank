@@ -118,18 +118,6 @@ public class MatchView extends VerticalLayout {
         layout_title.setAlignItems(Alignment.CENTER);
         layout_title.addAndExpand(new H2(gameMatch.getMatchTitle()));
 
-//        ==============================================
-//        TextField txt_title = new TextField();
-//        txt_title.setValue(gameMatch.getMatchTitle());
-//        txt_title.setTitle("Match 이름");
-//        txt_title.setWidthFull();
-//        txt_title.setMaxWidth("500px");
-//        txt_title.setMaxLength(20);
-//        txt_title.setMinLength(1);
-//        layout_title.addAndExpand(txt_title);
-//        ==============================================
-
-
         //중간 사이드
         Board layout_mid = new Board();
         add(layout_mid);
@@ -182,37 +170,8 @@ public class MatchView extends VerticalLayout {
         layout_finishedTime.addAndExpand(finishedDate);
         finishedTime = new TimePicker("종료 시간");
         layout_finishedTime.addAndExpand(finishedTime);
-        ////아래오른쪽 사이드
-        VerticalLayout layout_down_right = new VerticalLayout();
-        row.add(layout_down_right);
-        //////참가자
-        VerticalLayout layout_party = new VerticalLayout();
-        layout_down_right.add(layout_party);
-        layout_party.setAlignItems(Alignment.AUTO);
-
-        gridParty = new Grid<>();
-        layout_party.add(gridParty);
-        gridParty.setItems(gameMatch.getRankentries());
-        gridParty.removeAllColumns();
-
-        gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
-            Button friend = new Button(rankEntry.getAccount().getName());
-            return friend;
-        })).setHeader("참가자")
-            .setTextAlign(ColumnTextAlign.START)
-        ;
-
-        gridParty.addColumn(rankEntry -> {
-            return rankEntry.getScore();
-        }).setHeader("점수").setSortable(true)
-            .setTextAlign(ColumnTextAlign.START);
-        ;
-
-        gridParty.getColumns().forEach(col -> {
-            col.setAutoWidth(true);
-            col.setResizable(true);
-            col.setTextAlign(ColumnTextAlign.CENTER);
-        });
+        ////아래오른쪽 사이드. 참가자.
+        row.add(this.createPartyGrid());
 
         //Bottom 사이드
         VerticalLayout layout_bottom = new VerticalLayout();
@@ -222,6 +181,31 @@ public class MatchView extends VerticalLayout {
         btn_changeMatchStatus.setWidthFull();
         btn_changeMatchStatus.setMaxWidth("500px");
         layout_bottom.addAndExpand(btn_changeMatchStatus);
+    }
+
+    private Grid createPartyGrid() {
+        gridParty = new Grid<>();
+        gridParty.setItems(gameMatch.getRankentries());
+        gridParty.removeAllColumns();
+        gridParty.setWidthFull();
+
+        gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
+            VerticalLayout layout = new VerticalLayout(new Button(rankEntry.getAccount().getName()));
+            layout.setDefaultHorizontalComponentAlignment(Alignment.START);
+            return layout;
+        })).setHeader("참가자");
+
+        gridParty.addColumn(rankEntry -> {
+            return rankEntry.getScore();
+        }).setHeader("점수").setSortable(true);
+
+        gridParty.getColumns().forEach(col -> {
+            col.setAutoWidth(true);
+            col.setResizable(true);
+            col.setTextAlign(ColumnTextAlign.CENTER);
+        });
+
+        return gridParty;
     }
 
     private void setEditable(boolean editable) {

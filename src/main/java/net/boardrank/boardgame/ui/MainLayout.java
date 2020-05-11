@@ -53,7 +53,7 @@ public class MainLayout extends AppLayout implements PageConfigurator{
 
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
 
-        Button createMatch = new Button("Match 생성");
+        Button createMatch = new Button("New Match");
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
                     new GameMatchCreateDialog(this, accountService, boardGameService, gameMatchService);
