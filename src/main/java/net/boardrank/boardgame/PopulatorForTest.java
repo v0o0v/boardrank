@@ -8,6 +8,7 @@ import net.boardrank.boardgame.domain.repository.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
 import net.boardrank.boardgame.service.FriendService;
+import net.boardrank.boardgame.service.GameMatchService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +42,9 @@ public class PopulatorForTest implements ApplicationRunner {
 
     @Autowired
     FriendService friendService;
+
+    @Autowired
+    GameMatchService gameMatchService;
 
 
     @Override
@@ -88,6 +93,8 @@ public class PopulatorForTest implements ApplicationRunner {
         Boardgame boardgame2 = new Boardgame();
         boardgame2.setName("boardgame111111");
         boardGameRepository.save(boardgame2);
+
+        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a,b,c,d,e,f,g,h),a);
 
 //        GameMatch g1 = new GameMatch();
 //        gameMatchRepository.save(g1);

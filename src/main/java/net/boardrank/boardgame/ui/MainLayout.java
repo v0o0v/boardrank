@@ -22,13 +22,15 @@ import net.boardrank.boardgame.service.GameMatchService;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("BoardRank")
-public class MainLayout extends AppLayout implements PageConfigurator {
+public class MainLayout extends AppLayout implements PageConfigurator{
 
     private AccountService accountService;
 
     private BoardgameService boardGameService;
 
     private GameMatchService gameMatchService;
+    private Button btn_currentMatch;
+    private Tabs tabs;
 
     public MainLayout(AccountService accountService
             , BoardgameService boardGameService
@@ -51,10 +53,10 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
 
-        Button createMatch = new Button("Create New Match");
+        Button createMatch = new Button("Match 생성");
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
-                    new GameMatchCreateDialog(accountService, boardGameService, gameMatchService);
+                    new GameMatchCreateDialog(this, accountService, boardGameService, gameMatchService);
             gameMatchCreateDialog.open();
         });
 
@@ -68,7 +70,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
     }
 
     private void createDrawer() {
-        Tabs tabs = new Tabs();
+        tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
         Button btn_myRank = new Button("My Rank", new Icon(VaadinIcon.CHART_3D));
@@ -76,7 +78,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
-        Button btn_currentMatch = new Button("Current Match", new Icon(VaadinIcon.PLAY));
+        btn_currentMatch = new Button("Current Match", new Icon(VaadinIcon.PLAY));
         btn_currentMatch.addClickListener(e -> UI.getCurrent().navigate(CurrentMatchListView.class));
         btn_currentMatch.setWidthFull();
         tabs.add(new Tab(btn_currentMatch));
@@ -93,6 +95,12 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
         tabs.setSelectedIndex(0);
         addToDrawer(tabs);
+    }
+
+    public void setReloadAndNavigateToCurrentMatch(){
+        btn_currentMatch.click();
+        UI.getCurrent().getPage().reload();
+        this.tabs.setSelectedIndex(1);
     }
 
     @Override

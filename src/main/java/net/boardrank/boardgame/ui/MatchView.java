@@ -185,15 +185,15 @@ public class MatchView extends VerticalLayout {
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
             Button friend = new Button(rankEntry.getAccount().getName());
             return friend;
-        })).setHeader("참가자");
-
-        gridParty.addColumn(rankEntry -> {
-            return rankEntry.getRank();
-        }).setHeader("등수").setSortable(true);
+        })).setHeader("참가자")
+            .setTextAlign(ColumnTextAlign.START)
+        ;
 
         gridParty.addColumn(rankEntry -> {
             return rankEntry.getScore();
-        }).setHeader("점수").setSortable(true);
+        }).setHeader("점수").setSortable(true)
+            .setTextAlign(ColumnTextAlign.START);
+        ;
 
         gridParty.getColumns().forEach(col -> {
             col.setAutoWidth(true);

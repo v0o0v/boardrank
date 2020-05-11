@@ -41,13 +41,19 @@ public class GameMatchCreateDialog extends Dialog {
 
     private List<ComboBox<Account>> comboList_party;
 
-    public GameMatchCreateDialog(AccountService accountService
+    private MainLayout parentUI;
+
+    public GameMatchCreateDialog(MainLayout parentUI, AccountService accountService
             , BoardgameService boardGameService
             , GameMatchService gameMatchService
     ) {
+        this.parentUI=parentUI;
         this.accountService = accountService;
         this.boardGameService = boardGameService;
         this.gameMatchService = gameMatchService;
+
+        setCloseOnEsc(false);
+        setCloseOnOutsideClick(false);
 
         createHeader();
         createContent();
@@ -130,12 +136,12 @@ public class GameMatchCreateDialog extends Dialog {
                 checkValidation();
                 makeGameMatch();
                 close();
+                this.parentUI.setReloadAndNavigateToCurrentMatch();
             } catch (Exception e) {
                 Notification notification = new Notification(
                         e.getMessage(), 2000,
                         Notification.Position.MIDDLE);
                 notification.open();
-                e.printStackTrace();
             }
         });
 
@@ -154,7 +160,6 @@ public class GameMatchCreateDialog extends Dialog {
                         .collect(Collectors.toList())
                 , this.me.getValue()
         );
-
         log.info("새로운 match가 생성되었습니다 : "+match);
     }
 
