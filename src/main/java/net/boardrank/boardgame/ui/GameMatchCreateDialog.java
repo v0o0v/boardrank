@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -17,6 +18,7 @@ import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -41,16 +43,15 @@ public class GameMatchCreateDialog extends Dialog {
 
     private List<ComboBox<Account>> comboList_party;
 
-    private MainLayout parentUI;
-
-    public GameMatchCreateDialog(MainLayout parentUI, AccountService accountService
+    public GameMatchCreateDialog(AccountService accountService
             , BoardgameService boardGameService
             , GameMatchService gameMatchService
+            , ComponentEventListener<DialogSuccessCloseActionEvent> listener
     ) {
-        this.parentUI=parentUI;
         this.accountService = accountService;
         this.boardGameService = boardGameService;
         this.gameMatchService = gameMatchService;
+        super.getEventBus().addListener(DialogSuccessCloseActionEvent.class, listener);
 
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
@@ -135,8 +136,8 @@ public class GameMatchCreateDialog extends Dialog {
             try {
                 checkValidation();
                 makeGameMatch();
+                getEventBus().fireEvent(new DialogSuccessCloseActionEvent(this));
                 close();
-                this.parentUI.setReloadAndNavigateToCurrentMatch();
             } catch (Exception e) {
                 Notification notification = new Notification(
                         e.getMessage(), 2000,
@@ -160,7 +161,7 @@ public class GameMatchCreateDialog extends Dialog {
                         .collect(Collectors.toList())
                 , this.me.getValue()
         );
-        log.info("새로운 match가 생성되었습니다 : "+match);
+        log.info("새로운 match가 생성되었습니다 : " + match);
     }
 
     private void checkValidation() {
