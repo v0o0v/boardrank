@@ -23,9 +23,9 @@ public class RankEntry {
     @JoinColumn(name = "account")
     private Account account;
 
-    private Double score;
+    private Integer score=0;
 
-    private Integer rank;
+    private Integer rank=0;
 
     public RankEntry(Account account) {
         this.account = account;

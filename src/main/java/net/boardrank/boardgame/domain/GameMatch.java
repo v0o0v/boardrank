@@ -90,4 +90,17 @@ public class GameMatch {
                 ", matchTitle='" + matchTitle + '\'' +
                 '}';
     }
+
+    public void resetRank() {
+        rankentries.forEach(rankEntry -> {
+            rankEntry.setRank(getNumOfGreaterThanMe(rankEntry));
+        });
+    }
+
+    private int getNumOfGreaterThanMe(RankEntry me) {
+        return (int) (this.rankentries.stream()
+                        .filter(rankEntry -> !rankEntry.equals(me))
+                        .filter(rankEntry -> me.getScore() < rankEntry.getScore())
+                        .count() + 1L);
+    }
 }

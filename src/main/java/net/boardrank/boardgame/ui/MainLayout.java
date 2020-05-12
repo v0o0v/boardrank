@@ -22,7 +22,7 @@ import net.boardrank.boardgame.service.GameMatchService;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("BoardRank")
-public class MainLayout extends AppLayout implements PageConfigurator{
+public class MainLayout extends AppLayout implements PageConfigurator {
 
     private AccountService accountService;
 
@@ -56,7 +56,12 @@ public class MainLayout extends AppLayout implements PageConfigurator{
         Button createMatch = new Button("New Match");
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
-                    new GameMatchCreateDialog(this, accountService, boardGameService, gameMatchService);
+                    new GameMatchCreateDialog(
+                            accountService
+                            , boardGameService
+                            , gameMatchService
+                            , event1 -> setReloadAndNavigateToCurrentMatch()
+                    );
             gameMatchCreateDialog.open();
         });
 
@@ -97,7 +102,7 @@ public class MainLayout extends AppLayout implements PageConfigurator{
         addToDrawer(tabs);
     }
 
-    public void setReloadAndNavigateToCurrentMatch(){
+    public void setReloadAndNavigateToCurrentMatch() {
         btn_currentMatch.click();
         UI.getCurrent().getPage().reload();
         this.tabs.setSelectedIndex(1);

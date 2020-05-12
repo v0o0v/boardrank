@@ -78,4 +78,9 @@ public class GameMatchService {
         gameMatch.setFinishedTime(dateTime);
         return this.gameMatchRepository.save(gameMatch);
     }
+
+    @Transactional
+    public GameMatch save(GameMatch gameMatch) {
+        return this.gameMatchRepository.save(gameMatch);
+    }
 }

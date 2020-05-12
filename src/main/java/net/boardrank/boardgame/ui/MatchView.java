@@ -42,7 +42,7 @@ public class MatchView extends VerticalLayout {
     private TimePicker finishedTime;
     private Grid<RankEntry> gridParty;
 
-    private Image img_status = new Image("icons/Ready.png","Ready");
+    private Image img_status = new Image("icons/Ready.png", "Ready");
 
     public MatchView(GameMatchService gameMatchService, GameMatch gameMatch, BoardgameService boardgameService) {
         this.gameMatchService = gameMatchService;
@@ -61,28 +61,49 @@ public class MatchView extends VerticalLayout {
         this.btn_changeMatchStatus.addClickListener(event -> {
             switch (gameMatch.getGameMatchStatus()) {
                 case init:
-                    this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.proceeding);
-                    this.gameMatch = gameMatchService.setStartTime(gameMatch, LocalDateTime.now());
+                    toInProgress();
                     break;
                 case proceeding:
-                    this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.finished);
-                    this.gameMatch = gameMatchService.setFinishTime(gameMatch, LocalDateTime.now());
+                    toFinished();
                     break;
                 case finished:
+                    toResultAccepted();
                     break;
                 case resultAccepted:
+                    break;
             }
             applyGameStatus();
             resetValue();
         });
     }
 
-    private void resetValue(){
+    private void toResultAccepted() {
+        this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.resultAccepted);
+    }
+
+    private void toFinished() {
+        ScoreInputDialog scoreInputDialog = new ScoreInputDialog(gameMatch, event -> {
+            this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.finished);
+            this.gameMatch = gameMatchService.setFinishTime(gameMatch, LocalDateTime.now());
+            this.gameMatch = gameMatchService.save(gameMatch);
+            gridParty.setItems(gameMatch.getRankentries());
+            applyGameStatus();
+            resetValue();
+        });
+        scoreInputDialog.open();
+    }
+
+    private void toInProgress() {
+        this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.proceeding);
+        this.gameMatch = gameMatchService.setStartTime(gameMatch, LocalDateTime.now());
+    }
+
+    private void resetValue() {
         startDate.clear();
-        if(gameMatch.getStartedTime()!=null)
+        if (gameMatch.getStartedTime() != null)
             startDate.setValue(gameMatch.getStartedTime().toLocalDate());
         startTime.clear();
-        if(gameMatch.getStartedTime()!=null)
+        if (gameMatch.getStartedTime() != null)
             startTime.setValue(gameMatch.getStartedTime().toLocalTime());
         finishedDate.clear();
         if (gameMatch.getFinishedTime() != null)
@@ -195,9 +216,7 @@ public class MatchView extends VerticalLayout {
             return layout;
         })).setHeader("참가자");
 
-        gridParty.addColumn(rankEntry -> {
-            return rankEntry.getScore();
-        }).setHeader("점수").setSortable(true);
+        gridParty.addColumn(RankEntry::getScore).setHeader("점수");
 
         gridParty.getColumns().forEach(col -> {
             col.setAutoWidth(true);
@@ -247,8 +266,8 @@ public class MatchView extends VerticalLayout {
 
     private void initLayout() {
         UI.getCurrent().getPage().setTitle("BoardRank");
-        getStyle().set("border", "2px solid #101010");
-        getStyle().set("margin-bottom", "50px");
+        getStyle().set("border", "1px solid #101010");
+        getStyle().set("margin-bottom", "10px");
     }
 
 }

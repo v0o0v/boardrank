@@ -18,7 +18,7 @@ import java.util.Collections;
 @PageTitle("Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-    private LoginForm login = new LoginForm();
+    private LoginForm login;
 
     private SignUpDialog signUpDialog;
 
@@ -33,13 +33,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         form.setPassword("Password");
         form.setSubmit("로그인");
         loginI18n.setForm(form);
-
         this.login = new LoginForm(loginI18n);
-
-
         this.login.setForgotPasswordButtonVisible(false);
-
-
 
         addClassName("login-view");
         setSizeFull();
