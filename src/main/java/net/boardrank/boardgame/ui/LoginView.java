@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -26,7 +27,19 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView(AccountService accountService) {
         this.accountService = accountService;
 
+        LoginI18n loginI18n = new LoginI18n();
+        LoginI18n.Form form = new LoginI18n.Form();
+        form.setUsername("Email");
+        form.setPassword("Password");
+        form.setSubmit("로그인");
+        loginI18n.setForm(form);
+
+        this.login = new LoginForm(loginI18n);
+
+
         this.login.setForgotPasswordButtonVisible(false);
+
+
 
         addClassName("login-view");
         setSizeFull();
@@ -42,7 +55,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        add(new H1("BoardRank Login"), login, btn_signup);
+        add(new H1("BoardRank"), login, btn_signup);
     }
 
     @Override
@@ -57,3 +70,4 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         }
     }
 }
+
