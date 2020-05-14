@@ -5,10 +5,8 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
@@ -34,7 +32,6 @@ public class Account {
     private Set<AccountRole> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner")
     private Set<Friend> friends = new HashSet<>();
 
     @Builder
@@ -58,4 +55,12 @@ public class Account {
     public String toString() {
         return this.getName();
     }
+
+    public List<Account> getFriendsAsAccounType(){
+        return this.getFriends().stream()
+                .map(Friend::getFriend)
+                .collect(Collectors.toList())
+        ;
+    }
+
 }

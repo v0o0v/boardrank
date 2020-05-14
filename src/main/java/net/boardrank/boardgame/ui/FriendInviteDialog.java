@@ -10,7 +10,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import net.boardrank.account.domain.Account;
 import net.boardrank.account.service.AccountService;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
-import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -46,7 +44,7 @@ public class FriendInviteDialog extends Dialog {
         createContent();
         createFooter();
 
-        update();
+//        updateFriendList();
     }
 
     private void createHeader() {
@@ -60,8 +58,7 @@ public class FriendInviteDialog extends Dialog {
         board.addRow(layout);
 
         btn_friend.addClickListener(event -> {
-            Set<Account> friends = accountService.getAccountsContainsName(txt_friend.getValue());
-            gridAccount.setItems(friends);
+            updateFriendList();
         });
     }
 
@@ -73,8 +70,18 @@ public class FriendInviteDialog extends Dialog {
         ).setHeader("이름");
 
         gridAccount.addColumn(new ComponentRenderer<>(account -> {
-            Button btn_newFriend = new Button("친구 요청하기");
-            return btn_newFriend;
+            if (accountService.isProgressMakeFriend(accountService.getCurrentAccount(), account)) {
+                return new Label("친구 요청중입니다.");
+            } else {
+                Button btn_newFriend = new Button("친구 요청하기");
+                btn_newFriend.addClickListener(event -> {
+                    if (!txt_friend.getValue().isEmpty()) {
+                        accountService.requestFriend(accountService.getCurrentAccount(), account);
+                        updateFriendList();
+                    }
+                });
+                return btn_newFriend;
+            }
         })).setHeader("");
 
         board.addRow(gridAccount);
@@ -95,8 +102,12 @@ public class FriendInviteDialog extends Dialog {
 
     }
 
-    private void update() {
-
+    private void updateFriendList() {
+        Set<Account> friends = accountService.getAccountsContainsName(txt_friend.getValue());
+        Account me = accountService.getCurrentAccount();
+        friends.remove(me);
+        friends.remove(me.getFriendsAsAccounType());
+        gridAccount.setItems(friends);
     }
 
 }

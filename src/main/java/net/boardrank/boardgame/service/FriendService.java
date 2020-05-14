@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class FriendService {
 
@@ -27,15 +29,13 @@ public class FriendService {
         if (a.getFriends().size() >= maxFriendNum || b.getFriends().size() >= maxFriendNum)
             throw new RuntimeException("Exceed Max Friend Number");
 
-        Friend ab = new Friend();
-        ab.setFriend(b);
-        this.friendRepository.save(ab);
+        LocalDateTime now = LocalDateTime.now();
+
+        Friend ab = new Friend(a, b, now);
         a.addFriend(ab);
         this.accountRepository.save(a);
 
-        Friend ba = new Friend();
-        ba.setFriend(a);
-        this.friendRepository.save(ba);
+        Friend ba = new Friend(b, a, now);
         b.addFriend(ba);
         this.accountRepository.save(b);
     }

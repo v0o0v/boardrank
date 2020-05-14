@@ -25,7 +25,15 @@ public class Notice {
     @ManyToOne
     private Account to;
 
+    @ManyToOne
+    private GameMatch gameMatch;
+
     @Enumerated(EnumType.ORDINAL)
     private NoticeType noticeType;
 
+    private boolean isRead = false;
+
+    public Notice(NoticeType noticeType) {
+        this.noticeType = noticeType;
+    }
 }

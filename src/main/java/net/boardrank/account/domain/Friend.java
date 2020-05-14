@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -22,7 +23,18 @@ public class Friend {
     private Long id;
 
     @OneToOne
+    private Account owner;
+
+    @OneToOne
     private Account friend;
+
+    private LocalDateTime dday;
+
+    public Friend(Account owner, Account friend, LocalDateTime dday) {
+        this.owner = owner;
+        this.friend = friend;
+        this.dday = dday;
+    }
 
     @Override
     public String toString() {

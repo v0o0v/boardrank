@@ -3,6 +3,8 @@ package net.boardrank.account.service;
 import net.boardrank.account.domain.Account;
 import net.boardrank.account.domain.AccountRole;
 import net.boardrank.account.domain.repository.AccountRepository;
+import net.boardrank.boardgame.domain.NoticeType;
+import net.boardrank.boardgame.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,9 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    NoticeService noticeService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
@@ -100,5 +105,13 @@ public class AccountService implements UserDetailsService {
 
     public Set<Account> getAccountsContainsName(String value) {
         return this.accountRepository.findAllByNameContains(value);
+    }
+
+    public void requestFriend(Account fromAccount, Account toAccount) {
+        this.noticeService.noticeToMakeFriend(fromAccount, toAccount);
+    }
+
+    public boolean isProgressMakeFriend(Account from, Account to) {
+        return noticeService.isExistNotice(NoticeType.friendRequest, from, to);
     }
 }
