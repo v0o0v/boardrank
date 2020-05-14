@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,6 +33,8 @@ public class Notice {
     private NoticeType noticeType;
 
     private boolean isRead = false;
+
+    private LocalDateTime createdTime = LocalDateTime.now();
 
     public Notice(NoticeType noticeType) {
         this.noticeType = noticeType;
