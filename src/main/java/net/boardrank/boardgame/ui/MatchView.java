@@ -106,10 +106,10 @@ public class MatchView extends VerticalLayout {
             startTime.setValue(gameMatch.getStartedTime().toLocalTime());
         finishedDate.clear();
         if (gameMatch.getFinishedTime() != null)
-            finishedDate.setValue(gameMatch.getStartedTime().toLocalDate());
+            finishedDate.setValue(gameMatch.getFinishedTime().toLocalDate());
         finishedTime.clear();
         if (gameMatch.getFinishedTime() != null)
-            finishedTime.setValue(gameMatch.getStartedTime().toLocalTime());
+            finishedTime.setValue(gameMatch.getFinishedTime().toLocalTime());
     }
 
     private void initComponent() {
