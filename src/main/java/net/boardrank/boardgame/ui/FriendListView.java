@@ -1,6 +1,6 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -8,7 +8,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import net.boardrank.account.domain.Friend;
 import net.boardrank.account.service.AccountService;
@@ -27,20 +26,37 @@ public class FriendListView extends VerticalLayout {
         this.accountService = accountService;
         this.friendService = friendService;
 
-        UI.getCurrent().getPage().setTitle("BoardRank");
         addClassName("list-view");
         setSizeFull();
-        configureGrid();
 
+        add(this.inviteFriendView());
+        add(this.initFriendGrid());
+    }
+
+    private Component inviteFriendView() {
+        VerticalLayout div = new VerticalLayout();
+        div.setMargin(false);
+        div.setPadding(false);
+        Button btn_newFriend = new Button("새친구 추가하기");
+        btn_newFriend.setWidthFull();
+        div.add(btn_newFriend);
+        btn_newFriend.addClickListener(event -> {
+            FriendInviteDialog friendInviteDialog = new FriendInviteDialog(accountService, null);
+            friendInviteDialog.open();
+        });
+        return div;
+    }
+
+    private Component initFriendGrid(){
+        configureFriendListGrid();
         Div content = new Div(grid);
         content.addClassName("content");
         content.setSizeFull();
-
-        add(content);
-        updateList();
+        updateFriendListGrid();
+        return content;
     }
 
-    private void configureGrid() {
+    private void configureFriendListGrid() {
         grid.addClassName("contact-grid");
         grid.setSizeFull();
         grid.removeAllColumns();
@@ -56,7 +72,7 @@ public class FriendListView extends VerticalLayout {
                         "삭제를 해도 상대방 친구 리스트에는 그대로 남아있습니다.",
                         "삭제", deleteEvent -> {
                     friendService.removeFriend(accountService.getCurrentAccount(), friend);
-                    updateList();
+                    updateFriendListGrid();
                 }, "Cancel", cancelEvent -> {
                 });
                 dialog.setConfirmButtonTheme("error primary");
@@ -74,7 +90,7 @@ public class FriendListView extends VerticalLayout {
 
     }
 
-    private void updateList() {
+    private void updateFriendListGrid() {
         grid.setItems(this.accountService.getCurrentAccount().getFriends());
     }
 }

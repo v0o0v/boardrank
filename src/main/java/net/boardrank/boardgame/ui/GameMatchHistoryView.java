@@ -21,7 +21,6 @@ public class GameMatchHistoryView extends VerticalLayout {
     public GameMatchHistoryView(GameMatchService gameMatchService) {
         this.gameMatchService = gameMatchService;
 
-        UI.getCurrent().getPage().setTitle("BoardRank");
         addClassName("list-view");
         setSizeFull();
         configureGrid();

@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.board.Row;
 import com.vaadin.flow.component.button.Button;
@@ -265,7 +264,6 @@ public class MatchView extends VerticalLayout {
     }
 
     private void initLayout() {
-        UI.getCurrent().getPage().setTitle("BoardRank");
         getStyle().set("border", "1px solid #101010");
         getStyle().set("margin-bottom", "10px");
     }

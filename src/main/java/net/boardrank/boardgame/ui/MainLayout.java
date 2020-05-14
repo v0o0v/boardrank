@@ -43,8 +43,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         createHeader();
         createDrawer();
 
-        UI.getCurrent().getPage().setTitle("BoardRank");
-        UI.getCurrent().navigate(MyRankListView.class);
+//        UI.getCurrent().navigate(MyRankListView.class);
     }
 
     private void createHeader() {

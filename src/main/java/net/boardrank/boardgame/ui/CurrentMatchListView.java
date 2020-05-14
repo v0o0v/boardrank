@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -32,7 +31,6 @@ public class CurrentMatchListView extends VerticalLayout {
     }
 
     private void initLayout() {
-        UI.getCurrent().getPage().setTitle("BoardRank");
         setSizeFull();
     }
 

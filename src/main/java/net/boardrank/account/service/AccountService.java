@@ -97,4 +97,8 @@ public class AccountService implements UserDetailsService {
 
         this.addAccount(account);
     }
+
+    public Set<Account> getAccountsContainsName(String value) {
+        return this.accountRepository.findAllByNameContains(value);
+    }
 }
