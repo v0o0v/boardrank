@@ -26,6 +26,8 @@ public class RankEntry {
 
     private Integer rank=0;
 
+    private ResultAcceptStatus resultAcceptStatus = ResultAcceptStatus.None;
+
     public RankEntry(Account account) {
         this.account = account;
     }

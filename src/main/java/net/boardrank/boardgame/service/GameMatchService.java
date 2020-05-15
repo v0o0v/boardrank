@@ -1,14 +1,11 @@
 package net.boardrank.boardgame.service;
 
-import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.AccountRepository;
-import net.boardrank.boardgame.domain.Boardgame;
-import net.boardrank.boardgame.domain.GameMatch;
-import net.boardrank.boardgame.domain.GameMatchStatus;
-import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +28,15 @@ public class GameMatchService {
 
     @Autowired
     RankEntryRepository rankEntryRepository;
+
+    @Autowired
+    NoticeService noticeService;
+
+    @Value("${net.boardrank.point.win}")
+    Integer winPoint;
+
+    @Value("${net.boardrank.point.lose}")
+    Integer losePoint;
 
     public List<GameMatch> getGamesOfCurrentSessionAccount() {
         return this.gameMatchRepository.findGameMatchesByRankentriesAccount(this.accountService.getCurrentAccount());
@@ -63,7 +69,18 @@ public class GameMatchService {
     @Transactional
     public GameMatch setGameMatchStatus(GameMatch gameMatch, GameMatchStatus gameMatchStatus) {
         gameMatch.setGameMatchStatus(gameMatchStatus);
+        if (gameMatchStatus == GameMatchStatus.finished) {
+            this.sendNoticeToAcceptMatchResult(gameMatch);
+        }
         return this.gameMatchRepository.save(gameMatch);
+    }
+
+    @Transactional
+    public void sendNoticeToAcceptMatchResult(GameMatch gameMatch) {
+        gameMatch.getRankentries().stream()
+                .forEach(rankEntry -> {
+                    noticeService.noticeToAcceptMatch(gameMatch, gameMatch.getCreatedMember(), rankEntry.getAccount());
+                });
     }
 
     @Transactional
@@ -81,5 +98,36 @@ public class GameMatchService {
     @Transactional
     public GameMatch save(GameMatch gameMatch) {
         return this.gameMatchRepository.save(gameMatch);
+    }
+
+    @Transactional
+    public void handleMatchAccept(Notice notice, NoticeResponse response, Account me) {
+        GameMatch gameMatch = notice.getGameMatch();
+        gameMatch.applyResultAcceptance(me, response.equals(NoticeResponse.Accept) ? true : false);
+
+        if (gameMatch.isAccetableOfMatchResult()) {
+            this.applyMatchResult(gameMatch);
+            noticeService.finishAllOnMatchAccepted(notice.getGameMatch(),notice.getNoticeType());
+            return;
+        }
+        noticeService.finish(notice);
+    }
+
+    //게임 결과를 반영하고 Match를 종료시킨다.
+    @Transactional
+    public void applyMatchResult(GameMatch gameMatch) {
+        if(!gameMatch.getGameMatchStatus().equals(GameMatchStatus.finished))
+            return;
+
+        gameMatch.getRankentries().stream()
+                .forEach(rankEntry -> {
+                    int bp = gameMatch.getNumOfSmallerThanMe(rankEntry)*winPoint
+                            - gameMatch.getNumOfGreaterThanMe(rankEntry)*losePoint;
+                    rankEntry.getAccount().addBP(bp);
+                    accountService.saveAccount(rankEntry.getAccount());
+                });
+        gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
+        gameMatch.setAcceptedTime(LocalDateTime.now());
+        this.save(gameMatch);
     }
 }

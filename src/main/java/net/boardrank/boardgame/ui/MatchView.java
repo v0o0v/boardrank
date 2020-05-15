@@ -250,8 +250,8 @@ public class MatchView extends VerticalLayout {
                 this.img_status.setSrc("icons/In-Progress.png");
                 break;
             case finished:
-                this.btn_changeMatchStatus.setText("게임 결과 승인 하기");
-                this.btn_changeMatchStatus.setEnabled(true);
+                this.btn_changeMatchStatus.setText("게임 결과 승인 대기중");
+                this.btn_changeMatchStatus.setEnabled(false);
                 this.setEditable(false);
                 this.img_status.setSrc("icons/Waiting-Result.png");
                 break;

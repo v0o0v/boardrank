@@ -40,6 +40,7 @@ public class GameMatch {
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
+    private LocalDateTime acceptedTime;
     private String matchTitle;
     private String place;
 
@@ -92,14 +93,48 @@ public class GameMatch {
 
     public void resetRank() {
         rankentries.forEach(rankEntry -> {
-            rankEntry.setRank(getNumOfGreaterThanMe(rankEntry));
+            rankEntry.setRank(getNumOfGreaterThanMe(rankEntry)+1);
         });
     }
 
-    private int getNumOfGreaterThanMe(RankEntry me) {
-        return (int) (this.rankentries.stream()
-                        .filter(rankEntry -> !rankEntry.equals(me))
-                        .filter(rankEntry -> me.getScore() < rankEntry.getScore())
-                        .count() + 1L);
+    //나보다 점수 높은 사람들 수
+    public int getNumOfGreaterThanMe(RankEntry me) {
+        return (int)(this.rankentries.stream()
+                .filter(rankEntry -> !rankEntry.equals(me))
+                .filter(rankEntry -> me.getScore() < rankEntry.getScore())
+                .count());
+    }
+
+    //나보다 점수 낮은 사람들 수
+    public int getNumOfSmallerThanMe(RankEntry me) {
+        return (int)(this.rankentries.stream()
+                .filter(rankEntry -> !rankEntry.equals(me))
+                .filter(rankEntry -> me.getScore() > rankEntry.getScore())
+                .count());
+    }
+
+    //account가 매치 결과를 isAccept한다.
+    public void applyResultAcceptance(Account account, boolean isAccept) {
+        this.getRankentries().stream()
+                .filter(rankEntry -> rankEntry.getAccount().equals(account))
+                .findFirst().orElseThrow(RuntimeException::new)
+                .setResultAcceptStatus(isAccept ? ResultAcceptStatus.Accept : ResultAcceptStatus.Deny)
+        ;
+    }
+
+    //모든 사람이 match 결과를 투표했는지
+    public boolean isOverPollOfMatchResult() {
+        return this.getRankentries().stream()
+                .filter(rankEntry ->
+                        rankEntry.getResultAcceptStatus().equals(ResultAcceptStatus.Accept)
+                                || rankEntry.getResultAcceptStatus().equals(ResultAcceptStatus.Deny)
+                ).count() >= (int) this.getRankentries().size();
+    }
+
+    public boolean isAccetableOfMatchResult() {
+        return this.getRankentries().stream()
+                .filter(rankEntry ->
+                        rankEntry.getResultAcceptStatus().equals(ResultAcceptStatus.Accept)
+                ).count() >= (int) this.getRankentries().size() / 2;
     }
 }

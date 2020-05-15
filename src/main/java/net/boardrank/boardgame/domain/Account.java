@@ -62,4 +62,7 @@ public class Account {
         ;
     }
 
+    public void addBP(int bp) {
+        this.boardPoint+=bp;
+    }
 }

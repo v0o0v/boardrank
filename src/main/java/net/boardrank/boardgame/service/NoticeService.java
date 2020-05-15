@@ -1,6 +1,7 @@
 package net.boardrank.boardgame.service;
 
 import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.Notice;
 import net.boardrank.boardgame.domain.NoticeType;
 import net.boardrank.boardgame.domain.repository.NoticeRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NoticeService {
@@ -21,6 +23,16 @@ public class NoticeService {
         Notice notice = new Notice(NoticeType.friendRequest);
         notice.setFrom(fromAccount);
         notice.setTo(toAccount);
+        noticeRepository.save(notice);
+    }
+
+    @Transactional
+    public void noticeToAcceptMatch(GameMatch gameMatch, Account fromAccount, Account toAccount) {
+        Notice notice = new Notice();
+        notice.setFrom(fromAccount);
+        notice.setTo(toAccount);
+        notice.setGameMatch(gameMatch);
+        notice.setNoticeType(NoticeType.matchAcceptRequest);
         noticeRepository.save(notice);
     }
 
@@ -38,5 +50,11 @@ public class NoticeService {
     @Transactional
     public void finish(Notice notice) {
         noticeRepository.delete(notice);
+    }
+
+    @Transactional
+    public void finishAllOnMatchAccepted(GameMatch gameMatch, NoticeType noticeType){
+        Set<Notice> notices = this.noticeRepository.findAllByGameMatchIsAndNoticeTypeIs(gameMatch, noticeType);
+        notices.stream().forEach(notice -> noticeRepository.delete(notice));
     }
 }
