@@ -50,38 +50,38 @@ public class PopulatorForTest implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
 
-        Set<AccountRole> roles = new HashSet<>();
-        roles.add(AccountRole.USER);
-
-        Account a = Account.builder().email("a").name("a").password(passwordEncoder.encode("1")).roles(roles).build();
-        a.setBoardPoint(1000);
-        accountRepository.save(a);
-        Account b = Account.builder().email("b").name("b").password(passwordEncoder.encode("1")).roles(roles).build();
-        b.setBoardPoint(1000);
-        accountRepository.save(b);
-        Account c = Account.builder().email("c").name("c").password(passwordEncoder.encode("1")).roles(roles).build();
-        c.setBoardPoint(1000);
-        accountRepository.save(c);
-        Account d = Account.builder().email("d").name("d").password(passwordEncoder.encode("1")).roles(roles).build();
-        d.setBoardPoint(1000);
-        accountRepository.save(d);
-        Account e = Account.builder().email("e").name("e").password(passwordEncoder.encode("1")).roles(roles).build();
-        d.setBoardPoint(1000);
-        accountRepository.save(e);
-
-        this.accountService.makeFriend(a, b);
-        this.accountService.makeFriend(a, c);
-        this.accountService.makeFriend(a, d);
-        this.accountService.makeFriend(a, e);
-
-        Boardgame boardgame1 = new Boardgame();
-        boardgame1.setName("boardgame1");
-        boardGameRepository.save(boardgame1);
-        Boardgame boardgame2 = new Boardgame();
-        boardgame2.setName("boardgame2");
-        boardGameRepository.save(boardgame2);
-
-        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a, b), a);
+//        Set<AccountRole> roles = new HashSet<>();
+//        roles.add(AccountRole.USER);
+//
+//        Account a = Account.builder().email("a").name("a").password(passwordEncoder.encode("1")).roles(roles).build();
+//        a.setBoardPoint(1000);
+//        accountRepository.save(a);
+//        Account b = Account.builder().email("b").name("b").password(passwordEncoder.encode("1")).roles(roles).build();
+//        b.setBoardPoint(1000);
+//        accountRepository.save(b);
+//        Account c = Account.builder().email("c").name("c").password(passwordEncoder.encode("1")).roles(roles).build();
+//        c.setBoardPoint(1000);
+//        accountRepository.save(c);
+//        Account d = Account.builder().email("d").name("d").password(passwordEncoder.encode("1")).roles(roles).build();
+//        d.setBoardPoint(1000);
+//        accountRepository.save(d);
+//        Account e = Account.builder().email("e").name("e").password(passwordEncoder.encode("1")).roles(roles).build();
+//        d.setBoardPoint(1000);
+//        accountRepository.save(e);
+//
+//        this.accountService.makeFriend(a, b);
+//        this.accountService.makeFriend(a, c);
+//        this.accountService.makeFriend(a, d);
+//        this.accountService.makeFriend(a, e);
+//
+//        Boardgame boardgame1 = new Boardgame();
+//        boardgame1.setName("boardgame1");
+//        boardGameRepository.save(boardgame1);
+//        Boardgame boardgame2 = new Boardgame();
+//        boardgame2.setName("boardgame2");
+//        boardGameRepository.save(boardgame2);
+//
+//        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a, b), a);
 
 //        accountService.requestFriend(b,a);
 //        accountService.requestFriend(c,a);

@@ -87,7 +87,15 @@ public class GameMatchCreateDialog extends Dialog {
         content.add("보드게임 설정", layout_boardGame);
         combo_boardGame = new ComboBox<>();
         combo_boardGame.setItems(this.boardGameService.getAllBoardgame());
-        layout_boardGame.add(combo_boardGame);
+        layout_boardGame.add(combo_boardGame, new Button("보드게임 추가하기", event -> {
+            NewBoardGameDialog newBoardGameDialog = new NewBoardGameDialog(
+                    boardGameService
+                    , accountService
+                    , event1 -> {
+                combo_boardGame.setItems(this.boardGameService.getAllBoardgame());
+            });
+            newBoardGameDialog.open();
+        }));
 
         //참가자
         VerticalLayout layout_pati = new VerticalLayout();
