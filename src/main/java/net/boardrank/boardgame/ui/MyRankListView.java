@@ -5,10 +5,9 @@ import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.Route;
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.service.AccountService;
 
 import java.util.ArrayList;
 import java.util.List;

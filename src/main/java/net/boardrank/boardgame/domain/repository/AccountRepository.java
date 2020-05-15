@@ -1,6 +1,6 @@
-package net.boardrank.account.domain.repository;
+package net.boardrank.boardgame.domain.repository;
 
-import net.boardrank.account.domain.Account;
+import net.boardrank.boardgame.domain.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

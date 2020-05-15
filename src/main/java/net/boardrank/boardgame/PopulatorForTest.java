@@ -1,13 +1,13 @@
 package net.boardrank.boardgame;
 
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.domain.AccountRole;
-import net.boardrank.account.domain.repository.AccountRepository;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.AccountRole;
+import net.boardrank.boardgame.domain.repository.AccountRepository;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.RankEntryRepository;
-import net.boardrank.boardgame.service.FriendService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,10 +40,10 @@ public class PopulatorForTest implements ApplicationRunner {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    FriendService friendService;
+    GameMatchService gameMatchService;
 
     @Autowired
-    GameMatchService gameMatchService;
+    AccountService accountService;
 
 
     @Override
@@ -54,19 +53,19 @@ public class PopulatorForTest implements ApplicationRunner {
         Set<AccountRole> roles = new HashSet<>();
         roles.add(AccountRole.USER);
 
-        Account a = Account.builder().email("a").name("aaaaaaa").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account a = Account.builder().email("a").name("김민석").password(passwordEncoder.encode("1")).roles(roles).build();
         a.setBoardPoint(1150);
         accountRepository.save(a);
-        Account b = Account.builder().email("b@b.com").name("bbbbbbbbb").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account b = Account.builder().email("b").name("b").password(passwordEncoder.encode("1")).roles(roles).build();
         b.setBoardPoint(930);
         accountRepository.save(b);
-        Account c = Account.builder().email("c").name("v0o0v").password(passwordEncoder.encode("1")).roles(roles).build();
+        Account c = Account.builder().email("c").name("c").password(passwordEncoder.encode("1")).roles(roles).build();
         c.setBoardPoint(1000);
         accountRepository.save(c);
-        Account d = Account.builder().email("d").name(RandomString.make(15)).password(passwordEncoder.encode("1")).roles(roles).build();
+        Account d = Account.builder().email("d").name("d").password(passwordEncoder.encode("1")).roles(roles).build();
         d.setBoardPoint(1000);
         accountRepository.save(d);
-        Account e = Account.builder().email("e").name(RandomString.make(15)).password(passwordEncoder.encode("1")).roles(roles).build();
+        Account e = Account.builder().email("e").name("e").password(passwordEncoder.encode("1")).roles(roles).build();
         d.setBoardPoint(1000);
         accountRepository.save(e);
         Account f = Account.builder().email("f").name(RandomString.make(15)).password(passwordEncoder.encode("1")).roles(roles).build();
@@ -79,13 +78,13 @@ public class PopulatorForTest implements ApplicationRunner {
         d.setBoardPoint(1000);
         accountRepository.save(h);
 
-        this.friendService.makeFriend(a,b);
-        this.friendService.makeFriend(a,c);
-        this.friendService.makeFriend(a,d);
-        this.friendService.makeFriend(a,e);
-        this.friendService.makeFriend(a,f);
-        this.friendService.makeFriend(a,g);
-        this.friendService.makeFriend(a,h);
+//        this.friendService.makeFriend(a,b);
+//        this.friendService.makeFriend(a,c);
+//        this.friendService.makeFriend(a,d);
+//        this.friendService.makeFriend(a,e);
+        this.accountService.makeFriend(a,f);
+        this.accountService.makeFriend(a,g);
+        this.accountService.makeFriend(a,h);
 
         Boardgame boardgame1 = new Boardgame();
         boardgame1.setName("boardgame2222222");
@@ -94,7 +93,12 @@ public class PopulatorForTest implements ApplicationRunner {
         boardgame2.setName("boardgame111111");
         boardGameRepository.save(boardgame2);
 
-        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a,b,c,d,e,f,g,h),a);
+        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a,f,g,h),a);
+
+        accountService.requestFriend(b,a);
+        accountService.requestFriend(c,a);
+        accountService.requestFriend(d,a);
+        accountService.requestFriend(e,a);
 
 //        GameMatch g1 = new GameMatch();
 //        gameMatchRepository.save(g1);

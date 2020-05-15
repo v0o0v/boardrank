@@ -16,7 +16,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
@@ -42,8 +42,6 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
         createHeader();
         createDrawer();
-
-//        UI.getCurrent().navigate(MyRankListView.class);
     }
 
     private void createHeader() {
@@ -91,6 +89,11 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryView.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
+
+        Button btn_ToDoList = new Button("To Do", new Icon(VaadinIcon.PACKAGE));
+        btn_ToDoList.addClickListener(e -> UI.getCurrent().navigate(ToDoListView.class));
+        btn_ToDoList.setWidthFull();
+        tabs.add(new Tab(btn_ToDoList));
 
         Button btn_friend = new Button("My Friends", new Icon(VaadinIcon.GROUP));
         btn_friend.addClickListener(e -> UI.getCurrent().navigate(FriendListView.class));

@@ -10,7 +10,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.service.AccountService;
 
 import java.util.Collections;
 

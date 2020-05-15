@@ -1,4 +1,4 @@
-package net.boardrank.account.domain;
+package net.boardrank.boardgame.domain;
 
 public enum AccountRole {
     ADMIN,

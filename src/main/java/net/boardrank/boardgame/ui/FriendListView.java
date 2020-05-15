@@ -9,22 +9,18 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
-import net.boardrank.account.domain.Friend;
-import net.boardrank.account.service.AccountService;
-import net.boardrank.boardgame.service.FriendService;
+import net.boardrank.boardgame.domain.Friend;
+import net.boardrank.boardgame.service.AccountService;
 
 @Route(value = "FriendListView", layout = MainLayout.class)
 public class FriendListView extends VerticalLayout {
 
     AccountService accountService;
 
-    FriendService friendService;
-
     private Grid<Friend> grid = new Grid<>(Friend.class);
 
-    public FriendListView(AccountService accountService, FriendService friendService) {
+    public FriendListView(AccountService accountService) {
         this.accountService = accountService;
-        this.friendService = friendService;
 
         addClassName("list-view");
         setSizeFull();
@@ -71,7 +67,7 @@ public class FriendListView extends VerticalLayout {
                 ConfirmDialog dialog = new ConfirmDialog("삭제하시겠습니까?",
                         "삭제를 해도 상대방 친구 리스트에는 그대로 남아있습니다.",
                         "삭제", deleteEvent -> {
-                    friendService.removeFriend(accountService.getCurrentAccount(), friend);
+                    accountService.removeFriend(accountService.getCurrentAccount(), friend);
                     updateFriendListGrid();
                 }, "Cancel", cancelEvent -> {
                 });

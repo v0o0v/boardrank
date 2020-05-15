@@ -1,11 +1,11 @@
-package net.boardrank.account.controller;
+package net.boardrank.boardgame.controller;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.domain.AccountRole;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.AccountRole;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.Email;

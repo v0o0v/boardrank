@@ -1,11 +1,16 @@
-package net.boardrank.account.service;
+package net.boardrank.boardgame.service;
 
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.domain.AccountRole;
-import net.boardrank.account.domain.repository.AccountRepository;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.AccountRole;
+import net.boardrank.boardgame.domain.Friend;
+import net.boardrank.boardgame.domain.repository.AccountRepository;
+import net.boardrank.boardgame.domain.repository.FriendRepository;
+import net.boardrank.boardgame.domain.Notice;
+import net.boardrank.boardgame.domain.NoticeResponse;
 import net.boardrank.boardgame.domain.NoticeType;
 import net.boardrank.boardgame.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +42,12 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     NoticeService noticeService;
+
+    @Autowired
+    FriendRepository friendRepository;
+
+    @Value("${net.boardrank.friend.max}")
+    Integer maxFriendNum;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
@@ -113,5 +125,41 @@ public class AccountService implements UserDetailsService {
 
     public boolean isProgressMakeFriend(Account from, Account to) {
         return noticeService.isExistNotice(NoticeType.friendRequest, from, to);
+    }
+
+    @Transactional
+    public void handleRequestFriend(Notice notice, NoticeResponse response) {
+        switch (response){
+            case Accept:
+                makeFriend(notice.getFrom(), notice.getTo());
+                break;
+            case Deny:
+                break;
+        }
+        noticeService.finish(notice);
+    }
+
+    @Transactional
+    public void makeFriend(Account a, Account b) {
+
+        if (a.getFriends().size() >= maxFriendNum || b.getFriends().size() >= maxFriendNum)
+            throw new RuntimeException("Exceed Max Friend Number");
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Friend ab = new Friend(a, b, now);
+        a.addFriend(ab);
+        this.accountRepository.save(a);
+
+        Friend ba = new Friend(b, a, now);
+        b.addFriend(ba);
+        this.accountRepository.save(b);
+    }
+
+    @Transactional
+    public void removeFriend(Account me, Friend friend) {
+        me.getFriends().remove(friend);
+        accountRepository.save(me);
+        friendRepository.delete(friend);
     }
 }

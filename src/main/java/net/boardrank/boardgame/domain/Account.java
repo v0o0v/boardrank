@@ -1,8 +1,7 @@
-package net.boardrank.account.domain;
+package net.boardrank.boardgame.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.*;

@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.boardrank.account.domain.Account;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

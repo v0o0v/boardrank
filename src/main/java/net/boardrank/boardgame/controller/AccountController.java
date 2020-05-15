@@ -1,7 +1,7 @@
-package net.boardrank.account.controller;
+package net.boardrank.boardgame.controller;
 
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.global.exception.BusinessException;
 import net.boardrank.global.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;

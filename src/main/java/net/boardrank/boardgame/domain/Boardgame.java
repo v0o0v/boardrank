@@ -1,7 +1,6 @@
 package net.boardrank.boardgame.domain;
 
 import lombok.*;
-import net.boardrank.account.domain.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

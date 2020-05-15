@@ -1,4 +1,4 @@
-package net.boardrank.account.domain;
+package net.boardrank.boardgame.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

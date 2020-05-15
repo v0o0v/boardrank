@@ -1,8 +1,7 @@
 package net.boardrank.boardgame.service;
 
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.domain.repository.AccountRepository;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.repository.AccountRepository;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;

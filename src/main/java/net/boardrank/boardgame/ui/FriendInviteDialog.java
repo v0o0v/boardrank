@@ -13,8 +13,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
-import net.boardrank.account.domain.Account;
-import net.boardrank.account.service.AccountService;
+import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 import java.util.Set;
