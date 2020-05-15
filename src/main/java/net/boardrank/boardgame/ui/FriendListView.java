@@ -12,6 +12,8 @@ import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Friend;
 import net.boardrank.boardgame.service.AccountService;
 
+import java.time.format.DateTimeFormatter;
+
 @Route(value = "FriendListView", layout = MainLayout.class)
 public class FriendListView extends VerticalLayout {
 
@@ -60,6 +62,10 @@ public class FriendListView extends VerticalLayout {
         grid.addColumn(friend -> {
             return friend.getFriend().getName();
         }).setHeader("친구 이름").setSortable(true);
+
+        grid.addColumn(friend -> {
+            return friend.getDday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }).setHeader("시간").setSortable(true);
 
         grid.addColumn(new ComponentRenderer<>(friend -> {
             Button remove = new Button("Remove", event -> {
