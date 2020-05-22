@@ -4,7 +4,7 @@ import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.Notice;
 import net.boardrank.boardgame.domain.NoticeType;
-import net.boardrank.boardgame.domain.repository.NoticeRepository;
+import net.boardrank.boardgame.domain.repository.jpa.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,9 +1,9 @@
 package net.boardrank.boardgame.service;
 
 import net.boardrank.boardgame.domain.*;
-import net.boardrank.boardgame.domain.repository.AccountRepository;
-import net.boardrank.boardgame.domain.repository.GameMatchRepository;
-import net.boardrank.boardgame.domain.repository.RankEntryRepository;
+import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
+import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
+import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

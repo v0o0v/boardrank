@@ -1,25 +1,19 @@
 package net.boardrank.boardgame;
 
 import net.boardrank.boardgame.domain.Account;
-import net.boardrank.boardgame.domain.AccountRole;
-import net.boardrank.boardgame.domain.repository.AccountRepository;
+import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.domain.*;
-import net.boardrank.boardgame.domain.repository.BoardgameRepository;
-import net.boardrank.boardgame.domain.repository.GameMatchRepository;
-import net.boardrank.boardgame.domain.repository.RankEntryRepository;
+import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
+import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
+import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
 import net.boardrank.boardgame.service.GameMatchService;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class PopulatorForTest implements ApplicationRunner {

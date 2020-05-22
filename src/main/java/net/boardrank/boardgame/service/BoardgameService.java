@@ -2,7 +2,7 @@ package net.boardrank.boardgame.service;
 
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.Boardgame;
-import net.boardrank.boardgame.domain.repository.BoardgameRepository;
+import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
