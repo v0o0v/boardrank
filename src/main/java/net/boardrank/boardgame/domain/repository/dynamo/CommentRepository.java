@@ -8,5 +8,5 @@ import java.util.List;
 
 @EnableScan
 public interface CommentRepository extends CrudRepository<Comment, String> {
-    List<Comment> findAllByGameMatchIdOrderByCreatedAtAsc(Integer gameMatchId);
+    List<Comment> findAllByGameMatchIdOrderByCreatedAtAsc(Long gameMatchId);
 }

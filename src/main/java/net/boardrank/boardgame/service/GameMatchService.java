@@ -1,6 +1,7 @@
 package net.boardrank.boardgame.service;
 
 import net.boardrank.boardgame.domain.*;
+import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
@@ -31,6 +32,9 @@ public class GameMatchService {
 
     @Autowired
     NoticeService noticeService;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @Value("${net.boardrank.point.win}")
     Integer winPoint;
@@ -107,7 +111,7 @@ public class GameMatchService {
 
         if (gameMatch.isAccetableOfMatchResult()) {
             this.applyMatchResult(gameMatch);
-            noticeService.finishAllOnMatchAccepted(notice.getGameMatch(),notice.getNoticeType());
+            noticeService.finishAllOnMatchAccepted(notice.getGameMatch(), notice.getNoticeType());
             return;
         }
         noticeService.finish(notice);
@@ -116,18 +120,31 @@ public class GameMatchService {
     //게임 결과를 반영하고 Match를 종료시킨다.
     @Transactional
     public void applyMatchResult(GameMatch gameMatch) {
-        if(!gameMatch.getGameMatchStatus().equals(GameMatchStatus.finished))
+        if (!gameMatch.getGameMatchStatus().equals(GameMatchStatus.finished))
             return;
 
         gameMatch.getRankentries().stream()
                 .forEach(rankEntry -> {
-                    int bp = gameMatch.getNumOfSmallerThanMe(rankEntry)*winPoint
-                            - gameMatch.getNumOfGreaterThanMe(rankEntry)*losePoint;
+                    int bp = gameMatch.getNumOfSmallerThanMe(rankEntry) * winPoint
+                            - gameMatch.getNumOfGreaterThanMe(rankEntry) * losePoint;
                     rankEntry.getAccount().addBP(bp);
                     accountService.saveAccount(rankEntry.getAccount());
                 });
         gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
         gameMatch.setAcceptedTime(LocalDateTime.now());
         this.save(gameMatch);
+    }
+
+    public void addComment(Long gameMatchId, Account currentAccount, String value) {
+        Comment comment = new Comment(gameMatchId, currentAccount.getId(), currentAccount.getName(), value);
+        this.commentRepository.save(comment);
+    }
+
+    public List<Comment> getCommentsByMatchId(Long gameMatchId) {
+        return this.commentRepository.findAllByGameMatchIdOrderByCreatedAtAsc(gameMatchId);
+    }
+
+    public AccountService getAccountService() {
+        return this.accountService;
     }
 }

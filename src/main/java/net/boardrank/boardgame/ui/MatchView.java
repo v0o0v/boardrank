@@ -14,10 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import net.boardrank.boardgame.domain.Boardgame;
-import net.boardrank.boardgame.domain.GameMatch;
-import net.boardrank.boardgame.domain.GameMatchStatus;
-import net.boardrank.boardgame.domain.RankEntry;
+import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
@@ -201,6 +198,7 @@ public class MatchView extends VerticalLayout {
         btn_changeMatchStatus.setWidthFull();
         btn_changeMatchStatus.setMaxWidth("500px");
         layout_bottom.addAndExpand(btn_changeMatchStatus);
+        layout_bottom.add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()));
     }
 
     private Grid createPartyGrid() {
