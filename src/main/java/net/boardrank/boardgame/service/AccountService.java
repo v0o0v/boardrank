@@ -102,7 +102,7 @@ public class AccountService implements UserDetailsService {
         return accountRepository.findByEmail(details.getUsername()).orElseThrow(RuntimeException::new);
     }
 
-    public void addNewAccount(String email, String pw, String name) {
+    public Account addNewAccount(String email, String pw, String name) {
         if(isExistEmail(email))
             throw new RuntimeException("이미 있는 email입니다.");
 
@@ -111,7 +111,7 @@ public class AccountService implements UserDetailsService {
 
         Account account = new Account(email,pw,name);
 
-        this.addAccount(account);
+        return this.addAccount(account);
     }
 
     public Set<Account> getAccountsContainsName(String value) {
