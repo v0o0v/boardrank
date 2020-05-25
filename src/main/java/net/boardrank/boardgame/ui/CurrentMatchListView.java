@@ -4,8 +4,8 @@ import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Account;
-import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.domain.GameMatch;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
@@ -34,7 +34,7 @@ public class CurrentMatchListView extends VerticalLayout {
         setSizeFull();
     }
 
-    private void initComponent() {
+    public void initComponent() {
         Account account = accountService.getCurrentAccount();
         List<GameMatch> inprogressMatches = gameMatchService.getInprogressMatches(account);
         inprogressMatches.sort((o1, o2) -> o2.getCreatedTime().compareTo(o1.getCreatedTime()));

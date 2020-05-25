@@ -49,35 +49,42 @@ public class AccountService implements UserDetailsService {
     Integer maxFriendNum;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
         Account account = this.accountRepository.findByEmail(username).orElseThrow(EntityNotFoundException::new);
         return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
     }
 
+    @Transactional
     public Account getAccountByUsername(String username) throws UsernameNotFoundException {
         return this.accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
+    @Transactional
     private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
         return roles.stream()
                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
                 .collect(Collectors.toSet());
     }
 
+    @Transactional
     public void saveAccount(Account account) {
         this.accountRepository.saveAndFlush(account);
     }
 
+    @Transactional
     public Account changePassword(String username, String password) throws UsernameNotFoundException {
         Account account = this.accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
         account.setPassword(this.passwordEncoder.encode(password));
         return this.accountRepository.saveAndFlush(account);
     }
 
+    @Transactional
     public boolean isExistEmail(String email) {
         return this.accountRepository.findByEmail(email).isPresent();
     }
 
+    @Transactional
     public boolean isExistName(String name) {
         return this.accountRepository.findByName(name).isPresent();
     }
@@ -88,20 +95,24 @@ public class AccountService implements UserDetailsService {
         return this.accountRepository.saveAndFlush(account);
     }
 
+    @Transactional
     public Page<Account> getAccounts(Pageable pageable) {
 
         return this.accountRepository.findAll(pageable);
     }
 
+    @Transactional
     public List<Account> getAllByEmailContaining(String txt){
         return this.accountRepository.getAllByEmailContaining(txt);
     }
 
+    @Transactional
     public Account getCurrentAccount() {
         UserDetails details = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return accountRepository.findByEmail(details.getUsername()).orElseThrow(RuntimeException::new);
     }
 
+    @Transactional
     public Account addNewAccount(String email, String pw, String name) {
         if(isExistEmail(email))
             throw new RuntimeException("이미 있는 email입니다.");
@@ -114,14 +125,17 @@ public class AccountService implements UserDetailsService {
         return this.addAccount(account);
     }
 
+    @Transactional
     public Set<Account> getAccountsContainsName(String value) {
         return this.accountRepository.findAllByNameContains(value);
     }
 
+    @Transactional
     public void requestFriend(Account fromAccount, Account toAccount) {
         this.noticeService.noticeToMakeFriend(fromAccount, toAccount);
     }
 
+    @Transactional
     public boolean isProgressMakeFriend(Account from, Account to) {
         return noticeService.isExistNotice(NoticeType.friendRequest, from, to);
     }

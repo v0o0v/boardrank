@@ -5,7 +5,6 @@ import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
-import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.GameMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,6 @@ public class PopulatorForTest implements ApplicationRunner {
 
     @Autowired
     BoardgameRepository boardGameRepository;
-
-    @Autowired
-    RankEntryRepository rankEntryRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -63,7 +59,8 @@ public class PopulatorForTest implements ApplicationRunner {
         boardgame2.setName("boardgame2");
         boardGameRepository.save(boardgame2);
 
-        this.gameMatchService.makeNewMatch("😀😀😀😀😀", boardgame1, Arrays.asList(a, b), a);
+        this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", boardgame1, Arrays.asList(a, b), a);
+        this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", boardgame1, Arrays.asList(a, b), a);
 
         accountService.requestFriend(d,a);
     }

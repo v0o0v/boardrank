@@ -15,10 +15,12 @@ public class BoardgameService {
     @Autowired
     BoardgameRepository boardGameRepository;
 
+    @Transactional
     public List<Boardgame> getAllBoardgame(){
         return boardGameRepository.findAll();
     }
 
+    @Transactional
     public boolean isExistAsName(String name) {
         return boardGameRepository.existsBoardgameByName(name);
     }

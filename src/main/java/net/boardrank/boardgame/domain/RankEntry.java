@@ -18,7 +18,10 @@ public class RankEntry {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    private GameMatch gameMatch;
+
+    @ManyToOne
     @JoinColumn(name = "account")
     private Account account;
 
@@ -28,7 +31,8 @@ public class RankEntry {
 
     private ResultAcceptStatus resultAcceptStatus = ResultAcceptStatus.None;
 
-    public RankEntry(Account account) {
+    public RankEntry(Account account, GameMatch gameMatch) {
         this.account = account;
+        this.gameMatch = gameMatch;
     }
 }

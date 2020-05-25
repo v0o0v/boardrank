@@ -4,16 +4,13 @@ import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
-import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class GameMatchService {
@@ -28,9 +25,6 @@ public class GameMatchService {
     AccountService accountService;
 
     @Autowired
-    RankEntryRepository rankEntryRepository;
-
-    @Autowired
     NoticeService noticeService;
 
     @Autowired
@@ -42,10 +36,12 @@ public class GameMatchService {
     @Value("${net.boardrank.point.lose}")
     Integer losePoint;
 
+    @Transactional
     public List<GameMatch> getGamesOfCurrentSessionAccount() {
         return this.gameMatchRepository.findGameMatchesByRankentriesAccount(this.accountService.getCurrentAccount());
     }
 
+    @Transactional
     public List<GameMatch> getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus gameMatchStatus) {
         return this.gameMatchRepository.findGameMatchesByRankentriesAccountAndGameMatchStatusIs(
                 this.accountService.getCurrentAccount()
@@ -54,17 +50,15 @@ public class GameMatchService {
 
     @Transactional
     public GameMatch makeNewMatch(String name, Boardgame bg, List<Account> parties, Account createdAccount) {
-        GameMatch match = this.gameMatchRepository.save(new GameMatch(name, bg, createdAccount));
-        Set<RankEntry> rankEntries = new HashSet<>();
+        GameMatch match = new GameMatch(name, bg, createdAccount);
         parties.stream().forEach(account -> {
-            RankEntry rankEntry = new RankEntry(account);
-            rankEntry = rankEntryRepository.save(rankEntry);
-            rankEntries.add(rankEntry);
+            RankEntry rankEntry = new RankEntry(account, match);
+            match.getRankentries().add(rankEntry);
         });
-        match.setRankentries(rankEntries);
         return this.gameMatchRepository.save(match);
     }
 
+    @Transactional
     public List<GameMatch> getInprogressMatches(Account account) {
         return this.gameMatchRepository
                 .findGameMatchesByRankentriesAccountAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
@@ -132,7 +126,7 @@ public class GameMatchService {
                 });
         gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
         gameMatch.setAcceptedTime(LocalDateTime.now());
-        this.save(gameMatch);
+        this.gameMatchRepository.save(gameMatch);
     }
 
     public void addComment(Long gameMatchId, Account currentAccount, String value) {

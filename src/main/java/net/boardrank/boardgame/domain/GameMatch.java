@@ -24,18 +24,17 @@ public class GameMatch {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Boardgame boardGame;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Account createdMember;
 
     @Enumerated(EnumType.ORDINAL)
     private GameMatchStatus gameMatchStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "gamematch_key")
-    private Set<RankEntry> rankentries = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameMatch")
+    private List<RankEntry> rankentries = new ArrayList<>();
 
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
