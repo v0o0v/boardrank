@@ -43,6 +43,7 @@ public class Comment {
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private boolean deleted;
 
+
     @DynamoDBAttribute
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "gameMatchId-createdAt-index")
     @DynamoDBTypeConverted(converter = DynamoDBConfig.LocalDateTimeConverter.class)

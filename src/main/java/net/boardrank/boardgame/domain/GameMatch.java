@@ -4,14 +4,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.boardrank.boardgame.service.TimeUtilService;
 
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -36,6 +35,8 @@ public class GameMatch {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameMatch")
     private List<RankEntry> rankentries = new ArrayList<>();
 
+
+    //지정되는 모든 값은 UTC기준. 다만 get으로 가져올때는 편의상 KST로 변환함.
     private LocalDateTime createdTime;
     private LocalDateTime startedTime;
     private LocalDateTime finishedTime;
@@ -51,6 +52,38 @@ public class GameMatch {
         this.matchTitle = name;
         this.place = "";
     }
+
+    public LocalDateTime getCreatedTime() {
+        return TimeUtilService.transUTCToKTC(createdTime);
+    }
+
+//    public void setCreatedTime(LocalDateTime createdTime) {
+//        this.createdTime = TimeUtilService.transKTCToUTC(createdTime);
+//    }
+
+    public LocalDateTime getStartedTime() {
+        return TimeUtilService.transUTCToKTC(startedTime);
+    }
+
+//    public void setStartedTime(LocalDateTime startedTime) {
+//        this.startedTime = TimeUtilService.transKTCToUTC(startedTime);
+//    }
+
+    public LocalDateTime getFinishedTime() {
+        return TimeUtilService.transUTCToKTC(finishedTime);
+    }
+
+//    public void setFinishedTime(LocalDateTime finishedTime) {
+//        this.finishedTime = TimeUtilService.transKTCToUTC(finishedTime);
+//    }
+
+    public LocalDateTime getAcceptedTime() {
+        return TimeUtilService.transUTCToKTC(acceptedTime);
+    }
+
+//    public void setAcceptedTime(LocalDateTime acceptedTime) {
+//        this.acceptedTime = TimeUtilService.transKTCToUTC(acceptedTime);
+//    }
 
     public List<Account> getWinnerList() {
         List<Account> winnerList = new ArrayList<>();

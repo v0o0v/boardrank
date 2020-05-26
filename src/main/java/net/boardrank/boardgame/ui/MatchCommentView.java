@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import net.boardrank.boardgame.domain.Comment;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.service.TimeUtilService;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class MatchCommentView extends VerticalLayout {
         }).setHeader("내용");
 
         commentGrid.addColumn(comment -> {
-            return comment.getCreatedAt().toString();
+            return TimeUtilService.transUTCToKTC(comment.getCreatedAt()).toString();
         }).setHeader("시간");
 
         return commentGrid;
