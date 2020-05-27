@@ -6,6 +6,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
@@ -28,12 +29,11 @@ public class NoticeAcceptMatchResultView extends ResponsiveVerticalLayout {
         this.notice = notice;
         this.me = me;
 
-        setPadding(false);
         initComponent();
     }
 
     private void initComponent() {
-//        getStyle().set("border", "1px solid #101010");
+        getStyle().set("border", "1px solid #101010");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         H3 lbl_title = new H3("Match 결과 승인 요청");
         add(lbl_title);
@@ -84,9 +84,6 @@ public class NoticeAcceptMatchResultView extends ResponsiveVerticalLayout {
                 })
         ));
 
-        ProgressBar progressBar = new ProgressBar();
-        progressBar.setIndeterminate(true);
-        add(progressBar);
     }
 
 }

@@ -27,8 +27,8 @@ public class ResponsiveVerticalLayout extends VerticalLayout {
             }
         });
 
-        setPadding(true);
-        setMargin(false);
+//        setPadding(true);
+//        setMargin(false);
     }
 
 }
