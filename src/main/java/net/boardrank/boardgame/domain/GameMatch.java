@@ -25,8 +25,11 @@ public class GameMatch {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Boardgame boardGame;
+
+    @ManyToMany
+    private Set<Boardgame> expansions = new HashSet<>();
 
     @OneToOne
     private Account createdMember;

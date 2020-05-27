@@ -26,10 +26,15 @@ public class BoardgameService {
     }
 
     @Transactional
-    public void addBoardgame(String name, Account creator) {
-        Boardgame boardgame = new Boardgame();
-        boardgame.setName(name);
+    public Boardgame addBoardgame(String name, Account creator, boolean isExp, Boardgame base) {
+        Boardgame boardgame = new Boardgame(name, isExp);
         boardgame.setCreator(creator);
-        boardGameRepository.save(boardgame);
+        boardgame.setBase(base);
+        return boardGameRepository.save(boardgame);
+    }
+
+    @Transactional
+    public List<Boardgame> getAllBaseBoardgames(){
+        return this.boardGameRepository.findAllByExpIs(false);
     }
 }

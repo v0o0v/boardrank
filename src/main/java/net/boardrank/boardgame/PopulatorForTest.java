@@ -7,6 +7,7 @@ import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -26,12 +27,6 @@ public class PopulatorForTest implements ApplicationRunner {
     GameMatchRepository gameMatchRepository;
 
     @Autowired
-    AccountRepository accountRepository;
-
-    @Autowired
-    BoardgameRepository boardGameRepository;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -39,6 +34,9 @@ public class PopulatorForTest implements ApplicationRunner {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    BoardgameService boardgameService;
 
 
     @Override
@@ -53,12 +51,15 @@ public class PopulatorForTest implements ApplicationRunner {
         this.accountService.makeFriend(a, b);
         this.accountService.makeFriend(a, c);
 
-        Boardgame boardgame1 = new Boardgame();
-        boardgame1.setName("boardgame1");
-        boardGameRepository.save(boardgame1);
+        Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", a, false, null);
+        Boardgame 격동 = this.boardgameService.addBoardgame("격동", a, true, 테라포밍마스);
+        Boardgame 비너스 = this.boardgameService.addBoardgame("비너스", a, true, 테라포밍마스);
+        Boardgame 마르코폴로 = this.boardgameService.addBoardgame("마르코폴로", a, false, null);
 
-        GameMatch gameMatch1 = this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", boardgame1, Arrays.asList(a, b), a);
-        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", boardgame1, Arrays.asList(a, b), a);
+        GameMatch gameMatch1 = this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", 테라포밍마스, Arrays.asList(a, b), a);
+        gameMatch1 = this.gameMatchService.addExpansion(gameMatch1, Arrays.asList(격동,비너스));
+
+        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", 테라포밍마스, Arrays.asList(a, b), a);
 
         accountService.requestFriend(d,a);
     }

@@ -2,10 +2,9 @@ package net.boardrank.boardgame.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,8 +22,21 @@ public class Boardgame {
     @ManyToOne
     private Account creator;
 
+    private boolean exp;
+
+    @ManyToOne
+    private Boardgame base;
+
+    @OneToMany(mappedBy = "base")
+    private Set<Boardgame> expansionSet = new HashSet<>();
+
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public Boardgame(String name, boolean exp) {
+        this.exp = exp;
+        this.name = name;
     }
 }

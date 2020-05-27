@@ -63,6 +63,14 @@ public class GameMatchService {
     }
 
     @Transactional
+    public GameMatch addExpansion(GameMatch gameMatch, List<Boardgame> exps){
+        exps.forEach(boardgame -> {
+            gameMatch.getExpansions().add(boardgame);
+        });
+        return this.gameMatchRepository.save(gameMatch);
+    }
+
+    @Transactional
     public List<GameMatch> getInprogressMatches(Account account) {
         return this.gameMatchRepository
                 .findGameMatchesByRankentriesAccountAndGameMatchStatusIsNot(account, GameMatchStatus.resultAccepted);
