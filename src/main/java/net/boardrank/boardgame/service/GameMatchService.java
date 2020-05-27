@@ -4,6 +4,7 @@ import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
+import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class GameMatchService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    RankEntryRepository rankEntryRepository;
+
     @Value("${net.boardrank.point.win}")
     Integer winPoint;
 
@@ -52,7 +56,7 @@ public class GameMatchService {
     public GameMatch makeNewMatch(String name, Boardgame bg, List<Account> parties, Account createdAccount) {
         GameMatch match = new GameMatch(name, bg, createdAccount);
         parties.stream().forEach(account -> {
-            RankEntry rankEntry = new RankEntry(account, match);
+            RankEntry rankEntry = this.rankEntryRepository.save(new RankEntry(account, match));
             match.getRankentries().add(rankEntry);
         });
         return this.gameMatchRepository.save(match);

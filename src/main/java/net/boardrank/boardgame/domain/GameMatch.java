@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +35,7 @@ public class GameMatch {
     private GameMatchStatus gameMatchStatus;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameMatch")
-    private List<RankEntry> rankentries = new ArrayList<>();
+    private Set<RankEntry> rankentries = new HashSet<>();
 
 
     //지정되는 모든 값은 UTC기준. 다만 get으로 가져올때는 편의상 KST로 변환함.
