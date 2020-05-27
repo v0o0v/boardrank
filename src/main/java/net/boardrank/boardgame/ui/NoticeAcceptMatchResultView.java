@@ -8,32 +8,32 @@ import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.GameMatchService;
 
 import java.time.format.DateTimeFormatter;
 
-public class NoticeAcceptMatchResultView extends VerticalLayout {
+public class NoticeAcceptMatchResultView extends ResponsiveVerticalLayout {
 
     GameMatchService gameMatchService;
     
     Notice notice;
 
     Account me;
-    
+
     public NoticeAcceptMatchResultView(GameMatchService gameMatchService, Notice notice, Account me) {
         this.gameMatchService = gameMatchService;
         this.notice = notice;
         this.me = me;
 
-        setWidth("20em");
         setPadding(false);
         initComponent();
     }
 
     private void initComponent() {
-        getStyle().set("border", "1px solid #101010");
+//        getStyle().set("border", "1px solid #101010");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         H3 lbl_title = new H3("Match 결과 승인 요청");
         add(lbl_title);
@@ -83,6 +83,10 @@ public class NoticeAcceptMatchResultView extends VerticalLayout {
                     getUI().get().getPage().reload();
                 })
         ));
+
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setIndeterminate(true);
+        add(progressBar);
     }
 
 }

@@ -5,13 +5,14 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.domain.Notice;
 import net.boardrank.boardgame.domain.NoticeResponse;
 
 import java.time.format.DateTimeFormatter;
 
-public class NoticeRequestFriendView extends VerticalLayout {
+public class NoticeRequestFriendView extends ResponsiveVerticalLayout {
 
     AccountService accountService;
 
@@ -21,12 +22,11 @@ public class NoticeRequestFriendView extends VerticalLayout {
         this.accountService = accountService;
         this.notice = notice;
 
-        setWidth("20em");
         initComponent();
     }
 
     private void initComponent() {
-        getStyle().set("border", "1px solid #101010");
+//        getStyle().set("border", "1px solid #101010");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         H3 lbl_freq = new H3("친구 요청");
         add(lbl_freq);
@@ -48,6 +48,10 @@ public class NoticeRequestFriendView extends VerticalLayout {
                     getUI().get().getPage().reload();
                 })
         ));
+
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setIndeterminate(true);
+        add(progressBar);
     }
 
 }
