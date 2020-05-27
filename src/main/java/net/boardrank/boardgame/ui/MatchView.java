@@ -153,7 +153,7 @@ public class MatchView extends VerticalLayout {
         layout_boardgame.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         combo_boardgame = new ComboBox<>();
         combo_boardgame.setLabel("보드게임");
-        combo_boardgame.setItems(boardgameService.getAllBoardgame());
+        combo_boardgame.setItems(boardgameService.getAllBaseBoardgames());
         combo_boardgame.setValue(gameMatch.getBoardGame());
         layout_boardgame.addAndExpand(combo_boardgame);
         layout_boardgame.setSizeFull();
