@@ -33,6 +33,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         form.setPassword("Password");
         form.setSubmit("로그인");
         loginI18n.setForm(form);
+        LoginI18n.ErrorMessage errorMessage = new LoginI18n.ErrorMessage();
+        errorMessage.setTitle("오류");
+        errorMessage.setTitle("Email과 Password를 확인해주세요.");
+        loginI18n.setErrorMessage(errorMessage);
+
         this.login = new LoginForm(loginI18n);
         this.login.setForgotPasswordButtonVisible(false);
 

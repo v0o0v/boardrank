@@ -2,6 +2,7 @@ package net.boardrank.boardgame.ui;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -23,31 +24,37 @@ public class SignUpDialog extends Dialog {
     public SignUpDialog(AccountService accountService) {
         this.accountService = accountService;
 
+        setWidth("17em");
+
         createHeader();
         createContent();
         createFooter();
     }
 
     private void createHeader() {
-        add(new Label("신규 가입"));
+        add(new H5("신규 가입"));
     }
 
     private void createContent() {
 
         VerticalLayout content = new VerticalLayout();
 
-        emailField.setLabel("Email: ");
-        content.add(emailField);
+        emailField.setLabel("Email(ID): ");
+        emailField.setWidthFull();
+        content.addAndExpand(emailField);
 
         passwordField1.setLabel("Password: ");
-        content.add(passwordField1);
+        passwordField1.setWidthFull();
+        content.addAndExpand(passwordField1);
 
         passwordField2.setLabel("Password 확인: ");
-        content.add(passwordField2);
+        passwordField2.setWidthFull();
+        content.addAndExpand(passwordField2);
 
         name.setLabel("이름: ");
         name.setMaxLength(10);
-        content.add(name);
+        name.setWidthFull();
+        content.addAndExpand(name);
 
         add(content);
     }
