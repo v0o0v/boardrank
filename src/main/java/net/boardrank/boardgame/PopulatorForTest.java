@@ -2,6 +2,7 @@ package net.boardrank.boardgame;
 
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.Boardgame;
+import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
@@ -55,12 +56,9 @@ public class PopulatorForTest implements ApplicationRunner {
         Boardgame boardgame1 = new Boardgame();
         boardgame1.setName("boardgame1");
         boardGameRepository.save(boardgame1);
-        Boardgame boardgame2 = new Boardgame();
-        boardgame2.setName("boardgame2");
-        boardGameRepository.save(boardgame2);
 
-        this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", boardgame1, Arrays.asList(a, b), a);
-        this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", boardgame1, Arrays.asList(a, b), a);
+        GameMatch gameMatch1 = this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", boardgame1, Arrays.asList(a, b), a);
+        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", boardgame1, Arrays.asList(a, b), a);
 
         accountService.requestFriend(d,a);
     }
