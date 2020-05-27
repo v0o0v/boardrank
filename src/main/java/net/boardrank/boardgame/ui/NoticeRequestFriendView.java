@@ -21,7 +21,7 @@ public class NoticeRequestFriendView extends VerticalLayout {
         this.accountService = accountService;
         this.notice = notice;
 
-        setWidth("380px");
+        setWidth("20em");
         initComponent();
     }
 

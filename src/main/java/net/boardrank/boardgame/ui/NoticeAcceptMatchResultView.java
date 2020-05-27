@@ -27,7 +27,8 @@ public class NoticeAcceptMatchResultView extends VerticalLayout {
         this.notice = notice;
         this.me = me;
 
-        setWidth("450px");
+        setWidth("20em");
+        setPadding(false);
         initComponent();
     }
 
@@ -53,7 +54,6 @@ public class NoticeAcceptMatchResultView extends VerticalLayout {
         match.add(new H6("■ 종료시간 : "+gameMatch.getFinishedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
         Grid<RankEntry> gridParty = new Grid<>();
-        gridParty.setItems(gameMatch.getRankentries());
         gridParty.removeAllColumns();
         gridParty.setWidthFull();
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
@@ -68,6 +68,7 @@ public class NoticeAcceptMatchResultView extends VerticalLayout {
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });
+        gridParty.setItems(gameMatch.getRankentries());
         match.add(gridParty);
         
         add(new HorizontalLayout(

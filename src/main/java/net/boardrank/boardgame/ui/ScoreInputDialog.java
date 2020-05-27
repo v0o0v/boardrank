@@ -39,7 +39,7 @@ public class ScoreInputDialog extends Dialog {
         createContent();
         createFooter();
 
-        setWidth("620px");
+        setWidth("20em");
         board.setSizeFull();
         add(board);
 

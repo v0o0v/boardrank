@@ -27,8 +27,9 @@ public class ToDoListView extends VerticalLayout {
         this.noticeService = noticeService;
         this.gameMatchService = gameMatchService;
 
-        addClassName("list-view");
         setSizeFull();
+        setPadding(false);
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
         initComponent();
     }
