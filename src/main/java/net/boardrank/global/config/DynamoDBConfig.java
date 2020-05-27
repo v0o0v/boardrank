@@ -70,7 +70,7 @@ public class DynamoDBConfig {
 
         @Override
         public LocalDateTime unconvert(Date source) {
-            return source.toInstant().atZone(TimeZone.getDefault().toZoneId()).toLocalDateTime();
+            return source.toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
         }
     }
 
