@@ -67,15 +67,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.userDetailsServiceBean();
     }
 
-    //    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withUsername("user")
-//                        .password("{noop}password")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
