@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class GameMatchCreateDialog extends Dialog {
+public class GameMatchCreateDialog extends ResponsiveDialog {
 
     private AccountService accountService;
 
@@ -55,8 +55,6 @@ public class GameMatchCreateDialog extends Dialog {
 
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
-
-        setWidth("18em");
 
         createHeader();
         createContent();
