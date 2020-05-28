@@ -29,7 +29,7 @@ public class BoardgameService {
     public Boardgame addBoardgame(String name, Account creator, boolean isExp, Boardgame base) {
         Boardgame boardgame = new Boardgame(name, isExp);
         boardgame.setCreator(creator);
-        boardgame.setBase(base);
+        if(isExp) boardgame.setBase(base);
         return boardGameRepository.save(boardgame);
     }
 
