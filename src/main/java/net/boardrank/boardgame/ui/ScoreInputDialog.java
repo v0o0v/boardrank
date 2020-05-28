@@ -20,7 +20,7 @@ import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 @Slf4j
-public class ScoreInputDialog extends Dialog {
+public class ScoreInputDialog extends ResponsiveDialog {
 
     private GameMatch gameMatch;
 
@@ -39,7 +39,6 @@ public class ScoreInputDialog extends Dialog {
         createContent();
         createFooter();
 
-        setWidth("20em");
         board.setSizeFull();
         add(board);
 
@@ -55,15 +54,17 @@ public class ScoreInputDialog extends Dialog {
         gridParty.setWidthFull();
 
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
-            VerticalLayout layout = new VerticalLayout(new Button(rankEntry.getAccount().getName()));
-            layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.START);
+            Button btn_user = new Button(rankEntry.getAccount().getName());
+            VerticalLayout layout = new VerticalLayout(btn_user);
+//            layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.START);
             return layout;
-        })).setHeader("참가자");
+        })).setHeader("참가자").setWidth("6em");
 
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
             IntegerField num_score = new IntegerField();
-            num_score.setHasControls(true);
-            num_score.setStep(1);
+            num_score.setWidth("4em");
+            num_score.setHasControls(false);
+//            num_score.setStep(1);
             if (rankEntry.getScore() != null)
                 num_score.setValue(rankEntry.getScore());
 
@@ -72,16 +73,15 @@ public class ScoreInputDialog extends Dialog {
                 gameMatch.resetRank();
                 update();
             });
-
             num_score.setValueChangeMode(ValueChangeMode.LAZY);
             return num_score;
-        })).setHeader("점수");
+        })).setHeader("점수").setWidth("6em");
 
         gridParty.addColumn(rankEntry -> rankEntry.getRank()
-        ).setHeader("등수");
+        ).setHeader("등수").setWidth("3em");
 
         gridParty.getColumns().forEach(col -> {
-            col.setAutoWidth(true);
+//            col.setAutoWidth(true);
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });

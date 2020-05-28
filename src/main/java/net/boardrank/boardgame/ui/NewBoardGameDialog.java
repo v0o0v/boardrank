@@ -17,7 +17,7 @@ import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 @Slf4j
-public class NewBoardGameDialog extends Dialog {
+public class NewBoardGameDialog extends ResponsiveDialog {
 
     private BoardgameService boardgameService;
 
@@ -41,7 +41,6 @@ public class NewBoardGameDialog extends Dialog {
         createContent();
         createFooter();
 
-        setWidth("480px");
         board.setSizeFull();
         add(board);
     }

@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import net.boardrank.boardgame.service.AccountService;
 
-public class SignUpDialog extends Dialog {
+public class SignUpDialog extends ResponsiveDialog {
 
     private AccountService accountService;
 
@@ -23,8 +23,6 @@ public class SignUpDialog extends Dialog {
 
     public SignUpDialog(AccountService accountService) {
         this.accountService = accountService;
-
-        setWidth("17em");
 
         createHeader();
         createContent();

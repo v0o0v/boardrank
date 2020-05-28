@@ -56,7 +56,7 @@ public class FriendListView extends VerticalLayout {
 
     private void configureFriendListGrid() {
         grid.addClassName("contact-grid");
-        grid.setSizeFull();
+        grid.setWidth("17em");
         grid.removeAllColumns();
 
         grid.addColumn(friend -> {
@@ -64,11 +64,11 @@ public class FriendListView extends VerticalLayout {
         }).setHeader("친구 이름").setSortable(true);
 
         grid.addColumn(friend -> {
-            return friend.getDday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        }).setHeader("시간").setSortable(true);
+            return friend.getDday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }).setHeader("친구된 날").setSortable(true);
 
         grid.addColumn(new ComponentRenderer<>(friend -> {
-            Button remove = new Button("Remove", event -> {
+            Button remove = new Button("삭제", event -> {
 
                 ConfirmDialog dialog = new ConfirmDialog("삭제하시겠습니까?",
                         "삭제를 해도 상대방 친구 리스트에는 그대로 남아있습니다.",

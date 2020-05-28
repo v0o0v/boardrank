@@ -20,7 +20,7 @@ import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 import java.util.Set;
 
 @Slf4j
-public class FriendInviteDialog extends Dialog {
+public class FriendInviteDialog extends ResponsiveDialog {
 
     private AccountService accountService;
 
@@ -36,20 +36,18 @@ public class FriendInviteDialog extends Dialog {
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
 
-        setWidth("400px");
         board.setSizeFull();
         add(board);
 
         createHeader();
         createContent();
         createFooter();
-
-//        updateFriendList();
     }
 
     private void createHeader() {
         board.addRow(new Label("친구 찾기"));
         txt_friend = new TextField("친구의 이름을 입력해 주세요");
+        txt_friend.setMinLength(1);
         Button btn_friend = new Button(new Icon(VaadinIcon.SEARCH));
         HorizontalLayout layout = new HorizontalLayout();
         layout.setAlignItems(FlexComponent.Alignment.END);
@@ -58,7 +56,9 @@ public class FriendInviteDialog extends Dialog {
         board.addRow(layout);
 
         btn_friend.addClickListener(event -> {
-            updateFriendList();
+            if (!txt_friend.getValue().isEmpty()) {
+                updateFriendList();
+            }
         });
     }
 
