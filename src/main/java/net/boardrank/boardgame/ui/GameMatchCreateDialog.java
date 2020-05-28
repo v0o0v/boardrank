@@ -56,13 +56,15 @@ public class GameMatchCreateDialog extends Dialog {
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
 
+        setWidth("18em");
+
         createHeader();
         createContent();
         createFooter();
     }
 
     private void createHeader() {
-        add(new Label("Match 생성"));
+        add(new Label("새로운 Match 생성"));
     }
 
 
@@ -72,35 +74,37 @@ public class GameMatchCreateDialog extends Dialog {
 
         //매치 이름
         VerticalLayout layout_matchName = new VerticalLayout();
-        layout_matchName.setSizeFull();
-        layout_matchName.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout_matchName.setAlignItems(FlexComponent.Alignment.STRETCH);
         txt_matchName = new TextField();
         txt_matchName.setLabel("매치 이름");
         txt_matchName.setValue(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + " 즐거운 게임!");
         txt_matchName.setMinLength(1);
         txt_matchName.setMaxLength(20);
-        layout_matchName.add(txt_matchName);
+        layout_matchName.addAndExpand(txt_matchName);
         content.add("이름 설정", layout_matchName);
 
         //보드게임
         VerticalLayout layout_boardGame = new VerticalLayout();
+        layout_boardGame.setAlignItems(FlexComponent.Alignment.STRETCH);
         content.add("보드게임 설정", layout_boardGame);
         combo_boardGame = new ComboBox<>();
-        combo_boardGame.setItems(this.boardGameService.getAllBoardgame());
-        layout_boardGame.add(combo_boardGame, new Button("보드게임 추가하기", event -> {
+        combo_boardGame.setItems(this.boardGameService.getAllBaseBoardgames());
+        layout_boardGame.addAndExpand(combo_boardGame, new Button("보드게임 추가하기", event -> {
             NewBoardGameDialog newBoardGameDialog = new NewBoardGameDialog(
                     boardGameService
                     , accountService
                     , event1 -> {
-                combo_boardGame.setItems(this.boardGameService.getAllBoardgame());
+                combo_boardGame.setItems(this.boardGameService.getAllBaseBoardgames());
             });
             newBoardGameDialog.open();
         }));
 
         //참가자
         VerticalLayout layout_pati = new VerticalLayout();
+        layout_pati.setAlignItems(FlexComponent.Alignment.STRETCH);
 
         VerticalLayout layout_party_combo = new VerticalLayout();
+        layout_party_combo.setAlignItems(FlexComponent.Alignment.STRETCH);
         layout_pati.add(layout_party_combo);
 
         comboList_party = new ArrayList<>();
@@ -116,7 +120,7 @@ public class GameMatchCreateDialog extends Dialog {
                 .map(friend -> friend.getFriend())
                 .collect(Collectors.toList())
         );
-        layout_party_combo.add(party1);
+        layout_party_combo.addAndExpand(party1);
         comboList_party.add(party1);
         content.add("참가자 설정", layout_pati);
 
