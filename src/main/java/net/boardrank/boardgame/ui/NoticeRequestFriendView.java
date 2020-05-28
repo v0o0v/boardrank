@@ -26,7 +26,7 @@ public class NoticeRequestFriendView extends ResponsiveVerticalLayout {
     }
 
     private void initComponent() {
-        getStyle().set("border", "1px solid #101010");
+        getStyle().set("border", "1px solid #e0e0e0");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         H3 lbl_freq = new H3("친구 요청");
         add(lbl_freq);

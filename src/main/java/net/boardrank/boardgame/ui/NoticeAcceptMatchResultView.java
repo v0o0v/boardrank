@@ -33,7 +33,7 @@ public class NoticeAcceptMatchResultView extends ResponsiveVerticalLayout {
     }
 
     private void initComponent() {
-        getStyle().set("border", "1px solid #101010");
+        getStyle().set("border", "1px solid #e0e0e0");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         H3 lbl_title = new H3("Match 결과 승인 요청");
         add(lbl_title);
@@ -49,7 +49,7 @@ public class NoticeAcceptMatchResultView extends ResponsiveVerticalLayout {
         VerticalLayout match = new VerticalLayout();
         add(match);
         match.setDefaultHorizontalComponentAlignment(Alignment.START);
-        match.add(new H6("■ 보드게임 : "+gameMatch.getBoardGame().getName()));
+        match.add(new H6("■ 보드게임 : "+gameMatch.getFullBoardgameString()));
         match.add(new H6("■ 게임장소 : "+gameMatch.getPlace()));
         match.add(new H6("■ 종료시간 : "+gameMatch.getFinishedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 

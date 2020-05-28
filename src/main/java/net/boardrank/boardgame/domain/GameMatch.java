@@ -28,7 +28,7 @@ public class GameMatch {
     @ManyToOne
     private Boardgame boardGame;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Boardgame> expansions = new HashSet<>();
 
     @OneToOne
@@ -62,33 +62,17 @@ public class GameMatch {
         return TimeUtilService.transUTCToKTC(createdTime);
     }
 
-//    public void setCreatedTime(LocalDateTime createdTime) {
-//        this.createdTime = TimeUtilService.transKTCToUTC(createdTime);
-//    }
-
     public LocalDateTime getStartedTime() {
         return TimeUtilService.transUTCToKTC(startedTime);
     }
-
-//    public void setStartedTime(LocalDateTime startedTime) {
-//        this.startedTime = TimeUtilService.transKTCToUTC(startedTime);
-//    }
 
     public LocalDateTime getFinishedTime() {
         return TimeUtilService.transUTCToKTC(finishedTime);
     }
 
-//    public void setFinishedTime(LocalDateTime finishedTime) {
-//        this.finishedTime = TimeUtilService.transKTCToUTC(finishedTime);
-//    }
-
     public LocalDateTime getAcceptedTime() {
         return TimeUtilService.transUTCToKTC(acceptedTime);
     }
-
-//    public void setAcceptedTime(LocalDateTime acceptedTime) {
-//        this.acceptedTime = TimeUtilService.transKTCToUTC(acceptedTime);
-//    }
 
     public List<Account> getWinnerList() {
         List<Account> winnerList = new ArrayList<>();
@@ -173,5 +157,16 @@ public class GameMatch {
                 .filter(rankEntry ->
                         rankEntry.getResultAcceptStatus().equals(ResultAcceptStatus.Accept)
                 ).count() >= (int) this.getRankentries().size() / 2;
+    }
+
+    public String getFullBoardgameString(){
+        StringBuilder name = new StringBuilder();
+        name.append(this.boardGame.getName());
+
+        this.getExpansions().forEach(boardgame -> {
+            name.append(" + "+boardgame.getName());
+        });
+
+        return name.toString();
     }
 }
