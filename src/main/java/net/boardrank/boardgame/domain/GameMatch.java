@@ -34,6 +34,12 @@ public class GameMatch {
     @OneToOne
     private Account createdMember;
 
+    @OneToOne
+    private Account boardgameProvider;
+
+    @OneToOne
+    private Account ruleSupporter;
+
     @Enumerated(EnumType.ORDINAL)
     private GameMatchStatus gameMatchStatus;
 
@@ -48,6 +54,7 @@ public class GameMatch {
     private LocalDateTime acceptedTime;
     private String matchTitle;
     private String place;
+    private boolean isPrivate = false;
 
     public GameMatch(String name, Boardgame bg, Account createdMember) {
         this.boardGame = bg;
