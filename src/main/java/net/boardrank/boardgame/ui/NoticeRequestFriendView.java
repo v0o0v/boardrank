@@ -23,6 +23,10 @@ public class NoticeRequestFriendView extends ResponsiveVerticalLayout {
         this.notice = notice;
 
         initComponent();
+
+        setSpacing(true);
+        setMargin(true);
+        setPadding(true);
     }
 
     private void initComponent() {
