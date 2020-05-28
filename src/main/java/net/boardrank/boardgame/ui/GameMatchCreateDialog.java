@@ -37,8 +37,6 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
     private ComboBox<Account> me;
 
-    private TextField txt_matchName;
-
     private ComboBox<Boardgame> combo_boardGame;
 
     private List<ComboBox<Account>> comboList_party;
@@ -71,15 +69,15 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
 
         //매치 이름
-        VerticalLayout layout_matchName = new VerticalLayout();
-        layout_matchName.setAlignItems(FlexComponent.Alignment.STRETCH);
-        txt_matchName = new TextField();
-        txt_matchName.setLabel("매치 이름");
-        txt_matchName.setValue(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + " 즐거운 게임!");
-        txt_matchName.setMinLength(1);
-        txt_matchName.setMaxLength(20);
-        layout_matchName.addAndExpand(txt_matchName);
-        content.add("이름 설정", layout_matchName);
+//        VerticalLayout layout_matchName = new VerticalLayout();
+//        layout_matchName.setAlignItems(FlexComponent.Alignment.STRETCH);
+//        txt_matchName = new TextField();
+//        txt_matchName.setLabel("매치 이름");
+//        txt_matchName.setValue(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + " 즐거운 게임!");
+//        txt_matchName.setMinLength(1);
+//        txt_matchName.setMaxLength(20);
+//        layout_matchName.addAndExpand(txt_matchName);
+//        content.add("이름 설정", layout_matchName);
 
         //보드게임
         VerticalLayout layout_boardGame = new VerticalLayout();
@@ -164,7 +162,7 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
     private void makeGameMatch() {
         GameMatch match = this.gameMatchService.makeNewMatch(
-                this.txt_matchName.getValue()
+                ""
                 , this.combo_boardGame.getValue()
                 , this.comboList_party.stream()
                         .map(accountComboBox -> accountComboBox.getValue())
@@ -175,10 +173,6 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
     }
 
     private void checkValidation() {
-
-        //매치 이름 체크
-        if (this.txt_matchName.isInvalid())
-            throw new RuntimeException("매치 이름을 확인해주세요.");
 
         //보드게임 체크
         if (this.combo_boardGame.isEmpty())

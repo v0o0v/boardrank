@@ -58,6 +58,7 @@ public class MatchCommentView extends VerticalLayout {
     private Component initCommentGrid() {
         commentGrid = new Grid<>(Comment.class);
         commentGrid.removeAllColumns();
+        commentGrid.setWidthFull();
 
         commentGrid.addColumn(comment -> {
             return comment.getAccountName();

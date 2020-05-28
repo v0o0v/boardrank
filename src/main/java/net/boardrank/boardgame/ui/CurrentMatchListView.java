@@ -26,8 +26,14 @@ public class CurrentMatchListView extends VerticalLayout {
         this.accountService = accountService;
         this.boardgameService = boardgameService;
 
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
         initLayout();
         initComponent();
+
+        setSpacing(true);
+        setMargin(true);
+        setPadding(true);
     }
 
     private void initLayout() {
@@ -39,18 +45,13 @@ public class CurrentMatchListView extends VerticalLayout {
         List<GameMatch> inprogressMatches = gameMatchService.getInprogressMatches(account);
         inprogressMatches.sort((o1, o2) -> o2.getCreatedTime().compareTo(o1.getCreatedTime()));
 
-
-        Board board = new Board();
         if (inprogressMatches != null) {
             inprogressMatches.stream()
                     .forEach(gameMatch -> {
                         MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService);
-                        board.addRow(matchView);
+                        add(matchView);
                     });
         }
-        add(board);
-
     }
-
 
 }
