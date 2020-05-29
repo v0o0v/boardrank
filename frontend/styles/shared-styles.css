@@ -43,7 +43,7 @@ a[highlight] {
 
 .vaddin-board-row {
   padding: var(--lumo-space-m);
-  margin: var(--lumo-space-m);
+  margin: var(--lumo-space-m );
 }
 
 .background_dice {

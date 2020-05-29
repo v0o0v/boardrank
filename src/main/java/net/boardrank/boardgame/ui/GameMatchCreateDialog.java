@@ -109,6 +109,8 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
         content.add("참가자 설정", layout_pati);
 
         Button btn_addParty = new Button("참가자 추가");
+        Button btn_removeParty = new Button("참가자 삭제");
+
         btn_addParty.addClickListener(event -> {
             ComboBox<Account> newParty = new ComboBox<>();
             newParty.setItems(this.accountService.getCurrentAccount().getFriends().stream()
@@ -117,10 +119,18 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
             );
             layout_party_combo.add(newParty);
             comboList_party.add(newParty);
+            btn_removeParty.setEnabled(true);
         });
-        btn_addParty.setWidthFull();
-        layout_pati.add(btn_addParty);
 
+        btn_removeParty.addClickListener(event -> {
+            ComboBox<Account> remove = comboList_party.remove(comboList_party.size() - 1);
+            layout_party_combo.remove(remove);
+            if (comboList_party.size() <= 2) btn_removeParty.setEnabled(false);
+        });
+        HorizontalLayout partyBtnLayout = new HorizontalLayout();
+        partyBtnLayout.addAndExpand(btn_removeParty, btn_addParty);
+        partyBtnLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout_pati.addAndExpand(partyBtnLayout);
         add(content);
     }
 
