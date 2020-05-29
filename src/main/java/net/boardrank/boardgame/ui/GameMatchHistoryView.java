@@ -3,16 +3,13 @@ package net.boardrank.boardgame.ui;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.service.GameMatchService;
 
-@Route(value = "GameMatchHistoryView", layout = MainLayout.class)
-public class GameMatchHistoryView extends VerticalLayout {
+public class GameMatchHistoryView extends ResponsiveVerticalLayout {
 
     GameMatchService gameMatchService;
 
@@ -20,40 +17,32 @@ public class GameMatchHistoryView extends VerticalLayout {
 
     public GameMatchHistoryView(GameMatchService gameMatchService) {
         this.gameMatchService = gameMatchService;
-
-        addClassName("list-view");
-        setSizeFull();
-        configureGrid();
-
-        Div content = new Div(grid);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        add(content);
-        updateList();
-
+        initComponent();
         initResposive();
+        updateList();
+    }
+
+    private void initComponent() {
+        configureGrid();
+        addAndExpand(grid);
     }
 
     private void initResposive() {
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
-            int height = event.getHeight();
-            int width = event.getWidth();
 
-            if(width<=800){
-                grid.getColumnByKey("종료시간").setVisible(false);
-                grid.getColumnByKey("방이름").setVisible(false);
-            }else{
-                grid.getColumnByKey("종료시간").setVisible(true);
-                grid.getColumnByKey("방이름").setVisible(true);
+            switch (screenType) {
+                case SMALL:
+                    grid.getColumnByKey("종료시간").setVisible(false);
+                    break;
+                case MEDIUM:
+                case LARGE:
+                    grid.getColumnByKey("종료시간").setVisible(true);
+                    break;
             }
-
         });
     }
 
     private void configureGrid() {
-        grid.addClassName("contact-grid");
-        grid.setSizeFull();
         grid.removeAllColumns();
 
         grid.addColumn(match -> {
@@ -61,21 +50,17 @@ public class GameMatchHistoryView extends VerticalLayout {
         }).setHeader("보드게임");
 
         grid.addColumn(match -> {
-            return match.getMatchTitle();
-        }).setHeader("방이름").setKey("방이름");
+            return match.getRankentries().size();
+        }).setHeader("방인원");
 
         grid.addColumn(match -> {
             return match.getWinnerByString();
         }).setHeader("1등");
 
-        grid.addColumn(match -> {
-            return match.getRankentries().size();
-        }).setHeader("방인원");
-
         grid.addColumn(new LocalDateTimeRenderer<>(
-                GameMatch::getFinishedTime,
+                GameMatch::getStartedTime,
                 "yyyy-MM-dd HH:mm"))
-                .setHeader("종료시간").setKey("종료시간");
+                .setHeader("시작시간").setKey("종료시간");
 
         grid.addColumn(match -> {
             return match.getPlayingTime();
@@ -86,8 +71,14 @@ public class GameMatchHistoryView extends VerticalLayout {
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
             col.setSortable(true);
-
         });
+
+        grid.addThemeVariants(
+                GridVariant.LUMO_COMPACT
+                ,GridVariant.LUMO_WRAP_CELL_CONTENT
+                , GridVariant.LUMO_ROW_STRIPES
+                , GridVariant.MATERIAL_COLUMN_DIVIDERS
+        );
 
     }
 

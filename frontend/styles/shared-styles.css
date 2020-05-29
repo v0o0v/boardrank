@@ -46,6 +46,16 @@ a[highlight] {
   margin: var(--lumo-space-m);
 }
 
-.background {
-  background-image: url("icons/background.svg");
+.background_dice {
+  background-image: url("background/dice.png");
+  background-repeat: repeat;
 }
+
+.background_cloud {background-image: url("background/cloud.png");}
+.background_dot {background-image: url("background/dot.png");}
+.background_matrix {background-image: url("background/matrix.png");}
+.background_rain {background-image: url("background/rain.png");}
+.background_raindrop {background-image: url("background/raindrop.png");}
+.background_zigzag {background-image: url("background/zigzag.png");}
+
+

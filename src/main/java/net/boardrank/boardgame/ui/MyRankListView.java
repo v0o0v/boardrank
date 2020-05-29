@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Route(value = "", layout = MainLayout.class)
-public class MyRankListView extends VerticalLayout {
+public class MyRankListView extends ResponsiveVerticalLayout {
 
     AccountService accountService;
 
@@ -23,16 +22,8 @@ public class MyRankListView extends VerticalLayout {
     public MyRankListView(AccountService accountService) {
         this.accountService = accountService;
 
-        UI.getCurrent().getPage().setTitle("BoardRank");
-        addClassName("list-view");
-        setSizeFull();
         configureGrid();
-
-        Div content = new Div(grid);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        add(content);
+        add(grid);
         updateList();
     }
 

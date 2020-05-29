@@ -28,15 +28,12 @@ public class CurrentMatchListView extends VerticalLayout {
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
-        initLayout();
         initComponent();
 
         setSpacing(true);
         setMargin(true);
         setPadding(true);
-    }
 
-    private void initLayout() {
         setSizeFull();
     }
 

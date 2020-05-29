@@ -14,8 +14,7 @@ import net.boardrank.boardgame.service.AccountService;
 
 import java.time.format.DateTimeFormatter;
 
-@Route(value = "FriendListView", layout = MainLayout.class)
-public class FriendListView extends VerticalLayout {
+public class FriendListView extends ResponsiveVerticalLayout {
 
     AccountService accountService;
 
@@ -24,28 +23,25 @@ public class FriendListView extends VerticalLayout {
     public FriendListView(AccountService accountService) {
         this.accountService = accountService;
 
-        addClassName("list-view");
-        setSizeFull();
-
-        add(this.inviteFriendView());
+        add(this.initInviteFriendButton());
         add(this.initFriendGrid());
     }
 
-    private Component inviteFriendView() {
-        VerticalLayout div = new VerticalLayout();
-        div.setMargin(false);
-        div.setPadding(false);
+    private Component initInviteFriendButton() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(false);
+        layout.setPadding(false);
         Button btn_newFriend = new Button("새친구 추가하기");
-        btn_newFriend.setWidthFull();
-        div.add(btn_newFriend);
+        layout.add(btn_newFriend);
+        layout.setHorizontalComponentAlignment(Alignment.END, btn_newFriend);
         btn_newFriend.addClickListener(event -> {
             FriendInviteDialog friendInviteDialog = new FriendInviteDialog(accountService, null);
             friendInviteDialog.open();
         });
-        return div;
+        return layout;
     }
 
-    private Component initFriendGrid(){
+    private Component initFriendGrid() {
         configureFriendListGrid();
         Div content = new Div(grid);
         content.addClassName("content");
@@ -55,8 +51,6 @@ public class FriendListView extends VerticalLayout {
     }
 
     private void configureFriendListGrid() {
-        grid.addClassName("contact-grid");
-        grid.setWidth("17em");
         grid.removeAllColumns();
 
         grid.addColumn(friend -> {

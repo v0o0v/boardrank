@@ -75,7 +75,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
         Button btn_myRank = new Button("My Rank", new Icon(VaadinIcon.CHART_3D));
-        btn_myRank.addClickListener(e -> UI.getCurrent().navigate(MyRankListView.class));
+        btn_myRank.addClickListener(e -> UI.getCurrent().navigate(MyRankTab.class));
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
@@ -85,7 +85,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         tabs.add(new Tab(btn_currentMatch));
 
         Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
-        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryView.class));
+        btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryTab.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
 
@@ -95,7 +95,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         tabs.add(new Tab(btn_ToDoList));
 
         Button btn_friend = new Button("My Friends", new Icon(VaadinIcon.GROUP));
-        btn_friend.addClickListener(e -> UI.getCurrent().navigate(FriendListView.class));
+        btn_friend.addClickListener(e -> UI.getCurrent().navigate(FriendTab.class));
         btn_friend.setWidthFull();
         tabs.add(new Tab(btn_friend));
 

@@ -6,27 +6,28 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class ResponsiveVerticalLayout extends VerticalLayout {
 
     protected int width;
+    protected ScreenType screenType;
 
     public ResponsiveVerticalLayout() {
 
         UI.getCurrent().getPage().retrieveExtendedClientDetails(extendedClientDetails -> {
-            width = extendedClientDetails.getScreenWidth();
-            if(width>=600){
-                setWidth("35em");
-            }else {
-                setWidth("20em");
-            }
+            initScreenType(extendedClientDetails.getScreenWidth());
         });
 
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
-            width = event.getWidth();
-            if(width>=600){
-                setWidth("35em");
-            }else {
-                setWidth("20em");
-            }
+            initScreenType(event.getWidth());
         });
+    }
 
+    private void initScreenType(int width){
+        this.width = width;
+        if(width>=600){
+            setWidth("35em");
+            this.screenType = ScreenType.LARGE;
+        }else {
+            setWidth("20em");
+            this.screenType = ScreenType.SMALL;
+        }
     }
 
 }
