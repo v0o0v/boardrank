@@ -6,7 +6,8 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -45,11 +46,8 @@ public class MainLayout extends AppLayout implements PageConfigurator {
     }
 
     private void createHeader() {
-        H1 logo = new H1("BoardRank");
-        logo.addClassName("logo");
-
+        Image logo = new Image("icons/title.png", "BoardRank");
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
-
         Button createMatch = new Button("New Match");
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
@@ -61,12 +59,13 @@ public class MainLayout extends AppLayout implements PageConfigurator {
                     );
             gameMatchCreateDialog.open();
         });
+        Label lbl_empty = new Label();
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, createMatch, logout);
-        header.expand(logo);
-        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, lbl_empty, createMatch, logout);
         header.setWidth("100%");
-        header.addClassName("header");
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        header.expand(lbl_empty);
 
         addToNavbar(header);
     }
@@ -112,7 +111,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
     @Override
     public void configurePage(InitialPageSettings settings) {
-        settings.addLink("shortcut icon", "icons/icon.png");
-        settings.addFavIcon("icon", "icons/icon.png", "32x32");
+        settings.addLink("shortcut icon", "icons/favicon.png");
+        settings.addFavIcon("icon", "icons/favicon.png", "32x32");
     }
 }

@@ -26,14 +26,14 @@ a[highlight] {
   text-decoration: underline;
 }
 
-.header {
-  padding: 0 var(--lumo-space-m);
-}
+/*.header {*/
+/*  padding: 0 var(--lumo-space-m);*/
+/*}*/
 
-.header h1.logo {
-  font-size: 1em;
-  margin: var(--lumo-space-m);
-}
+/*.header h1.logo {*/
+/*  font-size: 1em;*/
+/*  margin: var(--lumo-space-m);*/
+/*}*/
 
 /* Dashboard view */
 .dashboard-view .contact-stats {
@@ -44,4 +44,8 @@ a[highlight] {
 .vaddin-board-row {
   padding: var(--lumo-space-m);
   margin: var(--lumo-space-m);
+}
+
+.background {
+  background-image: url("icons/background.svg");
 }

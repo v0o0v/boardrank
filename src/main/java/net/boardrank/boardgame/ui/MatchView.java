@@ -7,7 +7,6 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Boardgame;
@@ -48,7 +47,6 @@ public class MatchView extends ResponsiveVerticalLayout {
         initEvent();
         applyGameStatus();
         resetValue();
-
     }
 
     private void initEvent() {
@@ -171,13 +169,13 @@ public class MatchView extends ResponsiveVerticalLayout {
             case init:
                 this.btn_changeMatchStatus.setText("게임 시작 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
-                this.setEditable(true);
+                this.setEditable(false);
                 this.img_status.setSrc("icons/Ready.png");
                 break;
             case proceeding:
                 this.btn_changeMatchStatus.setText("점수입력/게임종료 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
-                this.setEditable(true);
+                this.setEditable(false);
                 this.img_status.setSrc("icons/In-Progress.png");
                 break;
             case finished:

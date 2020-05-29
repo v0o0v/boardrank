@@ -24,12 +24,6 @@ import java.util.Arrays;
 public class PopulatorForTest implements ApplicationRunner {
 
     @Autowired
-    GameMatchRepository gameMatchRepository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
     GameMatchService gameMatchService;
 
     @Autowired
@@ -57,7 +51,7 @@ public class PopulatorForTest implements ApplicationRunner {
         Boardgame 마르코폴로 = this.boardgameService.addBoardgame("마르코폴로", a, false, null);
 
         GameMatch gameMatch1 = this.gameMatchService.makeNewMatch("😀😀😀😀😀11111", 테라포밍마스, Arrays.asList(a, b), a);
-        gameMatch1 = this.gameMatchService.addExpansion(gameMatch1, Arrays.asList(격동,비너스));
+        gameMatch1 = this.gameMatchService.addExpansion(gameMatch1, Arrays.asList(격동));
 
         GameMatch gameMatch2 = this.gameMatchService.makeNewMatch("😀😀😀😀😀22222", 마르코폴로, Arrays.asList(a, b), a);
 

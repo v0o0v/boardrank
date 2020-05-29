@@ -2,7 +2,7 @@ package net.boardrank.boardgame.ui;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -54,8 +54,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         });
 
         login.setAction("login");
-
-        add(new H1("BoardRank"), login, btn_signup);
+        add(new Image("icons/bigTitle.png", "BoardRank"), login, btn_signup);
     }
 
     @Override
