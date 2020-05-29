@@ -122,6 +122,7 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
             btn_removeParty.setEnabled(true);
         });
 
+        btn_removeParty.setEnabled(false);
         btn_removeParty.addClickListener(event -> {
             ComboBox<Account> remove = comboList_party.remove(comboList_party.size() - 1);
             layout_party_combo.remove(remove);
