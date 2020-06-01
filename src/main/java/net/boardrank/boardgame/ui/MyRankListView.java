@@ -1,11 +1,7 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
 
