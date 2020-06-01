@@ -6,6 +6,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
@@ -23,14 +24,17 @@ public class FriendListView extends ResponsiveVerticalLayout {
     public FriendListView(AccountService accountService) {
         this.accountService = accountService;
 
+        setMargin(false);
+        setPadding(false);
+        setSpacing(false);
+
         add(this.initInviteFriendButton());
         add(this.initFriendGrid());
     }
 
     private Component initInviteFriendButton() {
         VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(false);
-        layout.setPadding(false);
+        layout.setPadding(true);
         Button btn_newFriend = new Button("새친구 추가하기");
         layout.add(btn_newFriend);
         layout.setHorizontalComponentAlignment(Alignment.END, btn_newFriend);

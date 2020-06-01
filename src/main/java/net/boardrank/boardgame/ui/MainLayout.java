@@ -74,7 +74,6 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         );
         header.setWidth("100%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-//        header.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         header.expand(lbl_empty);
 
         addToNavbar(header);
@@ -90,7 +89,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         tabs.add(new Tab(btn_myRank));
 
         btn_currentMatch = new Button("Current Match", new Icon(VaadinIcon.PLAY));
-        btn_currentMatch.addClickListener(e -> UI.getCurrent().navigate(CurrentMatchListView.class));
+        btn_currentMatch.addClickListener(e -> UI.getCurrent().navigate(CurrentMatchListTab.class));
         btn_currentMatch.setWidthFull();
         tabs.add(new Tab(btn_currentMatch));
 

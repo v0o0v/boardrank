@@ -17,6 +17,10 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
 
     public GameMatchHistoryView(GameMatchService gameMatchService) {
         this.gameMatchService = gameMatchService;
+
+        setMargin(false);
+        setPadding(false);
+
         initComponent();
         initResposive();
         updateList();

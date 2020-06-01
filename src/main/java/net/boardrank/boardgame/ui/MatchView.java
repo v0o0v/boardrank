@@ -6,7 +6,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Boardgame;
@@ -34,8 +33,6 @@ public class MatchView extends ResponsiveVerticalLayout {
     private DatePicker finishedDate = new DatePicker();
     private TimePicker finishedTime = new TimePicker();
     private Grid<RankEntry> gridParty = new Grid<>();
-
-    private Image img_status = new Image("icons/Ready.png", "Ready");
 
     public MatchView(GameMatchService gameMatchService, GameMatch gameMatch, BoardgameService boardgameService) {
         this.gameMatchService = gameMatchService;
@@ -170,25 +167,25 @@ public class MatchView extends ResponsiveVerticalLayout {
                 this.btn_changeMatchStatus.setText("게임 시작 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(false);
-                this.img_status.setSrc("icons/Ready.png");
+//                this.img_status.setSrc("text/Ready.png");
                 break;
             case proceeding:
                 this.btn_changeMatchStatus.setText("점수입력/게임종료 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
                 this.setEditable(false);
-                this.img_status.setSrc("icons/In-Progress.png");
+//                this.img_status.setSrc("text/In-Progress.png");
                 break;
             case finished:
                 this.btn_changeMatchStatus.setText("게임 결과 승인 대기중");
                 this.btn_changeMatchStatus.setEnabled(false);
                 this.setEditable(false);
-                this.img_status.setSrc("icons/Waiting-Result.png");
+//                this.img_status.setSrc("text/waitingForAccept.png");
                 break;
             case resultAccepted:
                 this.btn_changeMatchStatus.setText("게임 결과 승인 완료됨");
                 this.btn_changeMatchStatus.setEnabled(false);
                 this.setEditable(false);
-                this.img_status.setSrc("icons/Finished.png");
+//                this.img_status.setSrc("text/Finished.png");
         }
     }
 

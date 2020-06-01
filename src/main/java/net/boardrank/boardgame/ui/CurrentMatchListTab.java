@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.ui;
 
-import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Account;
@@ -12,13 +11,13 @@ import net.boardrank.boardgame.service.GameMatchService;
 import java.util.List;
 
 @Route(layout = MainLayout.class)
-public class CurrentMatchListView extends VerticalLayout {
+public class CurrentMatchListTab extends VerticalLayout {
 
     GameMatchService gameMatchService;
     AccountService accountService;
     BoardgameService boardgameService;
 
-    public CurrentMatchListView(GameMatchService gameMatchService
+    public CurrentMatchListTab(GameMatchService gameMatchService
             , AccountService accountService
             , BoardgameService boardgameService
     ) {
@@ -27,13 +26,7 @@ public class CurrentMatchListView extends VerticalLayout {
         this.boardgameService = boardgameService;
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-
         initComponent();
-
-        setSpacing(true);
-        setMargin(true);
-        setPadding(true);
-
         setSizeFull();
     }
 
@@ -46,7 +39,7 @@ public class CurrentMatchListView extends VerticalLayout {
             inprogressMatches.stream()
                     .forEach(gameMatch -> {
                         MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService);
-                        add(matchView);
+                        addAndExpand(matchView);
                     });
         }
     }

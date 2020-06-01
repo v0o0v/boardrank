@@ -22,6 +22,9 @@ public class MyRankListView extends ResponsiveVerticalLayout {
     public MyRankListView(AccountService accountService) {
         this.accountService = accountService;
 
+        setMargin(false);
+        setPadding(false);
+
         configureGrid();
         add(grid);
         updateList();
