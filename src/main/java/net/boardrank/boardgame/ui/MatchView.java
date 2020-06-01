@@ -6,12 +6,17 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.domain.RankEntry;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 
@@ -23,6 +28,8 @@ public class MatchView extends ResponsiveVerticalLayout {
 
     private GameMatchService gameMatchService;
     private BoardgameService boardgameService;
+    private AccountService accountService;
+
     private GameMatch gameMatch;
 
     private Button btn_changeMatchStatus = new Button();
@@ -33,10 +40,16 @@ public class MatchView extends ResponsiveVerticalLayout {
     private DatePicker finishedDate = new DatePicker();
     private TimePicker finishedTime = new TimePicker();
     private Grid<RankEntry> gridParty = new Grid<>();
+    private HorizontalLayout top;
 
-    public MatchView(GameMatchService gameMatchService, GameMatch gameMatch, BoardgameService boardgameService) {
+    public MatchView(GameMatchService gameMatchService
+            , GameMatch gameMatch
+            , BoardgameService boardgameService
+            , AccountService accountService
+    ) {
         this.gameMatchService = gameMatchService;
         this.boardgameService = boardgameService;
+        this.accountService = accountService;
         this.gameMatch = gameMatch;
 
         initLayout();
@@ -44,6 +57,15 @@ public class MatchView extends ResponsiveVerticalLayout {
         initEvent();
         applyGameStatus();
         resetValue();
+        initOwnerActionEnable();
+    }
+
+    private void initOwnerActionEnable() {
+        if(accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())){
+            top.setEnabled(true);
+        }else{
+            top.setEnabled(false);
+        }
     }
 
     private void initEvent() {
@@ -122,16 +144,20 @@ public class MatchView extends ResponsiveVerticalLayout {
         });
         form.add(this.createPartyGrid());
         startDate.setLabel("시작 날짜");
-        form.add(startDate);
         startTime.setLabel("시작 시간");
-        form.add(startTime);
+        form.add(startDate, startTime);
         finishedDate.setLabel("종료 날짜");
-        form.add(finishedDate);
         finishedTime.setLabel("종료 시간");
-        form.add(finishedTime);
+        form.add(finishedDate, finishedTime);
         form.add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()));
 
-        add(btn_changeMatchStatus);
+        top = new HorizontalLayout();
+        top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        top.addAndExpand(btn_changeMatchStatus);
+        top.add(new Button(new Icon(VaadinIcon.COG), event -> {
+
+        }));
+        add(top);
         add(form);
     }
 

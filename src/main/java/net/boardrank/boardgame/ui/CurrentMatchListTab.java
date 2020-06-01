@@ -38,7 +38,7 @@ public class CurrentMatchListTab extends VerticalLayout {
         if (inprogressMatches != null) {
             inprogressMatches.stream()
                     .forEach(gameMatch -> {
-                        MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService);
+                        MatchView matchView = new MatchView(gameMatchService, gameMatch, boardgameService, accountService);
                         addAndExpand(matchView);
                     });
         }
