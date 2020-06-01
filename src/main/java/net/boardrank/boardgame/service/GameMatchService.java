@@ -141,6 +141,11 @@ public class GameMatchService {
         this.gameMatchRepository.save(gameMatch);
     }
 
+    @Transactional
+    public void removeMatch(GameMatch gameMatch){
+        this.gameMatchRepository.delete(gameMatch);
+    }
+
     public void addComment(Long gameMatchId, Account currentAccount, String value) {
         Comment comment = new Comment(gameMatchId, currentAccount.getId(), currentAccount.getName(), value);
         this.commentRepository.save(comment);

@@ -155,7 +155,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         top.addAndExpand(btn_changeMatchStatus);
         top.add(new Button(new Icon(VaadinIcon.COG), event -> {
-
+            new MatchDetailModifyDialog(gameMatchService, gameMatch).open();
         }));
         add(top);
         add(form);
