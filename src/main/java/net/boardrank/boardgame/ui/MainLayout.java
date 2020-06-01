@@ -4,10 +4,12 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -47,8 +49,14 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
     private void createHeader() {
         Image logo = new Image("icons/title.png", "BoardRank");
+
+
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
-        Button createMatch = new Button("New Match");
+
+        Anchor user = new Anchor("/userDetailView", new Icon(VaadinIcon.USER));
+
+        Button createMatch = new Button("새게임");
+        createMatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
                     new GameMatchCreateDialog(
@@ -61,10 +69,12 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         });
         Label lbl_empty = new Label();
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, lbl_empty, createMatch, logout);
+        HorizontalLayout header = new HorizontalLayout(
+                new DrawerToggle(), logo, lbl_empty, createMatch, user, logout, new Span()
+        );
         header.setWidth("100%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+//        header.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         header.expand(lbl_empty);
 
         addToNavbar(header);

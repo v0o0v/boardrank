@@ -73,8 +73,8 @@ public class AccountService implements UserDetailsService {
     }
 
     @Transactional
-    public Account changePassword(String username, String password) throws UsernameNotFoundException {
-        Account account = this.accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public Account changePassword(String email, String password) throws UsernameNotFoundException {
+        Account account = this.accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         account.setPassword(this.passwordEncoder.encode(password));
         return this.accountRepository.saveAndFlush(account);
     }

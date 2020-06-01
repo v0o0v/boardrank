@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -17,6 +18,11 @@ public class ResponsiveVerticalLayout extends VerticalLayout {
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
             initScreenType(event.getWidth());
         });
+    }
+
+    public ResponsiveVerticalLayout(Component... components){
+        this();
+        add(components);
     }
 
     private void initScreenType(int width){
