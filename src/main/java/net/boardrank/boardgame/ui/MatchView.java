@@ -129,10 +129,10 @@ public class MatchView extends ResponsiveVerticalLayout {
         form.add(finishedDate);
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime);
+        form.add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()));
 
-        add(form);
         add(btn_changeMatchStatus);
-        add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()));
+        add(form);
     }
 
     private Grid createPartyGrid() {

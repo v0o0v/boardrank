@@ -26,6 +26,10 @@ public class MatchCommentView extends VerticalLayout {
         this.gameMatchId = gameMatchId;
 
         setSizeFull();
+        setSpacing(false);
+        setMargin(false);
+        setPadding(false);
+
         initComponent();
         resetComment();
     }
