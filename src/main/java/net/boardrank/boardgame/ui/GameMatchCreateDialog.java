@@ -4,24 +4,20 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Account;
-import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
+import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -161,8 +157,7 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
     private void makeGameMatch() {
         GameMatch match = this.gameMatchService.makeNewMatch(
-                ""
-                , this.combo_boardGame.getValue()
+                this.combo_boardGame.getValue()
                 , this.comboList_party.stream()
                         .map(accountComboBox -> accountComboBox.getValue())
                         .collect(Collectors.toList())

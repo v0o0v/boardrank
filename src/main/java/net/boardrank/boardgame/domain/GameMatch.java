@@ -56,12 +56,11 @@ public class GameMatch {
     private String place;
     private boolean isPrivate = false;
 
-    public GameMatch(String name, Boardgame bg, Account createdMember) {
+    public GameMatch(Boardgame bg, Account createdMember) {
         this.boardGame = bg;
         this.createdMember = createdMember;
         this.gameMatchStatus = GameMatchStatus.init;
         this.createdTime = LocalDateTime.now();
-        this.matchTitle = name;
         this.place = "";
     }
 

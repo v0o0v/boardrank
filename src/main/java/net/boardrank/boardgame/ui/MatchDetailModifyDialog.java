@@ -26,8 +26,6 @@ public class MatchDetailModifyDialog extends Dialog {
         this.gameMatchService = gameMatchService;
         this.gameMatch = gameMatch;
 
-        setWidth("50px");
-
         btn_removeMatch = new Button("Match 삭제하기", event -> {
             gameMatchService.removeMatch(gameMatch);
 

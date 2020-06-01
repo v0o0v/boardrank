@@ -53,8 +53,8 @@ public class GameMatchService {
     }
 
     @Transactional
-    public GameMatch makeNewMatch(String name, Boardgame bg, List<Account> parties, Account createdAccount) {
-        GameMatch match = new GameMatch(name, bg, createdAccount);
+    public GameMatch makeNewMatch(Boardgame bg, List<Account> parties, Account createdAccount) {
+        GameMatch match = new GameMatch(bg, createdAccount);
         parties.stream().forEach(account -> {
             RankEntry rankEntry = this.rankEntryRepository.save(new RankEntry(account, match));
             match.getRankentries().add(rankEntry);

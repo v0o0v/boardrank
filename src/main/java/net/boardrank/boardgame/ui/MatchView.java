@@ -9,7 +9,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Boardgame;
@@ -19,8 +18,11 @@ import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.service.TimeUtilService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,9 +63,9 @@ public class MatchView extends ResponsiveVerticalLayout {
     }
 
     private void initOwnerActionEnable() {
-        if(accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())){
+        if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
             top.setEnabled(true);
-        }else{
+        } else {
             top.setEnabled(false);
         }
     }
@@ -85,6 +87,58 @@ public class MatchView extends ResponsiveVerticalLayout {
             }
             applyGameStatus();
             resetValue();
+        });
+
+        this.startTime.addValueChangeListener(event -> {
+            try {
+                LocalDateTime oldDateTime = gameMatch.getStartedTime();
+                LocalTime toTime = event.getValue();
+                if (oldDateTime == null || toTime == null) return;
+                LocalDateTime newDateTime = LocalDateTime.of(oldDateTime.toLocalDate(), toTime);
+                gameMatch.setStartedTime(TimeUtilService.transKTCToUTC(newDateTime));
+                gameMatchService.save(gameMatch);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.startDate.addValueChangeListener(event -> {
+            try {
+                LocalDateTime oldDateTime = gameMatch.getStartedTime();
+                LocalDate newDate = event.getValue();
+                if (oldDateTime == null || newDate == null) return;
+                LocalDateTime newDateTime = LocalDateTime.of(newDate, oldDateTime.toLocalTime());
+                gameMatch.setStartedTime(TimeUtilService.transKTCToUTC(newDateTime));
+                gameMatchService.save(gameMatch);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.finishedTime.addValueChangeListener(event -> {
+            try {
+                LocalDateTime oldDateTime = gameMatch.getFinishedTime();
+                LocalTime toTime = event.getValue();
+                if (oldDateTime == null || toTime == null) return;
+                LocalDateTime newDateTime = LocalDateTime.of(oldDateTime.toLocalDate(), toTime);
+                gameMatch.setFinishedTime(TimeUtilService.transKTCToUTC(newDateTime));
+                gameMatchService.save(gameMatch);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.finishedDate.addValueChangeListener(event -> {
+            try {
+                LocalDateTime oldDateTime = gameMatch.getFinishedTime();
+                LocalDate newDate = event.getValue();
+                if (oldDateTime == null || newDate == null) return;
+                LocalDateTime newDateTime = LocalDateTime.of(newDate, oldDateTime.toLocalTime());
+                gameMatch.setFinishedTime(TimeUtilService.transKTCToUTC(newDateTime));
+                gameMatchService.save(gameMatch);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -179,39 +233,47 @@ public class MatchView extends ResponsiveVerticalLayout {
         return gridParty;
     }
 
-    private void setEditable(boolean editable) {
-        this.combo_boardgame.setReadOnly(!editable);
-        this.startDate.setReadOnly(!editable);
-        this.startTime.setReadOnly(!editable);
-        this.finishedDate.setReadOnly(!editable);
-        this.finishedTime.setReadOnly(!editable);
-    }
-
     private void applyGameStatus() {
         switch (gameMatch.getGameMatchStatus()) {
             case init:
                 this.btn_changeMatchStatus.setText("게임 시작 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
-                this.setEditable(false);
-//                this.img_status.setSrc("text/Ready.png");
+                if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
+                    this.startDate.setReadOnly(true);
+                    this.startTime.setReadOnly(true);
+                    this.finishedDate.setReadOnly(true);
+                    this.finishedTime.setReadOnly(true);
+                }
                 break;
             case proceeding:
                 this.btn_changeMatchStatus.setText("점수입력/게임종료 하기");
                 this.btn_changeMatchStatus.setEnabled(true);
-                this.setEditable(false);
-//                this.img_status.setSrc("text/In-Progress.png");
+                if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
+                    this.startDate.setReadOnly(false);
+                    this.startTime.setReadOnly(false);
+                    this.finishedDate.setReadOnly(true);
+                    this.finishedTime.setReadOnly(true);
+                }
                 break;
             case finished:
                 this.btn_changeMatchStatus.setText("게임 결과 승인 대기중");
                 this.btn_changeMatchStatus.setEnabled(false);
-                this.setEditable(false);
-//                this.img_status.setSrc("text/waitingForAccept.png");
+                if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
+                    this.startDate.setReadOnly(false);
+                    this.startTime.setReadOnly(false);
+                    this.finishedDate.setReadOnly(false);
+                    this.finishedTime.setReadOnly(false);
+                }
                 break;
             case resultAccepted:
                 this.btn_changeMatchStatus.setText("게임 결과 승인 완료됨");
                 this.btn_changeMatchStatus.setEnabled(false);
-                this.setEditable(false);
-//                this.img_status.setSrc("text/Finished.png");
+                if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
+                    this.startDate.setReadOnly(true);
+                    this.startTime.setReadOnly(true);
+                    this.finishedDate.setReadOnly(true);
+                    this.finishedTime.setReadOnly(true);
+                }
         }
     }
 
