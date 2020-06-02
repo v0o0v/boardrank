@@ -43,7 +43,6 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         this.gameMatchService = gameMatchService;
         this.gameMatch = gameMatch;
 
-        initLayout();
         initComponent();
         resetValue();
     }
@@ -125,10 +124,6 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         int gridHeight = gameMatch.getRankentries().size() * 4 + 3;
         gridParty.setMaxHeight(gridHeight + "em");
         return gridParty;
-    }
-
-    private void initLayout() {
-//        form.getStyle().set("border", "1px solid #101010");
     }
 
 }

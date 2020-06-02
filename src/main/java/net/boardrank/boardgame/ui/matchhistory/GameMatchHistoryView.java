@@ -73,7 +73,7 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
                 gameMatch -> {
                     return gameMatch.getStartedTime().toLocalDate();
                 }
-                ,DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)))
+                , DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)))
                 .setHeader("날짜").setKey("날짜");
 
         grid.addColumn(match -> {
