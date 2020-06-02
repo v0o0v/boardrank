@@ -9,6 +9,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.ui.login.PasswordChangeDialog;
 
 @Route(value = "userDetailView", layout = MainLayout.class)
 public class UserDetailView extends VerticalLayout {

@@ -1,9 +1,9 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.myfriend;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.MainLayout;
 
 @Route(layout = MainLayout.class)
 public class FriendTab extends VerticalLayout {

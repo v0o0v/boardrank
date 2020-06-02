@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.todo;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -6,11 +6,12 @@ import net.boardrank.boardgame.domain.Notice;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.NoticeService;
+import net.boardrank.boardgame.ui.MainLayout;
 
 import java.util.List;
 
 @Route(layout = MainLayout.class)
-public class ToDoListView extends VerticalLayout {
+public class ToDoTab extends VerticalLayout {
 
     AccountService accountService;
 
@@ -19,7 +20,7 @@ public class ToDoListView extends VerticalLayout {
     GameMatchService gameMatchService;
 
 
-    public ToDoListView(AccountService accountService
+    public ToDoTab(AccountService accountService
             , NoticeService noticeService
             , GameMatchService gameMatchService
     ) {

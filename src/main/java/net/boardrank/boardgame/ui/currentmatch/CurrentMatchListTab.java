@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.currentmatch;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -7,6 +7,7 @@ import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.MainLayout;
 
 import java.util.List;
 

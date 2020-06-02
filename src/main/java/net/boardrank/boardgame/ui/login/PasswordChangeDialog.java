@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.login;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.ui.ResponsiveDialog;
 
 @Slf4j
 public class PasswordChangeDialog extends ResponsiveDialog {

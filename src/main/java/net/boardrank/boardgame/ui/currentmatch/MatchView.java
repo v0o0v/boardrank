@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.currentmatch;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,6 +19,7 @@ import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.TimeUtilService;
+import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

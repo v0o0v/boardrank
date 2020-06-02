@@ -1,6 +1,6 @@
 package net.boardrank.global.config;
 
-import net.boardrank.boardgame.ui.LoginView;
+import net.boardrank.boardgame.ui.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;

@@ -22,6 +22,11 @@ import com.vaadin.flow.server.PageConfigurator;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.currentmatch.CurrentMatchListTab;
+import net.boardrank.boardgame.ui.matchhistory.GameMatchHistoryTab;
+import net.boardrank.boardgame.ui.myfriend.FriendTab;
+import net.boardrank.boardgame.ui.myrank.MyRankTab;
+import net.boardrank.boardgame.ui.todo.ToDoTab;
 
 @CssImport("./styles/shared-styles.css")
 @PageTitle("BoardRank")
@@ -99,7 +104,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         tabs.add(new Tab(btn_matchHistory));
 
         Button btn_ToDoList = new Button("To Do", new Icon(VaadinIcon.PACKAGE));
-        btn_ToDoList.addClickListener(e -> UI.getCurrent().navigate(ToDoListView.class));
+        btn_ToDoList.addClickListener(e -> UI.getCurrent().navigate(ToDoTab.class));
         btn_ToDoList.setWidthFull();
         tabs.add(new Tab(btn_ToDoList));
 

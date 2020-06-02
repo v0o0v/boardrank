@@ -18,19 +18,20 @@ public class ResponsiveVerticalLayout extends VerticalLayout {
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
             initScreenType(event.getWidth());
         });
+
     }
 
-    public ResponsiveVerticalLayout(Component... components){
+    public ResponsiveVerticalLayout(Component... components) {
         this();
         add(components);
     }
 
-    private void initScreenType(int width){
+    private void initScreenType(int width) {
         this.width = width;
-        if(width>=600){
+        if (width >= 600) {
             setWidth("35em");
             this.screenType = ScreenType.LARGE;
-        }else {
+        } else {
             setWidth("20em");
             this.screenType = ScreenType.SMALL;
         }

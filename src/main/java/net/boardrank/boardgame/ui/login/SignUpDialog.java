@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.login;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -11,6 +11,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.ui.ResponsiveDialog;
 
 public class SignUpDialog extends ResponsiveDialog {
 

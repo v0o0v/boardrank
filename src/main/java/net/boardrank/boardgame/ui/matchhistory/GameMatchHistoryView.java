@@ -1,13 +1,19 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.matchhistory;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class GameMatchHistoryView extends ResponsiveVerticalLayout {
 
@@ -36,11 +42,13 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
 
             switch (screenType) {
                 case SMALL:
-                    grid.getColumnByKey("종료시간").setVisible(false);
+                    grid.getColumnByKey("인원").setVisible(false);
+                    grid.getColumnByKey("플탐").setVisible(false);
                     break;
                 case MEDIUM:
                 case LARGE:
-                    grid.getColumnByKey("종료시간").setVisible(true);
+                    grid.getColumnByKey("인원").setVisible(true);
+                    grid.getColumnByKey("플탐").setVisible(true);
                     break;
             }
         });
@@ -55,20 +63,22 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
 
         grid.addColumn(match -> {
             return match.getRankentries().size();
-        }).setHeader("방인원");
+        }).setHeader("인원").setKey("인원");
 
         grid.addColumn(match -> {
             return match.getWinnerByString();
-        }).setHeader("1등");
+        }).setHeader("우승");
 
-        grid.addColumn(new LocalDateTimeRenderer<>(
-                GameMatch::getStartedTime,
-                "yyyy-MM-dd HH:mm"))
-                .setHeader("시작시간").setKey("종료시간");
+        grid.addColumn(new LocalDateRenderer<GameMatch>(
+                gameMatch -> {
+                    return gameMatch.getStartedTime().toLocalDate();
+                }
+                ,DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)))
+                .setHeader("날짜").setKey("날짜");
 
         grid.addColumn(match -> {
             return match.getPlayingTime();
-        }).setHeader("플레이시간(분)");
+        }).setHeader("Time(min)").setKey("플탐");
 
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
@@ -78,15 +88,22 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
         });
 
         grid.addThemeVariants(
-                GridVariant.LUMO_COMPACT
-                ,GridVariant.LUMO_WRAP_CELL_CONTENT
-                , GridVariant.LUMO_ROW_STRIPES
-                , GridVariant.MATERIAL_COLUMN_DIVIDERS
+//                GridVariant.LUMO_COMPACT
+//                ,GridVariant.LUMO_WRAP_CELL_CONTENT
+//                , GridVariant.LUMO_ROW_STRIPES
+//                , GridVariant.MATERIAL_COLUMN_DIVIDERS
         );
+
+        grid.addItemClickListener(event -> {
+            GameMatch match = event.getItem();
+            ClosedMatchDialog dialog = new ClosedMatchDialog(gameMatchService, match);
+            dialog.open();
+        });
 
     }
 
     private void updateList() {
-        grid.setItems(this.gameMatchService.getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus.resultAccepted));
+        grid.setItems(this.gameMatchService
+                .getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus.resultAccepted));
     }
 }

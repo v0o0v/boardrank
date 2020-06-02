@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.todo;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -13,6 +13,7 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
 
 import java.time.format.DateTimeFormatter;
 

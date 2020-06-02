@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.myfriend;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Friend;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
 
 import java.time.format.DateTimeFormatter;
 
