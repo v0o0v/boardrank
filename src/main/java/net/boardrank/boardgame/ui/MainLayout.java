@@ -58,7 +58,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
 
-        Anchor user = new Anchor("/userDetailView", new Icon(VaadinIcon.USER));
+        Anchor user = new Anchor("/userModifyView", new Icon(VaadinIcon.USER));
 
         Button createMatch = new Button("새게임");
         createMatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

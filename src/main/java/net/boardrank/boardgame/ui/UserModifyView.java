@@ -11,14 +11,14 @@ import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.ui.login.PasswordChangeDialog;
 
-@Route(value = "userDetailView", layout = MainLayout.class)
-public class UserDetailView extends VerticalLayout {
+@Route(layout = MainLayout.class)
+public class UserModifyView extends VerticalLayout {
 
     AccountService accountService;
 
     Account account;
 
-    public UserDetailView(AccountService accountService) {
+    public UserModifyView(AccountService accountService) {
         this.accountService = accountService;
         this.account = accountService.getCurrentAccount();
 
