@@ -37,6 +37,9 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
     private List<ComboBox<Account>> comboList_party;
 
+    private ComboBox<Account> combo_boardgameProvider;
+    private ComboBox<Account> combo_ruleSupporter;
+
     public GameMatchCreateDialog(AccountService accountService
             , BoardgameService boardGameService
             , GameMatchService gameMatchService
@@ -128,6 +131,26 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
         partyBtnLayout.addAndExpand(btn_removeParty, btn_addParty);
         partyBtnLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         layout_pati.addAndExpand(partyBtnLayout);
+
+        VerticalLayout layout_supportor = new VerticalLayout();
+        layout_supportor.setAlignItems(FlexComponent.Alignment.STRETCH);
+        content.add("서포터 설정(Option)", layout_supportor);
+
+        combo_boardgameProvider = new ComboBox<>();
+        combo_boardgameProvider.setLabel("보드게임 제공");
+        combo_boardgameProvider.setItems(this.accountService.getCurrentAccount().getFriends().stream()
+                .map(friend -> friend.getFriend())
+                .collect(Collectors.toList())
+        );
+        layout_supportor.add(combo_boardgameProvider);
+        combo_ruleSupporter = new ComboBox<>();
+        combo_ruleSupporter.setLabel("룰 설명");
+        combo_ruleSupporter.setItems(this.accountService.getCurrentAccount().getFriends().stream()
+                .map(friend -> friend.getFriend())
+                .collect(Collectors.toList())
+        );
+        layout_supportor.add(combo_ruleSupporter);
+
         add(content);
     }
 
@@ -164,6 +187,12 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
                 , this.me.getValue()
         );
         log.info("새로운 match가 생성되었습니다 : " + match);
+
+        if (combo_boardgameProvider.getValue() != null && !combo_boardgameProvider.isEmpty())
+            this.gameMatchService.setBoardgameProvider(match, combo_boardgameProvider.getValue());
+
+        if (combo_ruleSupporter.getValue() != null && !combo_ruleSupporter.isEmpty())
+            this.gameMatchService.setRuleSupporter(match, combo_ruleSupporter.getValue());
     }
 
     private void checkValidation() {

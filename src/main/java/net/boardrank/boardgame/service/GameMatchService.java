@@ -158,4 +158,16 @@ public class GameMatchService {
     public AccountService getAccountService() {
         return this.accountService;
     }
+
+    @Transactional
+    public GameMatch setBoardgameProvider(GameMatch match, Account provider) {
+        match.setBoardgameProvider(provider);
+        return this.save(match);
+    }
+
+    @Transactional
+    public GameMatch setRuleSupporter(GameMatch match, Account ruler) {
+        match.setRuleSupporter(ruler);
+        return this.save(match);
+    }
 }
