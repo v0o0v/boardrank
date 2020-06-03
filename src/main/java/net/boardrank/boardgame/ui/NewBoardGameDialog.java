@@ -28,7 +28,7 @@ public class NewBoardGameDialog extends ResponsiveDialog {
 
     private AccountService accountService;
 
-    private Board board = new Board();
+    private VerticalLayout layout = new VerticalLayout();
     private TextField txt_boardgame;
     private ComboBox<Boardgame> comboBase;
     private Checkbox checkbox_isExp;
@@ -44,45 +44,48 @@ public class NewBoardGameDialog extends ResponsiveDialog {
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
 
+        layout.setPadding(false);
+        layout.setMargin(false);
+        add(layout);
+
         createHeader();
         createContent();
         createFooter();
 
-        board.setSizeFull();
-        add(board);
+
     }
 
     private void createHeader() {
-        board.addRow(new H5("보드 게임 추가"));
+        layout.add(new H5("보드 게임 추가"));
     }
 
     private void createContent() {
-
-        board.addRow(new Label("보드게임 리스트"));
+        layout.add(new Label("보드게임 리스트"));
+        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.STRETCH);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
         Grid<Boardgame> grid = new Grid<>(Boardgame.class);
-        grid.setHeight("13em");
         grid.removeAllColumns();
-        grid.addColumn(Boardgame::getName).setHeader("보드게임 이름").setSortable(true);
-        grid.addComponentColumn(boardgame -> {
-            Checkbox checkbox = new Checkbox(boardgame.isExp());
-            checkbox.setReadOnly(true);
-            return checkbox;
-        }).setHeader("확장판 여부");
+        grid.setHeight("12em");
+        grid.addColumn(Boardgame::getName).setHeader("이름").setSortable(true);
+//        grid.addComponentColumn(boardgame -> {
+//            Checkbox checkbox = new Checkbox(boardgame.isExp());
+//            checkbox.setReadOnly(true);
+//            return checkbox;
+//        }).setHeader("확장판");
         grid.addColumn(Boardgame::getBase).setHeader("기본판").setSortable(true);
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });
-
         grid.setItems(boardgameService.getAllBoardgame());
-        board.addRow(grid);
+        layout.add(grid);
 
-        board.addRow(new H6("위 리스트를 꼭 확인해 보시고 새로운 보드게임 추가 부탁드립니다. " +
+        layout.add(new H6("위 리스트를 꼭 확인해 보시고 새로운 보드게임 추가 부탁드립니다. " +
                 "중복 추가될 경우 나중에 추가된 보드게임은 언제든 삭제될 수 있습니다."));
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.STRETCH);
+        VerticalLayout layout_newBoardGame = new VerticalLayout();
+        layout_newBoardGame.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.STRETCH);
         txt_boardgame = new TextField();
         txt_boardgame.setMinLength(1);
         txt_boardgame.setLabel("보드게임 이름");
@@ -90,17 +93,17 @@ public class NewBoardGameDialog extends ResponsiveDialog {
         comboBase.setEnabled(false);
         comboBase.setClearButtonVisible(true);
 
-        layout.add(txt_boardgame);
+        layout_newBoardGame.add(txt_boardgame);
         checkbox_isExp = new Checkbox("확장판입니다.", event -> {
             comboBase.setEnabled(event.getValue());
             if (event.getValue() == false)
                 comboBase.clear();
         });
-        layout.add(checkbox_isExp);
-        layout.add(comboBase);
-        layout.getStyle().set("border", "1px solid #e0e0e0");
+        layout_newBoardGame.add(checkbox_isExp);
+        layout_newBoardGame.add(comboBase);
+        layout_newBoardGame.getStyle().set("border", "1px solid #e0e0e0");
 
-        board.addRow(layout);
+        layout.add(layout_newBoardGame);
     }
 
     private void createFooter() {
@@ -132,7 +135,7 @@ public class NewBoardGameDialog extends ResponsiveDialog {
         footer.setPadding(true);
         footer.setSpacing(true);
         footer.setMargin(true);
-        board.addRow(footer);
+        layout.add(footer);
     }
 
 
