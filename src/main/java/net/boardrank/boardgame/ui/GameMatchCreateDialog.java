@@ -3,6 +3,7 @@ package net.boardrank.boardgame.ui;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
@@ -34,6 +35,8 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
     private ComboBox<Account> me;
 
     private ComboBox<Boardgame> combo_boardGame;
+
+    private List<ComboBox<Boardgame>> comboList_expasion;
 
     private List<ComboBox<Account>> comboList_party;
 
@@ -69,10 +72,10 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
         //보드게임
         VerticalLayout layout_boardGame = new VerticalLayout();
         layout_boardGame.setAlignItems(FlexComponent.Alignment.STRETCH);
-        content.add("보드게임 설정", layout_boardGame);
-        combo_boardGame = new ComboBox<>();
-        combo_boardGame.setItems(this.boardGameService.getAllBaseBoardgames());
-        layout_boardGame.addAndExpand(combo_boardGame, new Button("보드게임 추가하기", event -> {
+        layout_boardGame.setPadding(false);
+        layout_boardGame.setSpacing(false);
+
+        Button btn_addNewBoardgame = new Button("신규 보드게임 추가", event -> {
             NewBoardGameDialog newBoardGameDialog = new NewBoardGameDialog(
                     boardGameService
                     , accountService
@@ -80,7 +83,48 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
                 combo_boardGame.setItems(this.boardGameService.getAllBaseBoardgames());
             });
             newBoardGameDialog.open();
-        }));
+        });
+        btn_addNewBoardgame.addThemeVariants(ButtonVariant.LUMO_SMALL);
+        HorizontalLayout layout_newBoardgame = new HorizontalLayout(btn_addNewBoardgame);
+        layout_newBoardgame.setPadding(false);
+        layout_newBoardgame.setMargin(false);
+        layout_newBoardgame.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
+        layout_newBoardgame.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+
+        combo_boardGame = new ComboBox<>();
+        combo_boardGame.addValueChangeListener(event -> {
+            comboList_expasion.forEach(boardgameComboBox -> {
+                layout_boardGame.remove(boardgameComboBox);
+            });
+            comboList_expasion.clear();
+        });
+        combo_boardGame.setLabel("기본판");
+        combo_boardGame.setPlaceholder("플레이할 보드게임을 선택해주세요");
+        combo_boardGame.setItems(this.boardGameService.getAllBaseBoardgames());
+
+        comboList_expasion = new ArrayList<>();
+        Button btn_addExpansion = new Button("확장판 포함", event -> {
+            if (combo_boardGame.isEmpty()) {
+                Notification notification = new Notification("기본판을 먼저 선택해주세요.");
+                notification.setDuration(1500);
+                notification.open();
+                return;
+            }
+            if (combo_boardGame.getValue().getExpansionSet().size() <= 0) {
+                Notification notification = new Notification("해당 보드게임은 확장판이 없습니다.");
+                notification.setDuration(1500);
+                notification.open();
+                return;
+            }
+            ComboBox<Boardgame> exp = new ComboBox<>();
+            exp.setLabel("확장판");
+            exp.setItems(combo_boardGame.getValue().getExpansionSet());
+            comboList_expasion.add(exp);
+            layout_boardGame.addAndExpand(exp);
+        });
+
+        layout_boardGame.addAndExpand(layout_newBoardgame, combo_boardGame, btn_addExpansion);
+        content.add("보드게임 설정", layout_boardGame);
 
         //참가자
         VerticalLayout layout_pati = new VerticalLayout();
@@ -193,6 +237,12 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
         if (combo_ruleSupporter.getValue() != null && !combo_ruleSupporter.isEmpty())
             this.gameMatchService.setRuleSupporter(match, combo_ruleSupporter.getValue());
+
+        this.gameMatchService.addExpansion(match, comboList_expasion.stream()
+                .filter(boardgameComboBox -> !boardgameComboBox.isEmpty())
+                .map(ComboBox::getValue)
+                .collect(Collectors.toList())
+        );
     }
 
     private void checkValidation() {

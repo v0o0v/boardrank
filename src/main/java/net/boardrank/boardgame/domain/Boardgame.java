@@ -27,7 +27,7 @@ public class Boardgame {
     @ManyToOne
     private Boardgame base;
 
-    @OneToMany(mappedBy = "base")
+    @OneToMany(mappedBy = "base", fetch = FetchType.EAGER)
     private Set<Boardgame> expansionSet = new HashSet<>();
 
     @Override
