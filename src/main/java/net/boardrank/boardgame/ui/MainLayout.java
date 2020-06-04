@@ -61,7 +61,7 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         Anchor user = new Anchor("/userModifyView", new Icon(VaadinIcon.USER));
 
         Button createMatch = new Button("새게임");
-        createMatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        createMatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
         createMatch.addClickListener(event -> {
             GameMatchCreateDialog gameMatchCreateDialog =
                     new GameMatchCreateDialog(
