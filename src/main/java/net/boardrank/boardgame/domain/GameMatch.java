@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -120,13 +121,13 @@ public class GameMatch {
 
     public void resetRank() {
         rankentries.forEach(rankEntry -> {
-            rankEntry.setRank(getNumOfGreaterThanMe(rankEntry)+1);
+            rankEntry.setRank(getNumOfGreaterThanMe(rankEntry) + 1);
         });
     }
 
     //나보다 점수 높은 사람들 수
     public int getNumOfGreaterThanMe(RankEntry me) {
-        return (int)(this.rankentries.stream()
+        return (int) (this.rankentries.stream()
                 .filter(rankEntry -> !rankEntry.equals(me))
                 .filter(rankEntry -> me.getScore() < rankEntry.getScore())
                 .count());
@@ -134,7 +135,7 @@ public class GameMatch {
 
     //나보다 점수 낮은 사람들 수
     public int getNumOfSmallerThanMe(RankEntry me) {
-        return (int)(this.rankentries.stream()
+        return (int) (this.rankentries.stream()
                 .filter(rankEntry -> !rankEntry.equals(me))
                 .filter(rankEntry -> me.getScore() > rankEntry.getScore())
                 .count());
@@ -165,14 +166,20 @@ public class GameMatch {
                 ).count() >= (int) this.getRankentries().size() / 2;
     }
 
-    public String getFullBoardgameString(){
+    public String getFullBoardgameString() {
         StringBuilder name = new StringBuilder();
         name.append(this.boardGame.getName());
 
         this.getExpansions().forEach(boardgame -> {
-            name.append(" + "+boardgame.getName());
+            name.append(" + " + boardgame.getName());
         });
 
         return name.toString();
+    }
+
+    public List<Account> getAllParticiants() {
+        return getRankentries().stream()
+                .map(RankEntry::getAccount)
+                .collect(Collectors.toList());
     }
 }
