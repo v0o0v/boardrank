@@ -83,7 +83,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
             gameMatch.getWinnerList().forEach(account -> {
                 top.add(new H4(account.getName()));
             });
-            form.add(top);
+            form.add(top,2);
         }
 
         combo_boardgame.setReadOnly(true);
