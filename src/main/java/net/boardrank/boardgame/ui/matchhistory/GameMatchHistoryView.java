@@ -87,13 +87,6 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
             col.setSortable(true);
         });
 
-        grid.addThemeVariants(
-//                GridVariant.LUMO_COMPACT
-//                ,GridVariant.LUMO_WRAP_CELL_CONTENT
-//                , GridVariant.LUMO_ROW_STRIPES
-//                , GridVariant.MATERIAL_COLUMN_DIVIDERS
-        );
-
         grid.addItemClickListener(event -> {
             GameMatch match = event.getItem();
             ClosedMatchDialog dialog = new ClosedMatchDialog(gameMatchService, match);

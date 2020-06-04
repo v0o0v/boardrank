@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.ui.matchhistory;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -21,7 +20,7 @@ import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.ResponsiveDialog;
-import net.boardrank.boardgame.ui.currentmatch.MatchCommentView;
+import net.boardrank.boardgame.ui.currentmatch.MatchCommentListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +123,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         form.add(finishedDate,1);
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime,1);
-        form.add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()),2);
+        form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()),2);
 
         HorizontalLayout close = new HorizontalLayout();
         close.setJustifyContentMode(FlexComponent.JustifyContentMode.END);

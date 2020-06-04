@@ -234,7 +234,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         form.add(finishedDate,1);
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime,1);
-        form.add(new MatchCommentView(this.gameMatchService, this.gameMatch.getId()),2);
+        form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()),2);
 
         top = new HorizontalLayout();
         top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
@@ -320,6 +320,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private void initLayout() {
         getStyle().set("border", "1px solid #101010");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
+        setMargin(true);
     }
 
 }
