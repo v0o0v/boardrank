@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.boardrank.global.config.DynamoDBConfig;
+import net.boardrank.global.config.AWSConfig;
 
 import java.time.LocalDateTime;
 
@@ -46,15 +46,15 @@ public class Comment {
 
     @DynamoDBAttribute
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "gameMatchId-createdAt-index")
-    @DynamoDBTypeConverted(converter = DynamoDBConfig.LocalDateTimeConverter.class)
+    @DynamoDBTypeConverted(converter = AWSConfig.LocalDateTimeConverter.class)
     private LocalDateTime createdAt;
 
     @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = DynamoDBConfig.LocalDateTimeConverter.class)
+    @DynamoDBTypeConverted(converter = AWSConfig.LocalDateTimeConverter.class)
     private LocalDateTime deletedAt;
 
     @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = DynamoDBConfig.LocalDateTimeConverter.class)
+    @DynamoDBTypeConverted(converter = AWSConfig.LocalDateTimeConverter.class)
     private LocalDateTime lastModifiedAt;
 
 }

@@ -1,12 +1,17 @@
 package net.boardrank.global.config;
 
-import com.amazonaws.auth.*;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +22,11 @@ import org.springframework.context.annotation.Primary;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Slf4j
 @Configuration
 @EnableDynamoDBRepositories(basePackages = {"net.boardrank.boardgame.domain.repository.dynamo"})
-public class DynamoDBConfig {
+public class AWSConfig {
 
     @Value("${amazon.aws.accesskey}")
     private String amazonAWSAccessKey;
@@ -58,6 +62,14 @@ public class DynamoDBConfig {
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard()
+                .withCredentials(amazonAWSCredentialsProvider())
+                .withRegion(Regions.AP_NORTHEAST_2).build();
+    }
+
+    @Primary
+    @Bean
+    public AmazonS3 amazonS3(){
+        return AmazonS3ClientBuilder.standard()
                 .withCredentials(amazonAWSCredentialsProvider())
                 .withRegion(Regions.AP_NORTHEAST_2).build();
     }

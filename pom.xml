@@ -50,6 +50,11 @@
             <name>DynamoDB Local Release Repository</name>
             <url>https://s3-us-west-2.amazonaws.com/dynamodb-local/release</url>
         </repository>
+        <repository>
+            <id>io.spring.repo.maven.release</id>
+            <url>https://repo.spring.io/release/</url>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -72,6 +77,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-aws</artifactId>-->
+<!--                <version>2.0.0.RC2</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -129,7 +139,6 @@
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--database dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -181,11 +190,11 @@
             <artifactId>spring-data-dynamodb</artifactId>
             <version>5.2.3</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.amazonaws</groupId>-->
-<!--            <artifactId>DynamoDBLocal</artifactId>-->
-<!--            <version>1.11.119</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-aws-context</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

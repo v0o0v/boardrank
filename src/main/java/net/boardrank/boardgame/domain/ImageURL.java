@@ -30,6 +30,8 @@ public class ImageURL {
 
     private String url;
 
+    private String title;
+
     private LocalDateTime createdTime = LocalDateTime.now();
 
     public ImageURL(Account owner, String url, GameMatch gameMatch) {

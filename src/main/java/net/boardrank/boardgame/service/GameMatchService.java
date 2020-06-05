@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class GameMatchService {
@@ -34,11 +36,15 @@ public class GameMatchService {
     @Autowired
     RankEntryRepository rankEntryRepository;
 
+    @Autowired
+    S3Service s3Service;
+
     @Value("${net.boardrank.point.win}")
     Integer winPoint;
 
     @Value("${net.boardrank.point.lose}")
     Integer losePoint;
+
 
     @Transactional
     public List<GameMatch> getGamesOfCurrentSessionAccount() {
@@ -63,7 +69,7 @@ public class GameMatchService {
     }
 
     @Transactional
-    public GameMatch addExpansion(GameMatch gameMatch, List<Boardgame> exps){
+    public GameMatch addExpansion(GameMatch gameMatch, List<Boardgame> exps) {
         exps.forEach(boardgame -> {
             gameMatch.getExpansions().add(boardgame);
         });
@@ -142,7 +148,7 @@ public class GameMatchService {
     }
 
     @Transactional
-    public void removeMatch(GameMatch gameMatch){
+    public void removeMatch(GameMatch gameMatch) {
         this.gameMatchRepository.delete(gameMatch);
     }
 
@@ -170,4 +176,30 @@ public class GameMatchService {
         match.setRuleSupporter(ruler);
         return this.save(match);
     }
+
+    public String uploadImage(GameMatch gameMatch, InputStream inputStream, String mime, Account uploader) throws Exception {
+        String filename = UUID.randomUUID().toString();
+        switch (mime){
+            case "image/jpeg":
+                filename = filename+".jpg";
+                break;
+            case "image/png":
+                filename = filename+".png";
+                break;
+            case "image/gif":
+                filename = filename+".gif";
+                break;
+            default:
+                throw new RuntimeException("지원하지 않는 파일 형식입니다.");
+        }
+        return this.s3Service.upload(filename, inputStream);
+    }
+
+    @Transactional
+    public GameMatch addImage(GameMatch gameMatch, String filename, Account uploader) {
+        ImageURL imageURL = new ImageURL(uploader, filename, gameMatch);
+        gameMatch.getImages().add(imageURL);
+        return this.save(gameMatch);
+    }
+
 }
