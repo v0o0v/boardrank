@@ -47,6 +47,9 @@ public class GameMatch {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameMatch")
     private Set<RankEntry> rankentries = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "gameMatch")
+    private Set<ImageURL> images = new HashSet<>();
+
 
     //지정되는 모든 값은 UTC기준. 다만 get으로 가져올때는 편의상 KST로 변환함.
     private LocalDateTime createdTime;

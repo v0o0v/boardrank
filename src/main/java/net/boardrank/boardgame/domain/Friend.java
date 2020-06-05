@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,10 +20,10 @@ public class Friend {
     private Long id;
 
     @OneToOne
-    private Account owner;
-
-    @OneToOne
     private Account friend;
+
+    @ManyToOne
+    private Account owner;
 
     private LocalDateTime dday;
 

@@ -23,6 +23,8 @@ public class Account {
 
     private Integer boardPoint;
 
+    private Integer angelPoint;
+
     @JsonIgnore
     private String password;
 
@@ -30,7 +32,7 @@ public class Account {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AccountRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "owner")
     private Set<Friend> friends = new HashSet<>();
 
     @Builder
@@ -40,6 +42,7 @@ public class Account {
         this.roles = roles;
         this.name = name;
         this.boardPoint = 1000;
+        this.angelPoint = 0;
     }
 
     public Account(String email, String pw, String name) {

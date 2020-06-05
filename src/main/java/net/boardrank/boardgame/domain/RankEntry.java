@@ -22,7 +22,6 @@ public class RankEntry {
     private GameMatch gameMatch;
 
     @ManyToOne
-    @JoinColumn(name = "account")
     private Account account;
 
     private Integer score=0;
