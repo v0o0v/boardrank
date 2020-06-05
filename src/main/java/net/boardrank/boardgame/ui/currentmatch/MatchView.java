@@ -2,11 +2,13 @@ package net.boardrank.boardgame.ui.currentmatch;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -48,6 +50,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private HorizontalLayout top;
     private ComboBox<Account> combo_bgProvider = new ComboBox<>();
     private ComboBox<Account> combo_ruleSupporter = new ComboBox<>();
+    private HorizontalLayout imageView;
 
     public MatchView(GameMatchService gameMatchService
             , GameMatch gameMatch
@@ -240,7 +243,8 @@ public class MatchView extends ResponsiveVerticalLayout {
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime, 1);
 
-        form.add(createImageUploader(), 2);
+        form.add(createImageView(), 2);
+        form.add(createUploadView(),2);
         form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()), 2);
 
         top = new HorizontalLayout();
@@ -254,11 +258,29 @@ public class MatchView extends ResponsiveVerticalLayout {
         add(form);
     }
 
-    private Component createImageUploader() {
+    private Component createUploadView() {
+
         MemoryBuffer buffer = new MemoryBuffer();
         Upload upload = new Upload(buffer);
+        upload.setUploadButton(new Button("사진 올리기"));
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setDropAllowed(false);
+        upload.setMaxFileSize(10 * 1024 * 1024);
 
         Account account = accountService.getCurrentAccount();
+
+        upload.addFileRejectedListener(event -> {
+            Notification notification = new Notification("문제가 발생하였습니다. " + event.getErrorMessage());
+            notification.setDuration(1500);
+            notification.open();
+        });
+
+        upload.addFailedListener(event -> {
+            Notification notification = new Notification("문제가 발생하였습니다. " + event.getReason());
+            notification.setDuration(1500);
+            notification.open();
+        });
+
         upload.addSucceededListener(event -> {
             try {
                 String filename = gameMatchService.uploadImage(
@@ -268,6 +290,7 @@ public class MatchView extends ResponsiveVerticalLayout {
                         , account
                 );
                 gameMatch = gameMatchService.addImage(gameMatch, filename, account);
+                imageViewReset();
             } catch (Exception e) {
                 Notification notification = new Notification("문제가 발생하였습니다.");
                 notification.setDuration(1500);
@@ -276,8 +299,43 @@ public class MatchView extends ResponsiveVerticalLayout {
         });
 
         VerticalLayout layout = new VerticalLayout();
+        layout.setDefaultHorizontalComponentAlignment(Alignment.END);
+        layout.setJustifyContentMode(JustifyContentMode.END);
         layout.addAndExpand(upload);
+
         return layout;
+    }
+
+    private Component createImageView() {
+        imageView = new HorizontalLayout();
+        imageView.getStyle().set("overflow-x", "auto");
+        imageViewReset();
+        return imageView;
+    }
+
+    private void imageViewReset() {
+        imageView.removeAll();
+        gameMatch.getImages().forEach(imageURL -> {
+            VerticalLayout layout = new VerticalLayout();
+            layout.setPadding(false);
+            layout.setMargin(false);
+            layout.setSpacing(false);
+
+            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "파일어딨니");
+            image.setMaxHeight("200px");
+            image.setMaxWidth("300px");
+            layout.add(image);
+            layout.setHorizontalComponentAlignment(Alignment.END, image);
+
+            Button button = new Button("삭제", event -> {
+                gameMatch = gameMatchService.deleteImage(gameMatch, imageURL.getFilename());
+                imageViewReset();
+            });
+            button.addThemeVariants(ButtonVariant.LUMO_SMALL);
+            layout.add(button);
+            layout.setHorizontalComponentAlignment(Alignment.END, button);
+            imageView.add(layout);
+        });
     }
 
     private Grid createPartyGrid() {

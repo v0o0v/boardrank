@@ -185,4 +185,18 @@ public class GameMatch {
                 .map(RankEntry::getAccount)
                 .collect(Collectors.toList());
     }
+
+    public void deleteImageURL(String filename) {
+        ImageURL imageURL = this.findImageURLAsFilename(filename);
+        if(imageURL==null) return;
+        this.getImages().remove(imageURL);
+    }
+
+    private ImageURL findImageURLAsFilename(String filename) {
+        for(ImageURL imageURL : getImages()){
+            if(imageURL.getFilename().equals(filename))
+                return imageURL;
+        }
+        return null;
+    }
 }

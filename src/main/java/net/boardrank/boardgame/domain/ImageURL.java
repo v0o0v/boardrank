@@ -28,15 +28,15 @@ public class ImageURL {
     @ManyToOne
     private GameMatch gameMatch;
 
-    private String url;
+    private String filename;
 
     private String title;
 
     private LocalDateTime createdTime = LocalDateTime.now();
 
-    public ImageURL(Account owner, String url, GameMatch gameMatch) {
+    public ImageURL(Account owner, String filename, GameMatch gameMatch) {
         this.owner = owner;
-        this.url = url;
+        this.filename = filename;
         this.gameMatch = gameMatch;
     }
 }

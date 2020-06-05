@@ -202,4 +202,21 @@ public class GameMatchService {
         return this.save(gameMatch);
     }
 
+    @Transactional
+    public GameMatch deleteImage(GameMatch gameMatch, String filename) {
+
+        try {
+            s3Service.delete(filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        gameMatch.deleteImageURL(filename);
+        return this.save(gameMatch);
+    }
+
+    public String getURLAsCloundFront(String filename){
+        return s3Service.getURLAsCloundFront(filename);
+    }
+
 }

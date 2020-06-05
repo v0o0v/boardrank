@@ -1,18 +1,24 @@
 package net.boardrank.boardgame.ui.matchhistory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.timepicker.TimePicker;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.Boardgame;
@@ -40,6 +46,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
     private FormLayout form;
     private ComboBox<Account> combo_bgProvider = new ComboBox<>();
     private ComboBox<Account> combo_ruleSupporter = new ComboBox<>();
+    private HorizontalLayout imageView;
 
     public ClosedMatchDialog(GameMatchService gameMatchService, GameMatch gameMatch) {
         this.gameMatchService = gameMatchService;
@@ -123,12 +130,95 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         form.add(finishedDate,1);
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime,1);
+
+        form.add(createImageView(), 2);
+        form.add(createUploadView(),2);
         form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()),2);
 
         HorizontalLayout close = new HorizontalLayout();
         close.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         close.add(new Button("닫기", event -> close()));
         add(new VerticalLayout(form),close);
+    }
+
+    private Component createUploadView() {
+
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload upload = new Upload(buffer);
+        upload.setUploadButton(new Button("사진 올리기"));
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setDropAllowed(false);
+        upload.setMaxFileSize(10 * 1024 * 1024);
+
+        Account account = gameMatchService.getAccountService().getCurrentAccount();
+
+        upload.addFileRejectedListener(event -> {
+            Notification notification = new Notification("문제가 발생하였습니다. " + event.getErrorMessage());
+            notification.setDuration(1500);
+            notification.open();
+        });
+
+        upload.addFailedListener(event -> {
+            Notification notification = new Notification("문제가 발생하였습니다. " + event.getReason());
+            notification.setDuration(1500);
+            notification.open();
+        });
+
+        upload.addSucceededListener(event -> {
+            try {
+                String filename = gameMatchService.uploadImage(
+                        gameMatch
+                        , buffer.getInputStream()
+                        , event.getMIMEType()
+                        , account
+                );
+                gameMatch = gameMatchService.addImage(gameMatch, filename, account);
+                imageViewReset();
+            } catch (Exception e) {
+                Notification notification = new Notification("문제가 발생하였습니다.");
+                notification.setDuration(1500);
+                notification.open();
+            }
+        });
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.END);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        layout.addAndExpand(upload);
+
+        return layout;
+    }
+
+    private Component createImageView() {
+        imageView = new HorizontalLayout();
+        imageView.getStyle().set("overflow-x", "auto");
+        imageViewReset();
+        return imageView;
+    }
+
+    private void imageViewReset() {
+        imageView.removeAll();
+        gameMatch.getImages().forEach(imageURL -> {
+            VerticalLayout layout = new VerticalLayout();
+            layout.setPadding(false);
+            layout.setMargin(false);
+            layout.setSpacing(false);
+
+            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "파일어딨니");
+            image.setMaxHeight("200px");
+            image.setMaxWidth("300px");
+            layout.add(image);
+            layout.setHorizontalComponentAlignment(FlexComponent.Alignment.END, image);
+
+            Button button = new Button("삭제", event -> {
+                gameMatch = gameMatchService.deleteImage(gameMatch, imageURL.getFilename());
+                imageViewReset();
+            });
+            button.addThemeVariants(ButtonVariant.LUMO_SMALL);
+            layout.add(button);
+            layout.setHorizontalComponentAlignment(FlexComponent.Alignment.END, button);
+            imageView.add(layout);
+        });
     }
 
     private Grid createPartyGrid() {

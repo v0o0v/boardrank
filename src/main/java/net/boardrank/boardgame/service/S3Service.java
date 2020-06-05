@@ -31,6 +31,11 @@ public class S3Service {
         return fileName;
     }
 
+    public void delete(String filename) throws Exception{
+        if(amazonS3.doesObjectExist(bucket,filename))
+            amazonS3.deleteObject(bucket,filename);
+    }
+
     public String getURLAsCloundFront(String filename) {
         return "https://" + this.cloudFrontDomain + "/" + filename;
     }
