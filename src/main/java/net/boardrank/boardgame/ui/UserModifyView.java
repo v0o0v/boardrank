@@ -11,7 +11,7 @@ import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.ui.login.PasswordChangeDialog;
 
-@Route(layout = MainLayout.class)
+@Route(value = "userModifyView", layout = MainLayout.class)
 public class UserModifyView extends VerticalLayout {
 
     AccountService accountService;
@@ -32,7 +32,7 @@ public class UserModifyView extends VerticalLayout {
         form.add(new TextField("이름", account.getName(), ""));
         form.add(new TextField("email", account.getEmail(), ""));
         form.add(new Span(new Label("⠀")));
-        form.add(new Button("비밀번호 변경",event -> {
+        form.add(new Button("비밀번호 변경", event -> {
             new PasswordChangeDialog(accountService).open();
         }));
 
