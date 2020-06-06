@@ -14,6 +14,7 @@ import net.boardrank.boardgame.domain.Comment;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.TimeUtilService;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -36,7 +37,8 @@ public class CommentView extends VerticalLayout {
         HorizontalLayout info = new HorizontalLayout();
         info.add(new H6(comment.getAccountName()));
         info.addAndExpand(new H6(" "));
-        info.add(new H6(comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        LocalDateTime createdAt = TimeUtilService.transUTCToKTC(comment.getCreatedAt());
+        info.add(new H6(createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         add(info, new H6(comment.getContent()));
     }
 

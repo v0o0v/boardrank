@@ -56,5 +56,4 @@ public class Comment {
     @DynamoDBAttribute
     @DynamoDBTypeConverted(converter = AWSConfig.LocalDateTimeConverter.class)
     private LocalDateTime lastModifiedAt;
-
 }
