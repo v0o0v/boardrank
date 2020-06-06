@@ -27,14 +27,14 @@ public class ResponsiveVerticalLayout extends VerticalLayout {
     }
 
     private void initScreenType(int width) {
-        this.width = width;
         if (width >= 600) {
-            setWidth("35em");
+            this.width = 35;
             this.screenType = ScreenType.LARGE;
         } else {
-            setWidth("20em");
+            this.width = 20;
             this.screenType = ScreenType.SMALL;
         }
+        setWidth(this.width+"em");
     }
 
 }

@@ -50,7 +50,8 @@ public class MatchView extends ResponsiveVerticalLayout {
     private HorizontalLayout top;
     private ComboBox<Account> combo_bgProvider = new ComboBox<>();
     private ComboBox<Account> combo_ruleSupporter = new ComboBox<>();
-    private HorizontalLayout imageView;
+    private VerticalLayout imageView;
+    private Upload upload = new Upload();
 
     public MatchView(GameMatchService gameMatchService
             , GameMatch gameMatch
@@ -244,7 +245,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         form.add(finishedTime, 1);
 
         form.add(createImageView(), 2);
-        form.add(createUploadView(),2);
+        form.add(createUploadView(), 2);
         form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()), 2);
 
         top = new HorizontalLayout();
@@ -261,7 +262,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private Component createUploadView() {
 
         MemoryBuffer buffer = new MemoryBuffer();
-        Upload upload = new Upload(buffer);
+        upload.setReceiver(buffer);
         upload.setUploadButton(new Button("사진 올리기"));
         upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
         upload.setDropAllowed(false);
@@ -307,8 +308,11 @@ public class MatchView extends ResponsiveVerticalLayout {
     }
 
     private Component createImageView() {
-        imageView = new HorizontalLayout();
-        imageView.getStyle().set("overflow-x", "auto");
+        imageView = new VerticalLayout();
+        imageView.setMaxHeight("40em");
+        imageView.setPadding(false);
+        imageView.setMargin(false);
+        imageView.getStyle().set("overflow-y", "auto");
         imageViewReset();
         return imageView;
     }
@@ -316,26 +320,22 @@ public class MatchView extends ResponsiveVerticalLayout {
     private void imageViewReset() {
         imageView.removeAll();
         gameMatch.getImages().forEach(imageURL -> {
-            VerticalLayout layout = new VerticalLayout();
-            layout.setPadding(false);
-            layout.setMargin(false);
-            layout.setSpacing(false);
-
             Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "파일어딨니");
-            image.setMaxHeight("200px");
-            image.setMaxWidth("300px");
-            layout.add(image);
-            layout.setHorizontalComponentAlignment(Alignment.END, image);
-
+            image.setMaxWidth((width - 3) + "em");
+            imageView.add(image);
+            imageView.setHorizontalComponentAlignment(Alignment.CENTER, image);
             Button button = new Button("삭제", event -> {
                 gameMatch = gameMatchService.deleteImage(gameMatch, imageURL.getFilename());
                 imageViewReset();
             });
             button.addThemeVariants(ButtonVariant.LUMO_SMALL);
-            layout.add(button);
-            layout.setHorizontalComponentAlignment(Alignment.END, button);
-            imageView.add(layout);
+            imageView.add(button);
+            imageView.setHorizontalComponentAlignment(Alignment.START, button);
         });
+
+        if (gameMatch.getImages().size() < 5) upload.setVisible(true);
+        else upload.setVisible(false);
+
     }
 
     private Grid createPartyGrid() {

@@ -20,14 +20,14 @@ public class ResponsiveDialog extends Dialog{
 
     }
 
-    private void initScreenType(int width){
-        this.width = width;
-        if(width>=600){
-            setWidth("30em");
+    private void initScreenType(int width) {
+        if (width >= 600) {
+            this.width = 30;
             this.screenType = ScreenType.LARGE;
-        }else {
-            setWidth("18em");
+        } else {
+            this.width = 18;
             this.screenType = ScreenType.SMALL;
         }
+        setWidth(this.width+"em");
     }
 }
