@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui.currentmatch;
 
+import cn.easyproject.easycommons.imageutils.EasyImageCompressionUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -24,12 +25,18 @@ import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.TimeUtilService;
 import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MatchView extends ResponsiveVerticalLayout {
 
@@ -269,12 +276,14 @@ public class MatchView extends ResponsiveVerticalLayout {
 
     private Component createUploadView() {
 
+        upload.setWidth("12em");
+        upload.setUploadButton(new Button("사진 올리기"));
+        upload.setDropAllowed(false);
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setMaxFileSize(10 * 1024 * 1024);//10MB
+
         MemoryBuffer buffer = new MemoryBuffer();
         upload.setReceiver(buffer);
-        upload.setUploadButton(new Button("사진 올리기"));
-        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
-        upload.setDropAllowed(false);
-        upload.setMaxFileSize(10 * 1024 * 1024);
 
         Account account = accountService.getCurrentAccount();
 
@@ -291,12 +300,21 @@ public class MatchView extends ResponsiveVerticalLayout {
         });
 
         upload.addSucceededListener(event -> {
+
             try {
+                //image 전처리
+                File tempFile = File.createTempFile("v0o0v_image", ".tmp");
+                FileUtils.copyInputStreamToFile(buffer.getInputStream(),tempFile);
+                EasyImageCompressionUtils.compressPicByMaxHeight(tempFile, 600);
+
+                //s3에 upload
                 String filename = gameMatchService.uploadImage(
-                        buffer.getInputStream()
+                        new FileInputStream(tempFile)
                         , event.getMIMEType()
                         , account
                 );
+
+                //db에 image filename 추가
                 gameMatch = gameMatchService.addImage(gameMatch, filename, account);
                 imageViewReset();
             } catch (Exception e) {
