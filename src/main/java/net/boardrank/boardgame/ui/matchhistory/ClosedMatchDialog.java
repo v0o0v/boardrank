@@ -168,8 +168,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         upload.addSucceededListener(event -> {
             try {
                 String filename = gameMatchService.uploadImage(
-                        gameMatch
-                        , buffer.getInputStream()
+                        buffer.getInputStream()
                         , event.getMIMEType()
                         , account
                 );

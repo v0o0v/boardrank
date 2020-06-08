@@ -166,15 +166,23 @@ public class MatchView extends ResponsiveVerticalLayout {
     }
 
     private void toFinished() {
-        ScoreInputDialog scoreInputDialog = new ScoreInputDialog(gameMatch, event -> {
-            this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.finished);
-            this.gameMatch = gameMatchService.setFinishTime(gameMatch, LocalDateTime.now());
-            this.gameMatch = gameMatchService.save(gameMatch);
-            gridParty.setItems(gameMatch.getRankentries());
-            applyGameStatus();
-            resetValue();
-        });
-        scoreInputDialog.open();
+
+        try {
+            ScoreInputDialog scoreInputDialog = new ScoreInputDialog(gameMatch);
+            scoreInputDialog.open();
+
+            scoreInputDialog.addDialogSuccessCloseActionEvent(event -> {
+                this.gameMatch = gameMatchService.setGameMatchStatus(gameMatch, GameMatchStatus.finished);
+                this.gameMatch = gameMatchService.setFinishTime(gameMatch, LocalDateTime.now());
+                gameMatch.copyRankEntryValue(scoreInputDialog.getGameMatch());
+                this.gameMatch = gameMatchService.save(gameMatch);
+                gridParty.setItems(gameMatch.getRankentries());
+                applyGameStatus();
+                resetValue();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void toInProgress() {
@@ -222,14 +230,14 @@ public class MatchView extends ResponsiveVerticalLayout {
 
         form.add(combo_bgProvider, 1);
         combo_bgProvider.setLabel("보드게임 제공");
-        combo_bgProvider.setItems(gameMatch.getAllParticiants());
+        combo_bgProvider.setItems(accountService.getCurrentAccount().getMeAndFriends());
         if (gameMatch.getBoardgameProvider() != null)
             combo_bgProvider.setValue(gameMatch.getBoardgameProvider());
         combo_bgProvider.setClearButtonVisible(true);
 
         form.add(combo_ruleSupporter, 1);
         combo_ruleSupporter.setLabel("룰 설명");
-        combo_ruleSupporter.setItems(gameMatch.getAllParticiants());
+        combo_ruleSupporter.setItems(accountService.getCurrentAccount().getMeAndFriends());
         if (gameMatch.getRankentries() != null)
             combo_ruleSupporter.setValue(gameMatch.getRuleSupporter());
         combo_ruleSupporter.setClearButtonVisible(true);
@@ -285,8 +293,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         upload.addSucceededListener(event -> {
             try {
                 String filename = gameMatchService.uploadImage(
-                        gameMatch
-                        , buffer.getInputStream()
+                        buffer.getInputStream()
                         , event.getMIMEType()
                         , account
                 );
@@ -335,7 +342,6 @@ public class MatchView extends ResponsiveVerticalLayout {
 
         if (gameMatch.getImages().size() < 5) upload.setVisible(true);
         else upload.setVisible(false);
-
     }
 
     private Grid createPartyGrid() {

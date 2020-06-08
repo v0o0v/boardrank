@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = "id")
 public class Account {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String email;
@@ -49,7 +50,7 @@ public class Account {
         this(email, pw, new HashSet<>(Arrays.asList(AccountRole.USER)), name);
     }
 
-    public void addFriend(Friend friend){
+    public void addFriend(Friend friend) {
         this.friends.add(friend);
     }
 
@@ -58,14 +59,28 @@ public class Account {
         return this.getName();
     }
 
-    public List<Account> getFriendsAsAccounType(){
+    public List<Account> getFriendsAsAccounType() {
         return this.getFriends().stream()
                 .map(Friend::getFriend)
                 .collect(Collectors.toList())
-        ;
+                ;
+    }
+
+    public List<Account> getMeAndFriends() {
+        List all = new ArrayList();
+        all.add(this);
+        all.addAll(this.friends.stream()
+                .map(Friend::getFriend)
+                .collect(Collectors.toList())
+        );
+        return all;
     }
 
     public void addBP(int bp) {
-        this.boardPoint+=bp;
+        this.boardPoint += bp;
+    }
+
+    public void addAP(int ap) {
+        this.angelPoint += ap;
     }
 }

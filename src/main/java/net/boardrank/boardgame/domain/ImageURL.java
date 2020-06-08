@@ -34,9 +34,12 @@ public class ImageURL {
 
     private LocalDateTime createdTime = LocalDateTime.now();
 
+    private boolean didDownSize;
+
     public ImageURL(Account owner, String filename, GameMatch gameMatch) {
         this.owner = owner;
         this.filename = filename;
         this.gameMatch = gameMatch;
+        this.didDownSize = false;
     }
 }

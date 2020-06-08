@@ -47,6 +47,11 @@ public class GameMatchService {
 
 
     @Transactional
+    public GameMatch getGameMatch(Long id) {
+        return this.gameMatchRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    @Transactional
     public List<GameMatch> getGamesOfCurrentSessionAccount() {
         return this.gameMatchRepository.findGameMatchesByRankentriesAccount(this.accountService.getCurrentAccount());
     }
@@ -177,17 +182,17 @@ public class GameMatchService {
         return this.save(match);
     }
 
-    public String uploadImage(GameMatch gameMatch, InputStream inputStream, String mime, Account uploader) throws Exception {
+    public String uploadImage(InputStream inputStream, String mime, Account uploader) throws Exception {
         String filename = UUID.randomUUID().toString();
-        switch (mime){
+        switch (mime) {
             case "image/jpeg":
-                filename = filename+".jpg";
+                filename = filename + ".jpg";
                 break;
             case "image/png":
-                filename = filename+".png";
+                filename = filename + ".png";
                 break;
             case "image/gif":
-                filename = filename+".gif";
+                filename = filename + ".gif";
                 break;
             default:
                 throw new RuntimeException("지원하지 않는 파일 형식입니다.");
@@ -215,7 +220,7 @@ public class GameMatchService {
         return this.save(gameMatch);
     }
 
-    public String getURLAsCloundFront(String filename){
+    public String getURLAsCloundFront(String filename) {
         return s3Service.getURLAsCloundFront(filename);
     }
 

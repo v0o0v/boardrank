@@ -3,7 +3,6 @@ package net.boardrank.boardgame.ui.currentmatch;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
@@ -29,9 +28,9 @@ public class ScoreInputDialog extends ResponsiveDialog {
 
     private Board board = new Board();
 
-    public ScoreInputDialog(GameMatch gameMatch, ComponentEventListener<DialogSuccessCloseActionEvent> listener) {
+    public ScoreInputDialog(GameMatch gameMatch) {
+
         this.gameMatch = gameMatch;
-        getEventBus().addListener(DialogSuccessCloseActionEvent.class, listener);
 
         setCloseOnEsc(false);
         setCloseOnOutsideClick(false);
@@ -46,6 +45,13 @@ public class ScoreInputDialog extends ResponsiveDialog {
         update();
     }
 
+    public void addDialogSuccessCloseActionEvent(ComponentEventListener listener){
+        getEventBus().addListener(DialogSuccessCloseActionEvent.class, listener);
+    }
+    public GameMatch getGameMatch() {
+        return gameMatch;
+    }
+
     private void createHeader() {
         board.addRow(new Label("게임 결과 입력"));
     }
@@ -57,7 +63,6 @@ public class ScoreInputDialog extends ResponsiveDialog {
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
             Button btn_user = new Button(rankEntry.getAccount().getName());
             VerticalLayout layout = new VerticalLayout(btn_user);
-//            layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.START);
             return layout;
         })).setHeader("참가자").setWidth("6em");
 
@@ -65,7 +70,6 @@ public class ScoreInputDialog extends ResponsiveDialog {
             IntegerField num_score = new IntegerField();
             num_score.setWidth("4em");
             num_score.setHasControls(false);
-//            num_score.setStep(1);
             if (rankEntry.getScore() != null)
                 num_score.setValue(rankEntry.getScore());
 
@@ -82,7 +86,6 @@ public class ScoreInputDialog extends ResponsiveDialog {
         ).setHeader("등수").setWidth("3em");
 
         gridParty.getColumns().forEach(col -> {
-//            col.setAutoWidth(true);
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });

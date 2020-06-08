@@ -182,17 +182,11 @@ public class GameMatchCreateDialog extends ResponsiveDialog {
 
         combo_boardgameProvider = new ComboBox<>();
         combo_boardgameProvider.setLabel("보드게임 제공");
-        combo_boardgameProvider.setItems(this.accountService.getCurrentAccount().getFriends().stream()
-                .map(friend -> friend.getFriend())
-                .collect(Collectors.toList())
-        );
+        combo_boardgameProvider.setItems(this.accountService.getCurrentAccount().getMeAndFriends());
         layout_supportor.add(combo_boardgameProvider);
         combo_ruleSupporter = new ComboBox<>();
         combo_ruleSupporter.setLabel("룰 설명");
-        combo_ruleSupporter.setItems(this.accountService.getCurrentAccount().getFriends().stream()
-                .map(friend -> friend.getFriend())
-                .collect(Collectors.toList())
-        );
+        combo_ruleSupporter.setItems(this.accountService.getCurrentAccount().getMeAndFriends());
         layout_supportor.add(combo_ruleSupporter);
 
         add(content);

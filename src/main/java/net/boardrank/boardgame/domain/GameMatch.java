@@ -199,4 +199,21 @@ public class GameMatch {
         }
         return null;
     }
+
+    public void copyRankEntryValue(GameMatch src) {
+        src.getRankentries().forEach(rankEntrySrc -> {
+            RankEntry rankEntryDest = this.getRankEntry(rankEntrySrc.getAccount());
+            if(rankEntryDest==null) return;
+            rankEntryDest.setScore(rankEntrySrc.getScore());
+            rankEntryDest.setRank(rankEntrySrc.getRank());
+        });
+    }
+
+    public RankEntry getRankEntry(Account account){
+        for(RankEntry rankEntry : this.getRankentries()){
+            if(rankEntry.getAccount().equals(account))
+                return rankEntry;
+        }
+        return null;
+    }
 }
