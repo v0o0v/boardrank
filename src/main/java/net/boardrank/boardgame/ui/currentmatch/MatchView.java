@@ -279,7 +279,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         upload.setWidth("12em");
         upload.setUploadButton(new Button("사진 올리기"));
         upload.setDropAllowed(false);
-        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setAcceptedFileTypes("image/jpeg");
         upload.setMaxFileSize(10 * 1024 * 1024);//10MB
 
         MemoryBuffer buffer = new MemoryBuffer();
@@ -307,16 +307,17 @@ public class MatchView extends ResponsiveVerticalLayout {
                 File tempFile = File.createTempFile(tempFileName, ".tmp");
                 OutputStream os = new FileOutputStream(tempFile);
 
-                ImageWriter writer = (ImageWriter) ImageIO.getImageWritersByFormatName("jpg").next();
+                ImageWriter writer = (ImageWriter) ImageIO.getImageWritersByMIMEType(event.getMIMEType()).next();
+
                 writer.setOutput(ImageIO.createImageOutputStream(os));
 
                 ImageWriteParam param = writer.getDefaultWriteParam();
 
                 param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-                param.setCompressionQuality(0.95f);
+                param.setCompressionQuality(0.8f);
 
                 //resize
-                BufferedImage bufferedImage = ImageUtilService.resizeByWidth(ImageIO.read(buffer.getInputStream()), 1024);
+                BufferedImage bufferedImage = ImageUtilService.resizeByWidth(ImageIO.read(buffer.getInputStream()), 1200);
 
                 writer.write(null
                         , new IIOImage(bufferedImage, null, null)
