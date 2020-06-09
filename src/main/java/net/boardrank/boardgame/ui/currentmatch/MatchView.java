@@ -18,6 +18,7 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.*;
 import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 public class MatchView extends ResponsiveVerticalLayout {
 
     private GameMatchService gameMatchService;
@@ -306,26 +308,28 @@ public class MatchView extends ResponsiveVerticalLayout {
                 String tempFileName = UUID.randomUUID().toString();
                 File tempFile = File.createTempFile(tempFileName, ".tmp");
                 OutputStream os = new FileOutputStream(tempFile);
-
                 ImageWriter writer = (ImageWriter) ImageIO.getImageWritersByMIMEType(event.getMIMEType()).next();
-
                 writer.setOutput(ImageIO.createImageOutputStream(os));
 
-                ImageWriteParam param = writer.getDefaultWriteParam();
-
-                param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-                param.setCompressionQuality(0.8f);
-
                 //resize
-                BufferedImage bufferedImage = ImageUtilService.resizeByWidth(ImageIO.read(buffer.getInputStream()), 1200);
+                BufferedImage originalImage = ImageIO.read(buffer.getInputStream());
+                int type = originalImage.getType();
+                BufferedImage ResizedImage = originalImage.getWidth() >= originalImage.getHeight()
+                        ? ImageUtilService.resizeByWidth(originalImage, 1600)
+                        : ImageUtilService.resizeByHeight(originalImage, 1600);
 
+                //compress
+                ImageWriteParam param = writer.getDefaultWriteParam();
+                param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                param.setCompressionQuality(0.9f);
                 writer.write(null
-                        , new IIOImage(bufferedImage, null, null)
+                        , new IIOImage(ResizedImage, null, null)
                         , param);
 
                 //s3에 upload
                 String filename = gameMatchService.uploadImage(
                         new FileInputStream(tempFile)
+//                        buffer.getInputStream()
                         , event.getMIMEType()
                         , account
                 );
@@ -338,6 +342,7 @@ public class MatchView extends ResponsiveVerticalLayout {
                 gameMatch = gameMatchService.addImage(gameMatch, filename, account);
                 imageViewReset();
             } catch (Exception e) {
+                log.error("이미지 업로드 시 문제 발생", e);
                 Notification notification = new Notification("문제가 발생하였습니다.");
                 notification.setDuration(1500);
                 notification.open();
@@ -365,7 +370,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private void imageViewReset() {
         imageView.removeAll();
         gameMatch.getImages().forEach(imageURL -> {
-            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "파일어딨니");
+            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "No Image");
             image.setMaxWidth((width - 3) + "em");
             imageView.add(image);
             imageView.setHorizontalComponentAlignment(Alignment.CENTER, image);
