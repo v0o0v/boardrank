@@ -308,13 +308,12 @@ public class MatchView extends ResponsiveVerticalLayout {
                 String tempFileName = UUID.randomUUID().toString();
                 File tempFile = File.createTempFile(tempFileName, ".tmp");
                 OutputStream os = new FileOutputStream(tempFile);
-                ImageWriter writer = (ImageWriter) ImageIO.getImageWritersByMIMEType(event.getMIMEType()).next();
+                ImageWriter writer = ImageIO.getImageWritersByMIMEType(event.getMIMEType()).next();
                 writer.setOutput(ImageIO.createImageOutputStream(os));
 
                 //resize
                 BufferedImage originalImage = ImageIO.read(buffer.getInputStream());
-                int type = originalImage.getType();
-                BufferedImage ResizedImage = originalImage.getWidth() >= originalImage.getHeight()
+                BufferedImage resizedImage = originalImage.getWidth() >= originalImage.getHeight()
                         ? ImageUtilService.resizeByWidth(originalImage, 1600)
                         : ImageUtilService.resizeByHeight(originalImage, 1600);
 
@@ -323,13 +322,12 @@ public class MatchView extends ResponsiveVerticalLayout {
                 param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
                 param.setCompressionQuality(0.9f);
                 writer.write(null
-                        , new IIOImage(ResizedImage, null, null)
+                        , new IIOImage(resizedImage, null, null)
                         , param);
 
                 //s3에 upload
                 String filename = gameMatchService.uploadImage(
                         new FileInputStream(tempFile)
-//                        buffer.getInputStream()
                         , event.getMIMEType()
                         , account
                 );
