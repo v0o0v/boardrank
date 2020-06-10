@@ -53,8 +53,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/icons/**",
                 "/images/**",
                 "/styles/**",
-                "/h2-console/**")
-        ;
+                "/h2-console/**",
+                "/docs/**"
+        );
     }
 
     @Bean
