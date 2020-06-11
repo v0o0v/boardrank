@@ -20,12 +20,17 @@ public class LoginView extends VerticalLayout {
         Anchor googleLoginButton = new Anchor(URL, new Image("icons/google.png", "Google Login"));
         add(googleLoginButton);
 
+        Image boardRank = new Image("logo/android-chrome-192x192.png", "BoardRank");
+        boardRank.setMaxWidth("128px");
+        boardRank.setMaxHeight("128px");
         add(
                 new H1("")
-                ,new Image("icons/bigTitle.png", "BoardRank")
+                , new H1("")
+                , boardRank
                 , new H1("")
                 , googleLoginButton
-         );
+        );
     }
 }
+
 
