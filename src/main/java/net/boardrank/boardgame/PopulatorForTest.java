@@ -42,20 +42,21 @@ public class PopulatorForTest implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
 
-        Account a = accountService.addNewAccount("a@a.a","1","a");
-        Account b = accountService.addNewAccount("b@b.b","1","b");
-        Account c = accountService.addNewAccount("c@c.c","1","c");
-        Account d = accountService.addNewAccount("d@d.d","1","d");
+        Account mskim = accountService.addNewAccount("v0o0v2@gmail.com","v0o0v"
+                ,"https://lh3.googleusercontent.com/a-/AOh14GhOO7GhiYH7vKpCh5U3cwI37dNHsVecnw6yQwGrSA=s96-c");
+        Account b = accountService.addNewAccount("b@b.b","b",null);
+        Account c = accountService.addNewAccount("c@c.c","c",null);
+        Account d = accountService.addNewAccount("d@d.d","d",null);
 
-        this.accountService.makeFriend(a, b);
-        this.accountService.makeFriend(a, c);
+        this.accountService.makeFriend(mskim, b);
+        this.accountService.makeFriend(mskim, c);
 
-        Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", a, false, null);
-        Boardgame 격동 = this.boardgameService.addBoardgame("격동", a, true, 테라포밍마스);
-        Boardgame 비너스 = this.boardgameService.addBoardgame("비너스", a, true, 테라포밍마스);
-        Boardgame 마르코폴로 = this.boardgameService.addBoardgame("마르코폴로", a, false, null);
+        Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", mskim, false, null);
+        Boardgame 격동 = this.boardgameService.addBoardgame("격동", mskim, true, 테라포밍마스);
+        Boardgame 비너스 = this.boardgameService.addBoardgame("비너스", mskim, true, 테라포밍마스);
+        Boardgame 마르코폴로 = this.boardgameService.addBoardgame("마르코폴로", mskim, false, null);
 
-        GameMatch gameMatch = this.gameMatchService.makeNewMatch(테라포밍마스, Arrays.asList(a, b), a);
+        GameMatch gameMatch = this.gameMatchService.makeNewMatch(테라포밍마스, Arrays.asList(mskim, b), mskim);
         gameMatch = this.gameMatchService.addExpansion(gameMatch, Arrays.asList(격동));
 
         gameMatch.getRankentries().forEach(rankEntry -> {
@@ -65,15 +66,15 @@ public class PopulatorForTest implements ApplicationRunner {
         gameMatch.setStartedTime(LocalDateTime.now());
         gameMatch.setFinishedTime(LocalDateTime.now());
         gameMatch.setAcceptedTime(LocalDateTime.now());
-        gameMatch.setBoardgameProvider(a);
-        gameMatch.setRuleSupporter(a);
+        gameMatch.setBoardgameProvider(mskim);
+        gameMatch.setRuleSupporter(mskim);
         gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
         gameMatch = gameMatchService.save(gameMatch);
 
 
-        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch(마르코폴로, Arrays.asList(a, b), a);
+        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch(마르코폴로, Arrays.asList(mskim, b), mskim);
 
-        accountService.requestFriend(d,a);
+        accountService.requestFriend(d,mskim);
     }
 
 }

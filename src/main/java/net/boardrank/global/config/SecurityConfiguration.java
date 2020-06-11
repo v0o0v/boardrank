@@ -15,25 +15,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN_PROCESSING_URL = "/login";
-    private static final String LOGIN_FAILURE_URL = "/login?error";
+//    private static final String LOGIN_PROCESSING_URL = "/login";
+//    private static final String LOGIN_FAILURE_URL = "/login?error";
+//    private static final String LOGIN_URL = "/login";
+//    private static final String LOGOUT_SUCCESS_URL = "/login";
+
     private static final String LOGIN_URL = "/login";
-    private static final String LOGOUT_SUCCESS_URL = "/login";
+    private static final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_SUCCESS_URL = "/";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .requestCache().requestCache(new VaddinInternalRequestSkipRequestCache())
-                .and().authorizeRequests()
-                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
-                .anyRequest().authenticated()
-
-                .and().formLogin()
-                .loginPage(LOGIN_URL).permitAll()
-                .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL)
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+                .and()
+                    .authorizeRequests().requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .oauth2Login()
+                        .loginPage(LOGIN_URL).permitAll()
+                .and()
+                    .logout().logoutUrl(LOGOUT_URL).logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
     @Override
@@ -56,16 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/h2-console/**",
                 "/docs/**"
         );
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
     }
 
 }

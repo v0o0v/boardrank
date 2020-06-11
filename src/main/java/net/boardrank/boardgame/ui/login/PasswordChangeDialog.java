@@ -53,7 +53,7 @@ public class PasswordChangeDialog extends ResponsiveDialog {
         confirm.addClickListener(buttonClickEvent -> {
             try {
                 checkValidation();
-                accountService.changePassword(accountService.getCurrentAccount().getEmail(), passwordField1.getValue());
+//                accountService.changePassword(accountService.getCurrentAccount().getEmail(), passwordField1.getValue());
                 Notification notification = new Notification("비밀번호가 변경되었습니다.");
                 notification.setDuration(1500);
                 notification.open();

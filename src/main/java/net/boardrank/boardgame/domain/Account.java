@@ -22,12 +22,12 @@ public class Account {
 
     private String name;
 
+    private String pictureURL;
+
     private Integer boardPoint;
 
     private Integer angelPoint;
 
-    @JsonIgnore
-    private String password;
 
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -37,17 +37,17 @@ public class Account {
     private Set<Friend> friends = new HashSet<>();
 
     @Builder
-    public Account(String email, String password, Set<AccountRole> roles, String name) {
+    public Account(String email, Set<AccountRole> roles, String name, String picture) {
         this.email = email;
-        this.password = password;
         this.roles = roles;
         this.name = name;
         this.boardPoint = 1000;
         this.angelPoint = 0;
+        this.pictureURL = picture;
     }
 
-    public Account(String email, String pw, String name) {
-        this(email, pw, new HashSet<>(Arrays.asList(AccountRole.USER)), name);
+    public Account(String email, String name, String picture) {
+        this(email, new HashSet<>(Arrays.asList(AccountRole.USER)), name, picture);
     }
 
     public void addFriend(Friend friend) {
