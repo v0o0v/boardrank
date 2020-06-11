@@ -6,7 +6,10 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -71,12 +74,20 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
 
         DrawerToggle drawerToggle = new DrawerToggle();
-        Image boardRank = new Image("logo/android-chrome-192x192.png", "BoardRank");
-        boardRank.setMaxHeight("32px");
-        boardRank.setMaxWidth("32px");
+        Image boardRank = new Image("logo/title.png", "BoardRank");
+        boardRank.setMaxWidth("150px");
         drawerToggle.setIcon(boardRank);
+        drawerToggle.setMaxWidth("150px");
         HorizontalLayout header = new HorizontalLayout(
-                new H5(""), drawerToggle, lbl_empty, createMatch, user, logout, new H5("")
+                new H5("")
+                , new H5("")
+                , new H5("")
+                , drawerToggle
+                , lbl_empty
+                , createMatch
+                , user
+                , logout
+                , new H5("")
         );
         header.setWidth("100%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
