@@ -26,8 +26,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .oauth2Login()
                         .loginPage(LOGIN_URL).permitAll()
+                        .defaultSuccessUrl("/",true).permitAll()
                 .and()
-                    .logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+                    .logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL).permitAll();
     }
 
     @Override
@@ -45,6 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/sw.js",
                 "/offline.html",
                 "/icons/**",
+                "/logo/**",
+                "/background/**",
+                "/text/**",
                 "/images/**",
                 "/styles/**",
                 "/h2-console/**",
