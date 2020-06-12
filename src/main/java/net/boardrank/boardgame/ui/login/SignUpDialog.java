@@ -66,7 +66,7 @@ public class SignUpDialog extends ResponsiveDialog {
         confirm.addClickListener(buttonClickEvent -> {
             try {
                 checkValidation();
-                accountService.addNewAccount(emailField.getValue(), passwordField1.getValue(), name.getValue());
+                accountService.addNewAccount(emailField.getValue(), name.getValue(), null, null);
                 Dialog welcomePopup = new Dialog(new Label("가입을 축하드립니다."));
                 welcomePopup.open();
                 close();
@@ -83,27 +83,27 @@ public class SignUpDialog extends ResponsiveDialog {
     }
 
     private void checkValidation() {
-        if(emailField.isInvalid())
+        if (emailField.isInvalid())
             throw new RuntimeException("email 형식이 아닙니다.");
 
-        if(emailField.isEmpty())
+        if (emailField.isEmpty())
             throw new RuntimeException("email을 입력해주세요.");
 
-        if(accountService.isExistEmail(emailField.getValue()))
+        if (accountService.isExistEmail(emailField.getValue()))
             throw new RuntimeException("이미 있는 email입니다.");
 
 
-        if(passwordField1.isEmpty() || passwordField2.isEmpty())
+        if (passwordField1.isEmpty() || passwordField2.isEmpty())
             throw new RuntimeException("password를 입력해주세요.");
-        
-        if(!passwordField1.getValue().equals(passwordField2.getValue())) {
+
+        if (!passwordField1.getValue().equals(passwordField2.getValue())) {
             throw new RuntimeException("패스워드가 동일하지 않습니다.");
         }
 
-        if(name.isEmpty())
+        if (name.isEmpty())
             throw new RuntimeException("name을 입력해 주세요.");
 
-        if(accountService.isExistName(name.getValue()))
+        if (accountService.isExistName(name.getValue()))
             throw new RuntimeException("이미 있는 이름입니다.");
     }
 }

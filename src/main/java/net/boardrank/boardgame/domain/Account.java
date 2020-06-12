@@ -28,6 +28,8 @@ public class Account {
 
     private Integer angelPoint;
 
+    private String locale;
+
 
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -37,17 +39,18 @@ public class Account {
     private Set<Friend> friends = new HashSet<>();
 
     @Builder
-    public Account(String email, Set<AccountRole> roles, String name, String picture) {
+    public Account(String email, Set<AccountRole> roles, String name, String picture, String locale) {
         this.email = email;
         this.roles = roles;
         this.name = name;
         this.boardPoint = 1000;
         this.angelPoint = 0;
         this.pictureURL = picture;
+        this.locale = locale;
     }
 
-    public Account(String email, String name, String picture) {
-        this(email, new HashSet<>(Arrays.asList(AccountRole.USER)), name, picture);
+    public Account(String email, String name, String picture, String locale) {
+        this(email, new HashSet<>(Arrays.asList(AccountRole.USER)), name, picture, locale);
     }
 
     public void addFriend(Friend friend) {

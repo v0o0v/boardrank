@@ -88,7 +88,9 @@ public class AccountService {
         if (!account.isPresent()) {
             Account newAccount = addNewAccount(principal.getAttribute("email")
                     , principal.getAttribute("name")
-                    , principal.getAttribute("picture"));
+                    , principal.getAttribute("picture")
+                    , principal.getAttribute("locale")
+            );
             return newAccount;
         }
         return account.get();
@@ -106,11 +108,11 @@ public class AccountService {
     }
 
     @Transactional
-    public Account addNewAccount(String email, String name, String picture) {
+    public Account addNewAccount(String email, String name, String picture, String locale) {
         if (isExistEmail(email))
             throw new RuntimeException("이미 있는 email입니다.");
 
-        Account account = new Account(email, name, picture);
+        Account account = new Account(email, name, picture, locale);
 
         return this.accountRepository.save(account);
     }
