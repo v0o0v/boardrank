@@ -124,12 +124,16 @@ public class ClosedMatchDialog extends ResponsiveDialog {
 
         form.add(this.createPartyGrid(),2);
         startDate.setLabel("시작 날짜");
+        startDate.setReadOnly(true);
         form.add(startDate, 1);
         startTime.setLabel("시작 시간");
+        startTime.setReadOnly(true);
         form.add(startTime, 1);
         finishedDate.setLabel("종료 날짜");
+        finishedDate.setReadOnly(true);
         form.add(finishedDate,1);
         finishedTime.setLabel("종료 시간");
+        finishedTime.setReadOnly(true);
         form.add(finishedTime,1);
 
         form.add(createImageView(), 2);
