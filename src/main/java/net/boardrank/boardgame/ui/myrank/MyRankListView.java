@@ -2,9 +2,11 @@ package net.boardrank.boardgame.ui.myrank;
 
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.UserButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +34,9 @@ public class MyRankListView extends ResponsiveVerticalLayout {
         grid.setSizeFull();
         grid.removeAllColumns();
 
-        grid.addColumn(account -> {
-            return account.getName();
-        }).setHeader("이름");
+        grid.addColumn(new ComponentRenderer<>(account -> {
+            return new UserButton(account);
+        })).setHeader("이름");
 
         Grid.Column<Account> board_point = grid.addColumn(account -> {
             return account.getBoardPoint();

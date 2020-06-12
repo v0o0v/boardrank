@@ -43,7 +43,7 @@ public class PopulatorForTest implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         Account mskim = accountService.addNewAccount("v0o0v2@gmail.com","v0o0v"
-                ,"https://lh3.googleusercontent.com/a-/AOh14GhOO7GhiYH7vKpCh5U3cwI37dNHsVecnw6yQwGrSA=s96-c", "ko");
+                ,"https://lh3.googleusercontent.com/a-/AOh14GhLBU5mmkfJrHa6gCQXLd-pOxIaB4F9KMtgE8V5-w=s96-c", "ko");
         Account boardrank = accountService.addNewAccount("root.boardrank@gmail.com","root.boardrank",null,"ko");
         Account c = accountService.addNewAccount("c@c.c","c",null, null);
         Account d = accountService.addNewAccount("d@d.d","d",null, null);
