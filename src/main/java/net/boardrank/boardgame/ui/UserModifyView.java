@@ -1,5 +1,7 @@
 package net.boardrank.boardgame.ui;
 
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,8 +32,13 @@ public class UserModifyView extends VerticalLayout {
         profileImage.setMaxWidth("96px");
         profileImage.setMaxHeight("96px");
         VerticalLayout profile_layout = new VerticalLayout(profileImage);
-        profile_layout.setHorizontalComponentAlignment(Alignment.CENTER);
         profile_layout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+        profile_layout.setJustifyContentMode(JustifyContentMode.CENTER);
+        profile_layout.add(new Button("Google에서 가져오기", event -> {
+            this.account = accountService.syncProfileImage(account);
+            UI.getCurrent().getPage().reload();
+        }));
+
 
         form.addFormItem(profile_layout,"Profile Image");
         form.add(new TextField("이름", account.getName(), ""));
@@ -39,5 +46,4 @@ public class UserModifyView extends VerticalLayout {
 
         add(new ResponsiveVerticalLayout(form));
     }
-
 }

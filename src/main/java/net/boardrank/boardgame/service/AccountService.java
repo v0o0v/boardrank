@@ -97,8 +97,18 @@ public class AccountService {
                     , principal.getAttribute("picture"));
             return newAccount;
         }
-
         return account.get();
+    }
+
+    @Transactional
+    public Account syncProfileImage(Account account) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
+
+        account = accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
+
+        account.setPictureURL(principal.getAttribute("picture"));
+        return account;
     }
 
     @Transactional
