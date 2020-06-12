@@ -45,6 +45,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private AccountService accountService;
 
     private GameMatch gameMatch;
+    private Account currentAccount;
 
     private Button btn_changeMatchStatus = new Button();
     private ComboBox<Boardgame> combo_boardgame = new ComboBox<>();
@@ -60,6 +61,7 @@ public class MatchView extends ResponsiveVerticalLayout {
     private VerticalLayout imageView;
     private Upload upload = new Upload();
 
+
     public MatchView(GameMatchService gameMatchService
             , GameMatch gameMatch
             , BoardgameService boardgameService
@@ -69,6 +71,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         this.boardgameService = boardgameService;
         this.accountService = accountService;
         this.gameMatch = gameMatch;
+        this.currentAccount = this.accountService.getCurrentAccount();
 
         initLayout();
         initComponent();
@@ -373,13 +376,14 @@ public class MatchView extends ResponsiveVerticalLayout {
             image.setMaxWidth((width - 3) + "em");
             imageView.add(image);
             imageView.setHorizontalComponentAlignment(Alignment.CENTER, image);
-            Button button = new Button("삭제", event -> {
+            Button btn_remove = new Button("삭제", event -> {
                 gameMatch = gameMatchService.deleteImage(gameMatch, imageURL.getFilename());
                 imageViewReset();
             });
-            button.addThemeVariants(ButtonVariant.LUMO_SMALL);
-            imageView.add(button);
-            imageView.setHorizontalComponentAlignment(Alignment.START, button);
+            btn_remove.addThemeVariants(ButtonVariant.LUMO_SMALL);
+            if (currentAccount.equals(imageURL.getOwner()))
+                imageView.add(btn_remove);
+            imageView.setHorizontalComponentAlignment(Alignment.START, btn_remove);
         });
 
         if (gameMatch.getImages().size() < 5) upload.setVisible(true);

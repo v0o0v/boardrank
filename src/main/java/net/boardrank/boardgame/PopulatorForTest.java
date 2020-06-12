@@ -44,11 +44,11 @@ public class PopulatorForTest implements ApplicationRunner {
 
         Account mskim = accountService.addNewAccount("v0o0v2@gmail.com","v0o0v"
                 ,"https://lh3.googleusercontent.com/a-/AOh14GhOO7GhiYH7vKpCh5U3cwI37dNHsVecnw6yQwGrSA=s96-c");
-        Account b = accountService.addNewAccount("b@b.b","b",null);
+        Account boardrank = accountService.addNewAccount("root.boardrank@gmail.com","root.boardrank",null);
         Account c = accountService.addNewAccount("c@c.c","c",null);
         Account d = accountService.addNewAccount("d@d.d","d",null);
 
-        this.accountService.makeFriend(mskim, b);
+        this.accountService.makeFriend(mskim, boardrank);
         this.accountService.makeFriend(mskim, c);
 
         Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", mskim, false, null);
@@ -56,23 +56,23 @@ public class PopulatorForTest implements ApplicationRunner {
         Boardgame 비너스 = this.boardgameService.addBoardgame("비너스", mskim, true, 테라포밍마스);
         Boardgame 마르코폴로 = this.boardgameService.addBoardgame("마르코폴로", mskim, false, null);
 
-        GameMatch gameMatch = this.gameMatchService.makeNewMatch(테라포밍마스, Arrays.asList(mskim, b), mskim);
-        gameMatch = this.gameMatchService.addExpansion(gameMatch, Arrays.asList(격동));
+        GameMatch gameMatch1 = this.gameMatchService.makeNewMatch(테라포밍마스, Arrays.asList(mskim, boardrank), mskim);
+        gameMatch1 = this.gameMatchService.addExpansion(gameMatch1, Arrays.asList(격동));
 
-        gameMatch.getRankentries().forEach(rankEntry -> {
+        gameMatch1.getRankentries().forEach(rankEntry -> {
             rankEntry.setRank(1);
             rankEntry.setScore(10);
         });
-        gameMatch.setStartedTime(LocalDateTime.now());
-        gameMatch.setFinishedTime(LocalDateTime.now());
-        gameMatch.setAcceptedTime(LocalDateTime.now());
-        gameMatch.setBoardgameProvider(mskim);
-        gameMatch.setRuleSupporter(mskim);
-        gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
-        gameMatch = gameMatchService.save(gameMatch);
+        gameMatch1.setStartedTime(LocalDateTime.now());
+        gameMatch1.setFinishedTime(LocalDateTime.now());
+        gameMatch1.setAcceptedTime(LocalDateTime.now());
+        gameMatch1.setBoardgameProvider(mskim);
+        gameMatch1.setRuleSupporter(mskim);
+        gameMatch1.setGameMatchStatus(GameMatchStatus.resultAccepted);
+        gameMatch1 = gameMatchService.save(gameMatch1);
 
 
-        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch(마르코폴로, Arrays.asList(mskim, b), mskim);
+        GameMatch gameMatch2 = this.gameMatchService.makeNewMatch(마르코폴로, Arrays.asList(mskim, boardrank), mskim);
 
         accountService.requestFriend(d,mskim);
     }

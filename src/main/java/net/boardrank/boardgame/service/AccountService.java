@@ -48,12 +48,6 @@ public class AccountService {
     @Value("${net.boardrank.friend.max}")
     Integer maxFriendNum;
 
-
-    @Transactional
-    public Account getAccountByUsername(String username) throws UsernameNotFoundException {
-        return this.accountRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
-    }
-
     private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
         return roles.stream()
                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
@@ -81,7 +75,7 @@ public class AccountService {
     }
 
     @Transactional
-    public List<Account> getAllByEmailContaining(String txt){
+    public List<Account> getAllByEmailContaining(String txt) {
         return this.accountRepository.getAllByEmailContaining(txt);
     }
 
@@ -91,9 +85,9 @@ public class AccountService {
         OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
 
         Optional<Account> account = accountRepository.findByEmail(principal.getAttribute("email"));
-        if(!account.isPresent()){
+        if (!account.isPresent()) {
             Account newAccount = addNewAccount(principal.getAttribute("email")
-                    , principal.getAttribute("given_name")
+                    , principal.getAttribute("name")
                     , principal.getAttribute("picture"));
             return newAccount;
         }
@@ -113,10 +107,10 @@ public class AccountService {
 
     @Transactional
     public Account addNewAccount(String email, String name, String picture) {
-        if(isExistEmail(email))
+        if (isExistEmail(email))
             throw new RuntimeException("이미 있는 email입니다.");
 
-        Account account = new Account(email,name, picture);
+        Account account = new Account(email, name, picture);
 
         return this.accountRepository.save(account);
     }
@@ -138,7 +132,7 @@ public class AccountService {
 
     @Transactional
     public void handleRequestFriend(Notice notice, NoticeResponse response) {
-        switch (response){
+        switch (response) {
             case Accept:
                 makeFriend(notice.getFrom(), notice.getTo());
                 break;

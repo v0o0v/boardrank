@@ -20,21 +20,33 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.service.ImageUtilService;
 import net.boardrank.boardgame.ui.ResponsiveDialog;
 import net.boardrank.boardgame.ui.currentmatch.MatchCommentListView;
 
+import javax.imageio.*;
+import javax.imageio.metadata.IIOMetadata;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 public class ClosedMatchDialog extends ResponsiveDialog {
 
     private GameMatchService gameMatchService;
     private GameMatch gameMatch;
+    private Account currentAccount;
 
     private ComboBox<Boardgame> combo_boardgame = new ComboBox<>();
     private List<ComboBox<Boardgame>> expansionBoardgameComboList = new ArrayList<>();
@@ -52,6 +64,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
     public ClosedMatchDialog(GameMatchService gameMatchService, GameMatch gameMatch) {
         this.gameMatchService = gameMatchService;
         this.gameMatch = gameMatch;
+        this.currentAccount = this.gameMatchService.getAccountService().getCurrentAccount();
 
         initComponent();
         resetValue();
@@ -148,12 +161,14 @@ public class ClosedMatchDialog extends ResponsiveDialog {
 
     private Component createUploadView() {
 
+        upload.setWidth("12em");
+        upload.setUploadButton(new Button("사진 올리기"));
+        upload.setDropAllowed(false);
+        upload.setAcceptedFileTypes("image/jpeg");
+        upload.setMaxFileSize(10 * 1024 * 1024);//10MB
+
         MemoryBuffer buffer = new MemoryBuffer();
         upload.setReceiver(buffer);
-        upload.setUploadButton(new Button("사진 올리기"));
-        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
-        upload.setDropAllowed(false);
-        upload.setMaxFileSize(10 * 1024 * 1024);
 
         Account account = gameMatchService.getAccountService().getCurrentAccount();
 
@@ -171,14 +186,46 @@ public class ClosedMatchDialog extends ResponsiveDialog {
 
         upload.addSucceededListener(event -> {
             try {
+
+                BufferedImage originalImage = ImageIO.read(buffer.getInputStream());
+                ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
+                reader.setInput(ImageIO.createImageInputStream(buffer.getInputStream()));
+                IIOMetadata metadata = reader.getImageMetadata(0);
+
+                //resize
+                BufferedImage resizedImage = originalImage.getWidth() >= originalImage.getHeight()
+                        ? ImageUtilService.resizeByWidth(originalImage, 1600)
+                        : ImageUtilService.resizeByHeight(originalImage, 1600);
+
+                //compress
+                ImageWriter writer = ImageIO.getImageWritersByMIMEType(event.getMIMEType()).next();
+                File tempFile = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
+                OutputStream os = new FileOutputStream(tempFile);
+                writer.setOutput(ImageIO.createImageOutputStream(os));
+                ImageWriteParam param = writer.getDefaultWriteParam();
+                param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                param.setCompressionQuality(0.9f);
+                writer.write(null
+                        , new IIOImage(resizedImage, null, metadata)
+                        , param);
+
+                //s3에 upload
                 String filename = gameMatchService.uploadImage(
-                        buffer.getInputStream()
+                        new FileInputStream(tempFile)
                         , event.getMIMEType()
                         , account
                 );
+
+                reader.dispose();
+                os.close();
+                writer.dispose();
+                tempFile.delete();
+
+                //db에 image filename 추가
                 gameMatch = gameMatchService.addImage(gameMatch, filename, account);
                 imageViewReset();
             } catch (Exception e) {
+                log.error("이미지 업로드 시 문제 발생", e);
                 Notification notification = new Notification("문제가 발생하였습니다.");
                 notification.setDuration(1500);
                 notification.open();
@@ -206,7 +253,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
     private void imageViewReset() {
         imageView.removeAll();
         gameMatch.getImages().forEach(imageURL -> {
-            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "파일어딨니");
+            Image image = new Image(gameMatchService.getURLAsCloundFront(imageURL.getFilename()), "No Image");
             image.setMaxWidth((width - 3) + "em");
             imageView.add(image);
             imageView.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, image);
@@ -215,7 +262,8 @@ public class ClosedMatchDialog extends ResponsiveDialog {
                 imageViewReset();
             });
             button.addThemeVariants(ButtonVariant.LUMO_SMALL);
-            imageView.add(button);
+            if (this.currentAccount.equals(imageURL.getOwner()))
+                imageView.add(button);
             imageView.setHorizontalComponentAlignment(FlexComponent.Alignment.START, button);
         });
 
