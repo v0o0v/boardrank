@@ -3,7 +3,6 @@ package net.boardrank.boardgame.ui.myfriend;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -15,7 +14,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.ui.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 import java.util.Set;

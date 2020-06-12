@@ -27,7 +27,7 @@ import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.ImageUtilService;
-import net.boardrank.boardgame.ui.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.currentmatch.MatchCommentListView;
 
 import javax.imageio.*;

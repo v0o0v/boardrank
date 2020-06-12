@@ -16,7 +16,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.RankEntry;
-import net.boardrank.boardgame.ui.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 @Slf4j

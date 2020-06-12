@@ -17,6 +17,7 @@ import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 import java.util.ArrayList;

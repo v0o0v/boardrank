@@ -22,7 +22,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.*;
-import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
 import javax.imageio.*;
 import javax.imageio.metadata.IIOMetadata;

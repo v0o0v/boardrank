@@ -1,7 +1,6 @@
 package net.boardrank.boardgame.ui;
 
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Boardgame;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 @Slf4j

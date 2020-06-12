@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Friend;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
 import java.time.format.DateTimeFormatter;
 

@@ -4,7 +4,7 @@ import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.List;

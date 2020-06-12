@@ -3,15 +3,12 @@ package net.boardrank.boardgame.ui.matchhistory;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
-import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.service.GameMatchService;
-import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 

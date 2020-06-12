@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.ui.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 
 @Slf4j
 public class PasswordChangeDialog extends ResponsiveDialog {

@@ -11,7 +11,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import net.boardrank.boardgame.service.AccountService;
-import net.boardrank.boardgame.ui.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 
 public class SignUpDialog extends ResponsiveDialog {
 

@@ -6,14 +6,12 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.GameMatchService;
-import net.boardrank.boardgame.ui.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
 import java.time.format.DateTimeFormatter;
 

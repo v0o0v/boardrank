@@ -1,4 +1,4 @@
-package net.boardrank.boardgame.ui;
+package net.boardrank.boardgame.ui.common;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
