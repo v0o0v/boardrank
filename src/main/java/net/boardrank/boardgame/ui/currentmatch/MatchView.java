@@ -1,6 +1,7 @@
 package net.boardrank.boardgame.ui.currentmatch;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -91,6 +92,14 @@ public class MatchView extends ResponsiveVerticalLayout {
 
     private void initEvent() {
         this.btn_changeMatchStatus.addClickListener(event -> {
+
+            GameMatch newGameMatch = gameMatchService.getGameMatch(gameMatch.getId());
+            if(!gameMatch.getGameMatchStatus().equals(newGameMatch.getGameMatchStatus())){
+                this.gameMatch = newGameMatch;
+                UI.getCurrent().getPage().reload();
+                return;
+            }
+
             switch (gameMatch.getGameMatchStatus()) {
                 case init:
                     toInProgress();
