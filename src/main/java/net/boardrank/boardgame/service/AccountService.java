@@ -61,8 +61,8 @@ public class AccountService {
     }
 
     @Transactional
-    public void saveAccount(Account account) {
-        this.accountRepository.saveAndFlush(account);
+    public Account saveAccount(Account account) {
+        return this.accountRepository.save(account);
     }
 
     @Transactional
@@ -106,9 +106,9 @@ public class AccountService {
         OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
 
         account = accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
-
         account.setPictureURL(principal.getAttribute("picture"));
-        return account;
+
+        return this.saveAccount(account);
     }
 
     @Transactional
@@ -170,5 +170,12 @@ public class AccountService {
         me.getFriends().remove(friend);
         accountRepository.save(me);
         friendRepository.delete(friend);
+    }
+
+    @Transactional
+    public Account changeName(Account account, String newName) {
+        account = this.accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
+        account.setName(newName);
+        return saveAccount(account);
     }
 }
