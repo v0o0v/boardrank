@@ -22,6 +22,7 @@ import com.vaadin.flow.server.PageConfigurator;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.common.UserIcon;
 import net.boardrank.boardgame.ui.currentmatch.CurrentMatchListTab;
 import net.boardrank.boardgame.ui.matchhistory.GameMatchHistoryTab;
 import net.boardrank.boardgame.ui.myfriend.FriendTab;
@@ -56,7 +57,11 @@ public class MainLayout extends AppLayout implements PageConfigurator {
 
         Anchor logout = new Anchor("/logout", new Icon(VaadinIcon.EXIT_O));
 
-        Anchor user = new Anchor("/userModifyView", new Icon(VaadinIcon.USER));
+        Anchor user = new Anchor("/userModifyView"
+                , accountService.getCurrentAccount().getPictureURL() == null
+                ? new Icon(VaadinIcon.USER)
+                : new UserIcon(accountService.getCurrentAccount())
+        );
 
         Button createMatch = new Button("새게임");
         createMatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
