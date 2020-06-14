@@ -3,11 +3,15 @@ package net.boardrank.boardgame.ui.matchhistory;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.domain.GameMatchStatus;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.UserButton;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -62,9 +66,15 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
             return match.getRankentries().size();
         }).setHeader("인원").setKey("인원");
 
-        grid.addColumn(match -> {
-            return match.getWinnerByString();
-        }).setHeader("우승");
+        grid.addColumn(new ComponentRenderer<>(gameMatch -> {
+            VerticalLayout layout = new VerticalLayout();
+            layout.setJustifyContentMode(JustifyContentMode.CENTER);
+            layout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+            gameMatch.getWinnerList().forEach(account -> {
+                layout.add(new UserButton(gameMatchService, account));
+            });
+            return layout;
+        })).setHeader("우승");
 
         grid.addColumn(new LocalDateRenderer<GameMatch>(
                 gameMatch -> {
@@ -89,6 +99,8 @@ public class GameMatchHistoryView extends ResponsiveVerticalLayout {
             ClosedMatchDialog dialog = new ClosedMatchDialog(gameMatchService, match);
             dialog.open();
         });
+
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 
     }
 

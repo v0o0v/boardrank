@@ -12,6 +12,7 @@ import net.boardrank.boardgame.domain.Friend;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.UserButton;
 
 import java.time.format.DateTimeFormatter;
 
@@ -59,9 +60,9 @@ public class FriendListView extends ResponsiveVerticalLayout {
     private void configureFriendListGrid() {
         grid.removeAllColumns();
 
-        grid.addColumn(friend -> {
-            return friend.getFriend().getName();
-        }).setHeader("친구 이름").setSortable(true);
+        grid.addColumn(new ComponentRenderer<>(friend -> {
+            return new UserButton(gameMatchService, friend.getFriend());
+        })).setHeader("친구 이름").setSortable(true);
 
         grid.addColumn(friend -> {
             return friend.getDday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

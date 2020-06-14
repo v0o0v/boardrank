@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.service.*;
 import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
+import net.boardrank.boardgame.ui.common.UserButton;
 
 import javax.imageio.*;
 import javax.imageio.metadata.IIOMetadata;
@@ -94,7 +95,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         this.btn_changeMatchStatus.addClickListener(event -> {
 
             GameMatch newGameMatch = gameMatchService.getGameMatch(gameMatch.getId());
-            if(!gameMatch.getGameMatchStatus().equals(newGameMatch.getGameMatchStatus())){
+            if (!gameMatch.getGameMatchStatus().equals(newGameMatch.getGameMatchStatus())) {
                 this.gameMatch = newGameMatch;
                 UI.getCurrent().getPage().reload();
                 return;
@@ -404,7 +405,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         gridParty.setItems(gameMatch.getRankentries());
         gridParty.removeAllColumns();
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
-            return new Button(rankEntry.getAccount().getName());
+            return new UserButton(gameMatchService, rankEntry.getAccount());
         })).setHeader("참가자");
         gridParty.addColumn(RankEntry::getScore).setHeader("점수");
         gridParty.getColumns().forEach(col -> {
@@ -412,8 +413,8 @@ public class MatchView extends ResponsiveVerticalLayout {
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });
-        int gridHeight = gameMatch.getRankentries().size() * 4 + 3;
-        gridParty.setMaxHeight(gridHeight + "em");
+        int gridHeight = gameMatch.getRankentries().size() * 47 + 58;
+        gridParty.setMaxHeight(gridHeight + "px");
         return gridParty;
     }
 

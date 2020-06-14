@@ -28,6 +28,7 @@ import net.boardrank.boardgame.domain.RankEntry;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.service.ImageUtilService;
 import net.boardrank.boardgame.ui.common.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.UserButton;
 import net.boardrank.boardgame.ui.currentmatch.MatchCommentListView;
 
 import javax.imageio.*;
@@ -94,14 +95,14 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         );
 
         if (!gameMatch.getWinnerByString().isEmpty()) {
-            HorizontalLayout top = new HorizontalLayout();
+            VerticalLayout top = new VerticalLayout();
             top.getStyle().set("border", "2px solid #705050");
             top.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-            top.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+            top.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
             Icon icon = new Icon(VaadinIcon.TROPHY);
             top.add(icon);
             gameMatch.getWinnerList().forEach(account -> {
-                top.add(new H4(account.getName()));
+                top.add(new UserButton(gameMatchService,account));
             });
             form.add(top,2);
         }
@@ -276,7 +277,7 @@ public class ClosedMatchDialog extends ResponsiveDialog {
         gridParty.setItems(gameMatch.getRankentries());
         gridParty.removeAllColumns();
         gridParty.addColumn(new ComponentRenderer<>(rankEntry -> {
-            return new Button(rankEntry.getAccount().getName());
+            return new UserButton(gameMatchService, rankEntry.getAccount());
         })).setHeader("참가자");
         gridParty.addColumn(RankEntry::getScore).setHeader("점수");
         gridParty.getColumns().forEach(col -> {
@@ -284,8 +285,8 @@ public class ClosedMatchDialog extends ResponsiveDialog {
             col.setResizable(true);
             col.setTextAlign(ColumnTextAlign.CENTER);
         });
-        int gridHeight = gameMatch.getRankentries().size() * 4 + 3;
-        gridParty.setMaxHeight(gridHeight + "em");
+        int gridHeight = gameMatch.getRankentries().size() * 47 + 58;
+        gridParty.setMaxHeight(gridHeight + "px");
         return gridParty;
     }
 

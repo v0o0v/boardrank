@@ -3,7 +3,9 @@ package net.boardrank.boardgame.ui.myfriend;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -17,6 +19,7 @@ import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.common.FriendButton;
 import net.boardrank.boardgame.ui.common.ResponsiveDialog;
+import net.boardrank.boardgame.ui.common.UserButton;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
 import java.util.Set;
@@ -75,12 +78,19 @@ public class FriendInviteDialog extends ResponsiveDialog {
         gridAccount.removeAllColumns();
         gridAccount.setWidthFull();
 
-        gridAccount.addColumn(account -> account.getName()
-        ).setHeader("이름");
+        gridAccount.addColumn(new ComponentRenderer<>(account -> {
+            return new UserButton(gameMatchService, account);
+        })).setHeader("이름");
 
         gridAccount.addColumn(new ComponentRenderer<>(account -> {
             return new FriendButton(gameMatchService, accountService.getCurrentAccount(), account);
-        })).setHeader("");
+        })).setHeader("친구 요청");
+
+        gridAccount.getColumns().forEach(col -> {
+            col.setAutoWidth(true);
+            col.setResizable(true);
+            col.setTextAlign(ColumnTextAlign.CENTER);
+        });
 
         board.addRow(gridAccount);
     }

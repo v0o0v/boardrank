@@ -48,11 +48,11 @@ public class PopulatorForTest implements ApplicationRunner {
         Account c = accountService.addNewAccount("c@c.c","c",null, null);
         Account d = accountService.addNewAccount("d@d.d","dd",null, null);
 
-//        this.accountService.makeFriend(mskim, boardrank);
-//        this.accountService.makeFriend(mskim, c);
+        this.accountService.makeFriend(mskim, boardrank);
+        this.accountService.makeFriend(mskim, c);
 
-        accountService.requestFriend(boardrank,mskim);
-        accountService.requestFriend(mskim,boardrank);
+//        accountService.requestFriend(boardrank,mskim);
+//        accountService.requestFriend(mskim,boardrank);
 
         Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", mskim, false, null);
         Boardgame 격동 = this.boardgameService.addBoardgame("격동", mskim, true, 테라포밍마스);
