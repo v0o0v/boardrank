@@ -10,17 +10,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import net.boardrank.boardgame.domain.Friend;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.service.GameMatchService;
 import net.boardrank.boardgame.ui.common.ResponsiveVerticalLayout;
 
 import java.time.format.DateTimeFormatter;
 
 public class FriendListView extends ResponsiveVerticalLayout {
 
+    GameMatchService gameMatchService;
     AccountService accountService;
 
     private Grid<Friend> grid = new Grid<>(Friend.class);
 
-    public FriendListView(AccountService accountService) {
+    public FriendListView(GameMatchService gameMatchService, AccountService accountService) {
+        this.gameMatchService = gameMatchService;
         this.accountService = accountService;
 
         setMargin(false);
@@ -38,7 +41,7 @@ public class FriendListView extends ResponsiveVerticalLayout {
         layout.add(btn_newFriend);
         layout.setHorizontalComponentAlignment(Alignment.END, btn_newFriend);
         btn_newFriend.addClickListener(event -> {
-            FriendInviteDialog friendInviteDialog = new FriendInviteDialog(accountService, null);
+            FriendInviteDialog friendInviteDialog = new FriendInviteDialog(gameMatchService, accountService, null);
             friendInviteDialog.open();
         });
         return layout;

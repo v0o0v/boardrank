@@ -1,6 +1,5 @@
 package net.boardrank.boardgame.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +29,10 @@ public class Account {
 
     private String locale;
 
+    private Integer winCount;
+
+    private Integer loseCount;
+
 
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -47,6 +50,8 @@ public class Account {
         this.angelPoint = 0;
         this.pictureURL = picture;
         this.locale = locale;
+        this.winCount = 0;
+        this.loseCount = 0;
     }
 
     public Account(String email, String name, String picture, String locale) {
@@ -55,6 +60,14 @@ public class Account {
 
     public void addFriend(Friend friend) {
         this.friends.add(friend);
+    }
+
+    public boolean isFriend(Account account) {
+        for (Friend friend : getFriends()) {
+            if (friend.getFriend().equals(account))
+                return true;
+        }
+        return false;
     }
 
     @Override

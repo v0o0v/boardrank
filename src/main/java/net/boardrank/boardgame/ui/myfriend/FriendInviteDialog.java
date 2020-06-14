@@ -14,6 +14,8 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.common.FriendButton;
 import net.boardrank.boardgame.ui.common.ResponsiveDialog;
 import net.boardrank.boardgame.ui.event.DialogSuccessCloseActionEvent;
 
@@ -22,6 +24,8 @@ import java.util.Set;
 @Slf4j
 public class FriendInviteDialog extends ResponsiveDialog {
 
+    private GameMatchService gameMatchService;
+
     private AccountService accountService;
 
     private Grid<Account> gridAccount = new Grid<>(Account.class);
@@ -29,7 +33,12 @@ public class FriendInviteDialog extends ResponsiveDialog {
     private Board board = new Board();
     private TextField txt_friend;
 
-    public FriendInviteDialog(AccountService accountService, ComponentEventListener<DialogSuccessCloseActionEvent> listener) {
+    public FriendInviteDialog(
+            GameMatchService gameMatchService
+            , AccountService accountService
+            , ComponentEventListener<DialogSuccessCloseActionEvent> listener
+    ) {
+        this.gameMatchService = gameMatchService;
         this.accountService = accountService;
         getEventBus().addListener(DialogSuccessCloseActionEvent.class, listener);
 
@@ -70,18 +79,7 @@ public class FriendInviteDialog extends ResponsiveDialog {
         ).setHeader("이름");
 
         gridAccount.addColumn(new ComponentRenderer<>(account -> {
-            if (accountService.isProgressMakeFriend(accountService.getCurrentAccount(), account)) {
-                return new Label("친구 요청중입니다.");
-            } else {
-                Button btn_newFriend = new Button("친구 요청하기");
-                btn_newFriend.addClickListener(event -> {
-                    if (!txt_friend.getValue().isEmpty()) {
-                        accountService.requestFriend(accountService.getCurrentAccount(), account);
-                        updateFriendList();
-                    }
-                });
-                return btn_newFriend;
-            }
+            return new FriendButton(gameMatchService, accountService.getCurrentAccount(), account);
         })).setHeader("");
 
         board.addRow(gridAccount);

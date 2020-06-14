@@ -1,13 +1,8 @@
 package net.boardrank.boardgame.service;
 
-import net.boardrank.boardgame.domain.Account;
-import net.boardrank.boardgame.domain.AccountRole;
-import net.boardrank.boardgame.domain.Friend;
+import net.boardrank.boardgame.domain.*;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.FriendRepository;
-import net.boardrank.boardgame.domain.Notice;
-import net.boardrank.boardgame.domain.NoticeResponse;
-import net.boardrank.boardgame.domain.NoticeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,16 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -67,6 +56,11 @@ public class AccountService {
     @Transactional
     public boolean isExistName(String name) {
         return this.accountRepository.findByName(name).isPresent();
+    }
+
+    @Transactional(readOnly = true)
+    public Account getAccount(Long id) {
+        return this.accountRepository.getOne(id);
     }
 
     @Transactional
@@ -124,6 +118,15 @@ public class AccountService {
 
     @Transactional
     public void requestFriend(Account fromAccount, Account toAccount) {
+        fromAccount = getAccount(fromAccount.getId());
+        FriendStatus friendStatus = getFriendStatus(fromAccount, toAccount);
+
+        if (friendStatus.equals(FriendStatus.Friend))
+            throw new RuntimeException("이미 친구사이입니다.");
+
+        if (friendStatus.equals(FriendStatus.FriendRequested))
+            throw new RuntimeException("이미 친구요청중입니다.");
+
         this.noticeService.noticeToMakeFriend(fromAccount, toAccount);
     }
 
@@ -152,13 +155,17 @@ public class AccountService {
 
         LocalDateTime now = LocalDateTime.now();
 
-        Friend ab = new Friend(a, b, now);
-        a.addFriend(ab);
-        this.accountRepository.save(a);
+        if (!a.isFriend(b)) {
+            Friend ab = new Friend(a, b, now);
+            a.addFriend(ab);
+            this.accountRepository.save(a);
+        }
 
-        Friend ba = new Friend(b, a, now);
-        b.addFriend(ba);
-        this.accountRepository.save(b);
+        if (!b.isFriend(a)) {
+            Friend ba = new Friend(b, a, now);
+            b.addFriend(ba);
+            this.accountRepository.save(b);
+        }
     }
 
     @Transactional
@@ -173,5 +180,20 @@ public class AccountService {
         account = this.accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
         account.setName(newName);
         return saveAccount(account);
+    }
+
+    @Transactional(readOnly = true)
+    public FriendStatus getFriendStatus(Account from, Account to) {
+        if (from.equals(to))
+            return FriendStatus.Me;
+
+        if (from.isFriend(to)) {
+            return FriendStatus.Friend;
+        } else {
+            if (isProgressMakeFriend(from, to)) {
+                return FriendStatus.FriendRequested;
+            }
+            return FriendStatus.NotFriend;
+        }
     }
 }

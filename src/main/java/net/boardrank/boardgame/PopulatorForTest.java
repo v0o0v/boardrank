@@ -46,10 +46,13 @@ public class PopulatorForTest implements ApplicationRunner {
                 ,"https://lh3.googleusercontent.com/a-/AOh14GhLBU5mmkfJrHa6gCQXLd-pOxIaB4F9KMtgE8V5-w=s96-c", "ko");
         Account boardrank = accountService.addNewAccount("root.boardrank@gmail.com","root.boardrank",null,"ko");
         Account c = accountService.addNewAccount("c@c.c","c",null, null);
-        Account d = accountService.addNewAccount("d@d.d","d",null, null);
+        Account d = accountService.addNewAccount("d@d.d","dd",null, null);
 
-        this.accountService.makeFriend(mskim, boardrank);
-        this.accountService.makeFriend(mskim, c);
+//        this.accountService.makeFriend(mskim, boardrank);
+//        this.accountService.makeFriend(mskim, c);
+
+        accountService.requestFriend(boardrank,mskim);
+        accountService.requestFriend(mskim,boardrank);
 
         Boardgame 테라포밍마스 = this.boardgameService.addBoardgame("테라포밍마스", mskim, false, null);
         Boardgame 격동 = this.boardgameService.addBoardgame("격동", mskim, true, 테라포밍마스);
@@ -74,7 +77,7 @@ public class PopulatorForTest implements ApplicationRunner {
 
         GameMatch gameMatch2 = this.gameMatchService.makeNewMatch(마르코폴로, Arrays.asList(mskim, boardrank), mskim);
 
-        accountService.requestFriend(d,mskim);
+
     }
 
 }
