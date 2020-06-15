@@ -43,6 +43,9 @@ public class UserDialog extends ResponsiveDialog {
         }
         layout.add(new H3(account.getName()));
 
+        if(account.getOneLine() != null && !account.getOneLine().equals(""))
+            layout.add(new H5(account.getOneLine()));
+
         FormLayout form = new FormLayout();
         form.setSizeFull();
 

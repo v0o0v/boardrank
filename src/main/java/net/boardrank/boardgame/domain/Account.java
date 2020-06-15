@@ -33,6 +33,8 @@ public class Account {
 
     private Integer loseCount;
 
+    private String oneLine;
+
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AccountRole> roles = new HashSet<>();
@@ -50,6 +52,7 @@ public class Account {
         this.locale = locale;
         this.winCount = 0;
         this.loseCount = 0;
+        this.oneLine = "";
     }
 
     public Account(String email, String name, String picture, String locale) {

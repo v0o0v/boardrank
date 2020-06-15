@@ -190,4 +190,10 @@ public class AccountService {
             return FriendStatus.NotFriend;
         }
     }
+
+    public Account changeOneLine(Account account, String value) {
+        account = this.accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
+        account.setOneLine(value);
+        return saveAccount(account);
+    }
 }

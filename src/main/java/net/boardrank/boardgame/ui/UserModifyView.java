@@ -69,6 +69,22 @@ public class UserModifyView extends VerticalLayout {
         layout_name.add(btn_changeName);
         form.add(layout_name);
 
+        TextField txt_oneline = new TextField("한줄소개", account.getOneLine(), "");
+        txt_oneline.setMaxLength(50);
+        Button btn_changeOneLine = new Button("적용", event -> {
+            this.account = accountService.changeOneLine(this.account, txt_oneline.getValue());
+            Notification notification = new Notification();
+            notification.setText("한줄소개가 변경되었습니다.");
+            notification.setDuration(1500);
+            notification.open();
+        });
+        HorizontalLayout layout_OneLineme = new HorizontalLayout();
+        layout_OneLineme.setJustifyContentMode(JustifyContentMode.CENTER);
+        layout_OneLineme.setDefaultVerticalComponentAlignment(Alignment.END);
+        layout_OneLineme.addAndExpand(txt_oneline);
+        layout_OneLineme.add(btn_changeOneLine);
+        form.add(layout_OneLineme);
+
         TextField txt_email = new TextField("email", account.getEmail(), "");
         txt_email.setReadOnly(true);
         form.add(txt_email);
