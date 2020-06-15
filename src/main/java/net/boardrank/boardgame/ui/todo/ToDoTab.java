@@ -39,7 +39,7 @@ public class ToDoTab extends VerticalLayout {
         noticeList.stream().forEach(notice -> {
             switch (notice.getNoticeType()) {
                 case friendRequest:
-                    add(new NoticeRequestFriendView(accountService, notice));
+                    add(new NoticeRequestFriendView(gameMatchService, accountService, notice));
                     break;
                 case matchAcceptRequest:
                     add(new NoticeAcceptMatchResultView(gameMatchService, notice, accountService.getCurrentAccount()));
