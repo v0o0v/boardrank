@@ -37,12 +37,6 @@ public class AccountService {
     @Value("${net.boardrank.friend.max}")
     Integer maxFriendNum;
 
-    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
-        return roles.stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
-                .collect(Collectors.toSet());
-    }
-
     @Transactional
     public Account saveAccount(Account account) {
         return this.accountRepository.save(account);
@@ -58,9 +52,9 @@ public class AccountService {
         return this.accountRepository.findByName(name).isPresent();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Account getAccount(Long id) {
-        return this.accountRepository.getOne(id);
+        return this.accountRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Transactional

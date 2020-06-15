@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
-@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@Entity
 public class Account {
 
     @Id
@@ -33,7 +33,6 @@ public class Account {
 
     private Integer loseCount;
 
-
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AccountRole> roles = new HashSet<>();
@@ -41,7 +40,6 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "owner")
     private Set<Friend> friends = new HashSet<>();
 
-    @Builder
     public Account(String email, Set<AccountRole> roles, String name, String picture, String locale) {
         this.email = email;
         this.roles = roles;

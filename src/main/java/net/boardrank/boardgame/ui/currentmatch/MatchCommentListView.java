@@ -59,7 +59,8 @@ public class MatchCommentListView extends VerticalLayout {
         layout_commentInput.add(button);
         add(layout_commentInput);
     }
-    private void initCommentListView(){
+
+    private void initCommentListView() {
         layout_commentList.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         layout_commentList.getStyle().set("overflow-y", "auto");
         add(layout_commentList);
@@ -69,7 +70,7 @@ public class MatchCommentListView extends VerticalLayout {
         this.layout_commentList.removeAll();
         List<Comment> commentsByMatchId = gameMatchService.getCommentsByMatchId(gameMatchId);
         commentsByMatchId.forEach(comment -> {
-            layout_commentList.add(new CommentView(comment));
+            layout_commentList.add(new CommentView(gameMatchService, comment));
         });
     }
 }
