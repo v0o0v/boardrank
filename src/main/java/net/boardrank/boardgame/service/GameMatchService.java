@@ -5,8 +5,8 @@ import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
 import net.boardrank.boardgame.domain.repository.jpa.RankEntryRepository;
+import net.boardrank.boardgame.service.matchAcceptFilter.MatchAcceptFilterChain;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,12 +39,8 @@ public class GameMatchService {
     @Autowired
     S3Service s3Service;
 
-    @Value("${net.boardrank.point.win}")
-    Integer winPoint;
-
-    @Value("${net.boardrank.point.lose}")
-    Integer losePoint;
-
+    @Autowired
+    MatchAcceptFilterChain matchAcceptFilterChain;
 
     @Transactional
     public GameMatch getGameMatch(Long id) {
@@ -140,13 +136,8 @@ public class GameMatchService {
         if (!gameMatch.getGameMatchStatus().equals(GameMatchStatus.finished))
             return;
 
-        gameMatch.getRankentries().stream()
-                .forEach(rankEntry -> {
-                    int bp = gameMatch.getNumOfSmallerThanMe(rankEntry) * winPoint
-                            - gameMatch.getNumOfGreaterThanMe(rankEntry) * losePoint;
-                    rankEntry.getAccount().addBP(bp);
-                    accountService.saveAccount(rankEntry.getAccount());
-                });
+        matchAcceptFilterChain.doFilterChain(gameMatch);
+
         gameMatch.setGameMatchStatus(GameMatchStatus.resultAccepted);
         gameMatch.setAcceptedTime(LocalDateTime.now());
         this.gameMatchRepository.save(gameMatch);

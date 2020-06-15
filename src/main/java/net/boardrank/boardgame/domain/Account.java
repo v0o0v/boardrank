@@ -100,4 +100,12 @@ public class Account {
     public void addAP(int ap) {
         this.angelPoint += ap;
     }
+
+    public void win() {
+        this.winCount++;
+    }
+
+    public void lose() {
+        this.loseCount++;
+    }
 }

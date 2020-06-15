@@ -162,6 +162,7 @@ public class GameMatch {
                 ).count() >= (int) this.getRankentries().size();
     }
 
+    //절반 이상이 찬성
     public boolean isAccetableOfMatchResult() {
         return this.getRankentries().stream()
                 .filter(rankEntry ->
