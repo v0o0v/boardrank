@@ -15,4 +15,5 @@ public interface GameMatchRepository extends JpaRepository<GameMatch,Long> {
 
     public List<GameMatch> findGameMatchesByRankentriesAccountAndGameMatchStatusIs(Account account, GameMatchStatus gameMatchStatus);
 
+    public List<GameMatch> findTop5GameMatchesByRankentriesAccountAndAcceptedTimeIsNotNullOrderByAcceptedTimeDesc(Account account);
 }

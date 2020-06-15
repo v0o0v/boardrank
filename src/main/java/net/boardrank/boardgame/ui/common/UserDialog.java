@@ -1,8 +1,8 @@
 package net.boardrank.boardgame.ui.common;
 
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Image;
@@ -12,7 +12,10 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.extern.slf4j.Slf4j;
 import net.boardrank.boardgame.domain.Account;
+import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.service.GameMatchService;
+
+import java.util.List;
 
 @Slf4j
 public class UserDialog extends ResponsiveDialog {
@@ -43,7 +46,7 @@ public class UserDialog extends ResponsiveDialog {
         }
         layout.add(new H3(account.getName()));
 
-        if(account.getOneLine() != null && !account.getOneLine().equals(""))
+        if (account.getOneLine() != null && !account.getOneLine().equals(""))
             layout.add(new H5(account.getOneLine()));
 
         FormLayout form = new FormLayout();
@@ -52,21 +55,24 @@ public class UserDialog extends ResponsiveDialog {
         form.addFormItem(new H5(account.getBoardPoint().toString()), "BoardRank Point");
         form.addFormItem(new H5(account.getAngelPoint().toString()), "Angel Point");
         form.addFormItem(new H5(account.getWinCount() + "승 " + account.getLoseCount() + "패"), "승패");
+        form.addFormItem(new Div(), "최근 Match");
+        form.add(initLastMatchs());
+
         form.add(new FriendButton(gameMatchService
                 , gameMatchService.getAccountService().getCurrentAccount()
                 , account
         ));
 
-//        if (!gameMatchService.getAccountService().getCurrentAccount().equals(account)
-//                && !gameMatchService.getAccountService().getCurrentAccount().isFriend(account))
-//            form.add(new Button("친구 요청", event -> {
-//                gameMatchService.getAccountService()
-//                        .requestFriend(gameMatchService.getAccountService().getCurrentAccount(), account);
-//                UI.getCurrent().getPage().reload();
-//            }));
-
         layout.add(form);
         add(layout);
+    }
+
+    private Grid initLastMatchs() {
+        GameMatchGrid grid = new GameMatchGrid(gameMatchService);
+        List<GameMatch> last5Match = gameMatchService.getLast5Match(account);
+        grid.setItems(last5Match);
+        grid.setCompact(true);
+        return grid;
     }
 
 }

@@ -224,4 +224,7 @@ public class GameMatchService {
         return s3Service.getURLAsCloundFront(filename);
     }
 
+    public List<GameMatch> getLast5Match(Account account) {
+        return this.gameMatchRepository.findTop5GameMatchesByRankentriesAccountAndAcceptedTimeIsNotNullOrderByAcceptedTimeDesc(account);
+    }
 }
