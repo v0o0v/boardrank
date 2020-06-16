@@ -1,5 +1,6 @@
 package net.boardrank.boardgame.ui.common;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -65,6 +66,11 @@ public class UserDialog extends ResponsiveDialog {
 
         layout.add(form);
         add(layout);
+        VerticalLayout bottom = new VerticalLayout();
+        bottom.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        bottom.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.END);
+        bottom.add(new Button("닫힘", event -> close()));
+        add(bottom);
     }
 
     private Grid initLastMatchs() {
