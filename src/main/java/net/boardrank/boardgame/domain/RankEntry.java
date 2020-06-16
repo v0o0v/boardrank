@@ -26,7 +26,7 @@ public class RankEntry {
 
     private Integer score=0;
 
-    private Integer rank=0;
+    private Integer rank=1;
 
     private ResultAcceptStatus resultAcceptStatus = ResultAcceptStatus.None;
 

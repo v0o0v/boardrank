@@ -91,14 +91,11 @@ public class GameMatch {
                 winnerList.add(rankEntry.getAccount());
         });
 
-        if (winnerList.isEmpty()) return null;
         return winnerList;
     }
 
     public String getWinnerByString() {
         List<Account> winnerList = this.getWinnerList();
-        if (winnerList == null)
-            return "";
 
         StringBuilder winnerString = new StringBuilder();
         for (Account account : winnerList)
