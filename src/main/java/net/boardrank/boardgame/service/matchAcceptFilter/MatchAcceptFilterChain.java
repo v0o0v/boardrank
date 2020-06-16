@@ -19,6 +19,8 @@ public class MatchAcceptFilterChain {
         matchAcceptFilters.add(ac.getBean(BoardRankPointCalculatorFilter.class));
         matchAcceptFilters.add(ac.getBean(WinLoseCalculatorFilter.class));
         matchAcceptFilters.add(ac.getBean(AngelPointCalculatorFilter.class));
+        matchAcceptFilters.add(ac.getBean(AccountMatchStatusFilter.class));
+
     }
 
     public void doFilterChain(GameMatch gameMatch) {

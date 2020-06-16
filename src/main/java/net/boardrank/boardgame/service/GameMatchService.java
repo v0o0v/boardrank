@@ -227,8 +227,12 @@ public class GameMatchService {
         return this.gameMatchRepository.findTop5GameMatchesByRankentriesAccountAndAcceptedTimeIsNotNullOrderByAcceptedTimeDesc(account);
     }
 
-    public void addAccountMatchStatus(Long accountId, String accountName, Long boardgameId, String attribute, String value) {
-        AccountMatchStatus accountMatchStatus = new AccountMatchStatus(accountId, accountName, boardgameId, attribute, value);
+    public void addAccountMatchStatus(Long accountId, Long gameMatchID, Long boardgameId, String attribute, String value) {
+        AccountMatchStatus accountMatchStatus = new AccountMatchStatus(accountId, gameMatchID, boardgameId, attribute, value);
         this.accountMatchStatusRepository.save(accountMatchStatus);
+    }
+
+    public void addAccountMatchStatusList(List<AccountMatchStatus> statusList) {
+        this.accountMatchStatusRepository.saveAll(statusList);
     }
 }

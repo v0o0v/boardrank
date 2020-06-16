@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @DynamoDBTable(tableName = "br_matchStatus")
 public class AccountMatchStatus {
 
-    public AccountMatchStatus(Long accountId, String accountName, Long boardgameId, String attribute, String value) {
+    public AccountMatchStatus(Long accountId, Long gameMatchId, Long boardgameId, String attribute, String value) {
         this.createdAt = LocalDateTime.now();
         this.accountId = accountId;
-        this.accountName = accountName;
+        this.gameMatchId = gameMatchId;
         this.boardgameId = boardgameId;
         this.attribute = attribute;
         this.value = value;
@@ -38,9 +38,6 @@ public class AccountMatchStatus {
 
     @DynamoDBAttribute
     private Long gameMatchId;
-
-    @DynamoDBAttribute
-    private String accountName;
 
     @DynamoDBAttribute
     private Long boardgameId;
