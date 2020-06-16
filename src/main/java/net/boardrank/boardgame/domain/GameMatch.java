@@ -185,13 +185,13 @@ public class GameMatch {
 
     public void deleteImageURL(String filename) {
         ImageURL imageURL = this.findImageURLAsFilename(filename);
-        if(imageURL==null) return;
+        if (imageURL == null) return;
         this.getImages().remove(imageURL);
     }
 
     private ImageURL findImageURLAsFilename(String filename) {
-        for(ImageURL imageURL : getImages()){
-            if(imageURL.getFilename().equals(filename))
+        for (ImageURL imageURL : getImages()) {
+            if (imageURL.getFilename().equals(filename))
                 return imageURL;
         }
         return null;
@@ -200,25 +200,42 @@ public class GameMatch {
     public void copyRankEntryValue(GameMatch src) {
         src.getRankentries().forEach(rankEntrySrc -> {
             RankEntry rankEntryDest = this.getRankEntry(rankEntrySrc.getAccount());
-            if(rankEntryDest==null) return;
+            if (rankEntryDest == null) return;
             rankEntryDest.setScore(rankEntrySrc.getScore());
             rankEntryDest.setRank(rankEntrySrc.getRank());
         });
     }
 
-    public RankEntry getRankEntry(Account account){
-        for(RankEntry rankEntry : this.getRankentries()){
-            if(rankEntry.getAccount().equals(account))
+    public RankEntry getRankEntry(Account account) {
+        for (RankEntry rankEntry : this.getRankentries()) {
+            if (rankEntry.getAccount().equals(account))
                 return rankEntry;
         }
         return null;
     }
 
     public int calcBoardrankPoint(int winPoint, int losePoint, RankEntry rankEntry) {
-        if(!this.getRankentries().contains(rankEntry))
-            throw new RuntimeException("존재하지 않는 rankEntry. "+rankEntry);
+        if (!this.getRankentries().contains(rankEntry))
+            throw new RuntimeException("존재하지 않는 rankEntry. " + rankEntry);
 
         return getNumOfSmallerThanMe(rankEntry) * winPoint
                 - getNumOfGreaterThanMe(rankEntry) * losePoint;
+    }
+
+    public int calcAngelPoint(RankEntry rankEntry) {
+        if (!this.getRankentries().contains(rankEntry))
+            throw new RuntimeException("존재하지 않는 rankEntry. " + rankEntry);
+
+        int ap = 0;
+
+        if (getBoardgameProvider() != null
+                && getBoardgameProvider().equals(rankEntry.getAccount())
+        ) ap++;
+
+        if (getRuleSupporter() != null
+                && getRuleSupporter().equals(rankEntry.getAccount())
+        ) ap++;
+
+        return ap;
     }
 }
