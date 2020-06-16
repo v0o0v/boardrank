@@ -41,9 +41,21 @@ public class MyRankListView extends ResponsiveVerticalLayout {
             return new UserButton(gameMatchService, account);
         })).setHeader("이름");
 
-        Grid.Column<Account> board_point = grid.addColumn(account -> {
+        grid.addColumn(account -> {
             return account.getBoardPoint();
-        }).setHeader("Board Point").setSortable(true);
+        }).setHeader("BP").setSortable(true);
+
+        grid.addColumn(account -> {
+            return account.getAngelPoint();
+        }).setHeader("AP").setSortable(true);
+
+        grid.addColumn(account -> {
+            return account.getWinCount();
+        }).setHeader("승").setSortable(true);
+
+        grid.addColumn(account -> {
+            return account.getLoseCount();
+        }).setHeader("패").setSortable(true);
 
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
