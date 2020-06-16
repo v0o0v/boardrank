@@ -145,6 +145,10 @@ public class GameMatchService {
 
     @Transactional
     public void removeMatch(GameMatch gameMatch) {
+
+        //삭제 전에 관련 notice 삭제
+        noticeService.removeNoticeOf(gameMatch);
+
         this.gameMatchRepository.delete(gameMatch);
     }
 

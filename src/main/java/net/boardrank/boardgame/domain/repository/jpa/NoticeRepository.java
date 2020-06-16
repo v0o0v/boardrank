@@ -17,4 +17,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     public Set<Notice> findAllByGameMatchIsAndNoticeTypeIs(GameMatch gameMatch, NoticeType type);
 
+    public void deleteAllByGameMatch(GameMatch gameMatch);
 }

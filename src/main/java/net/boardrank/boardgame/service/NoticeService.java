@@ -57,4 +57,9 @@ public class NoticeService {
         Set<Notice> notices = this.noticeRepository.findAllByGameMatchIsAndNoticeTypeIs(gameMatch, noticeType);
         notices.stream().forEach(notice -> noticeRepository.delete(notice));
     }
+
+    @Transactional
+    public void removeNoticeOf(GameMatch gameMatch) {
+        this.noticeRepository.deleteAllByGameMatch(gameMatch);
+    }
 }
