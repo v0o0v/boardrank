@@ -5,26 +5,18 @@ import net.boardrank.boardgame.domain.GameMatch;
 import net.boardrank.boardgame.service.GameMatchService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 @Slf4j
 public class MatchAcceptFilterChain {
 
     List<MatchAcceptFilter> matchAcceptFilters = new ArrayList<>();
 
-    ApplicationContext ac;
-
-    GameMatchService gameMatchService;
-
-    public MatchAcceptFilterChain(
-            ApplicationContext applicationContext
-            , GameMatchService gameMatchService
-    ) {
-        this.ac = applicationContext;
-        this.gameMatchService = gameMatchService;
+    public MatchAcceptFilterChain(ApplicationContext ac, GameMatchService gameMatchService) {
 
         matchAcceptFilters.add(ac.getBean(BoardRankPointCalculatorFilter.class));
         matchAcceptFilters.add(ac.getBean(WinLoseCalculatorFilter.class));
@@ -33,7 +25,7 @@ public class MatchAcceptFilterChain {
     public void doFilterChain(GameMatch gameMatch) {
         matchAcceptFilters.forEach(matchAcceptFilter -> {
             try {
-                matchAcceptFilter.handle(gameMatchService, gameMatch);
+                matchAcceptFilter.handle(gameMatch);
             } catch (Exception e) {
                 log.error("matchAcceptFilters 처리 중 에러발생", e);
             }

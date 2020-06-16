@@ -5,6 +5,6 @@ import net.boardrank.boardgame.service.GameMatchService;
 
 public interface MatchAcceptFilter {
 
-    void handle(GameMatchService gameMatchService, GameMatch gameMatch);
+    void handle(GameMatch gameMatch);
 
 }

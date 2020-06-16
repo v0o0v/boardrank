@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class BoardRankPointCalculatorFilter implements MatchAcceptFilter {
+public class AngelPointCalculatorFilter implements MatchAcceptFilter {
 
     @Value("${net.boardrank.point.win}")
     Integer winPoint;
