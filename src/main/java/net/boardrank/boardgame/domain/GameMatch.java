@@ -68,6 +68,13 @@ public class GameMatch {
         this.place = "";
     }
 
+    @Override
+    public String toString() {
+        return "GameMatch{" +
+                "id=" + id +
+                '}';
+    }
+
     public LocalDateTime getCreatedTime() {
         return TimeUtilService.transUTCToKTC(createdTime);
     }
@@ -109,14 +116,6 @@ public class GameMatch {
             return "";
 
         return "" + Duration.between(startedTime, finishedTime).abs().toMinutes();
-    }
-
-    @Override
-    public String toString() {
-        return "GameMatch{" +
-                "id=" + id +
-                ", matchTitle='" + matchTitle + '\'' +
-                '}';
     }
 
     public void resetRank() {
@@ -213,5 +212,13 @@ public class GameMatch {
                 return rankEntry;
         }
         return null;
+    }
+
+    public int calcBoardrankPoint(int winPoint, int losePoint, RankEntry rankEntry) {
+        if(!this.getRankentries().contains(rankEntry))
+            throw new RuntimeException("존재하지 않는 rankEntry. "+rankEntry);
+
+        return getNumOfSmallerThanMe(rankEntry) * winPoint
+                - getNumOfGreaterThanMe(rankEntry) * losePoint;
     }
 }

@@ -59,6 +59,15 @@ public class Account {
         this(email, new HashSet<>(Arrays.asList(AccountRole.USER)), name, picture, locale);
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public void addFriend(Friend friend) {
         this.friends.add(friend);
     }
@@ -69,11 +78,6 @@ public class Account {
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return this.getName();
     }
 
     public List<Account> getFriendsAsAccounType() {

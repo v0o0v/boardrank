@@ -34,4 +34,13 @@ public class RankEntry {
         this.account = account;
         this.gameMatch = gameMatch;
     }
+
+    @Override
+    public String toString() {
+        return "RankEntry{" +
+                "id=" + id +
+                ", gameMatch=" + gameMatch +
+                ", account=" + account +
+                '}';
+    }
 }

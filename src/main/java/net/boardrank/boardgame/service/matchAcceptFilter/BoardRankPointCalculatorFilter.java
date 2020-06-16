@@ -24,9 +24,7 @@ public class BoardRankPointCalculatorFilter implements MatchAcceptFilter {
     public void handle(GameMatch gameMatch) {
         gameMatch.getRankentries().stream()
                 .forEach(rankEntry -> {
-                    int bp = gameMatch.getNumOfSmallerThanMe(rankEntry) * winPoint
-                            - gameMatch.getNumOfGreaterThanMe(rankEntry) * losePoint;
-                    rankEntry.getAccount().addBP(bp);
+                    rankEntry.getAccount().addBP(gameMatch.calcBoardrankPoint(winPoint, losePoint, rankEntry));
                     gameMatchService.getAccountService().saveAccount(rankEntry.getAccount());
                 });
     }
