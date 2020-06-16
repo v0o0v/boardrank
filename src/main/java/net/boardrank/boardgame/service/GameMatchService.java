@@ -1,6 +1,7 @@
 package net.boardrank.boardgame.service;
 
 import net.boardrank.boardgame.domain.*;
+import net.boardrank.boardgame.domain.repository.dynamo.AccountMatchStatusRepository;
 import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
@@ -41,6 +42,9 @@ public class GameMatchService {
 
     @Autowired
     MatchAcceptFilterChain matchAcceptFilterChain;
+
+    @Autowired
+    AccountMatchStatusRepository accountMatchStatusRepository;
 
     @Transactional
     public GameMatch getGameMatch(Long id) {
@@ -221,5 +225,10 @@ public class GameMatchService {
 
     public List<GameMatch> getLast5Match(Account account) {
         return this.gameMatchRepository.findTop5GameMatchesByRankentriesAccountAndAcceptedTimeIsNotNullOrderByAcceptedTimeDesc(account);
+    }
+
+    public void addAccountMatchStatus(Long accountId, String accountName, Long boardgameId, String attribute, String value) {
+        AccountMatchStatus accountMatchStatus = new AccountMatchStatus(accountId, accountName, boardgameId, attribute, value);
+        this.accountMatchStatusRepository.save(accountMatchStatus);
     }
 }
