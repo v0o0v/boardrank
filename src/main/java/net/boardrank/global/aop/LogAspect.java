@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
 
-    @Around("execution(public * com.lge.beconstore..*Controller.*(..))")
+    @Around("execution(public * net.boardrank..*Service.*(..))")
     public Object controllerLogging(ProceedingJoinPoint point) throws Throwable {
         boolean show = true;
         if (point.getSignature().getDeclaringTypeName().contains("org.springframework")) show = false;
