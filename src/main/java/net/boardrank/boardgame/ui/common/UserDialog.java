@@ -69,7 +69,7 @@ public class UserDialog extends ResponsiveDialog {
         VerticalLayout bottom = new VerticalLayout();
         bottom.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         bottom.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.END);
-        bottom.add(new Button("닫힘", event -> close()));
+        bottom.add(new Button("닫기", event -> close()));
         add(bottom);
     }
 

@@ -9,7 +9,7 @@ import net.boardrank.global.config.AWSConfig;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter // Setters are used in aws-dynamodb-sdk
+@Setter
 @NoArgsConstructor
 @DynamoDBTable(tableName = "br_comment")
 public class Comment {
