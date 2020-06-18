@@ -3,6 +3,14 @@ package net.boardrank;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
+import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
+import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
+import net.boardrank.boardgame.domain.repository.jpa.NoticeRepository;
+import net.boardrank.boardgame.service.AccountService;
+import net.boardrank.boardgame.service.BoardgameService;
+import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.service.NoticeService;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +45,31 @@ public class IntegrationTest {
     protected ObjectMapper objectMapper;
 
     @Autowired
-    private AmazonDynamoDB dynamoDB;
+    protected AmazonDynamoDB dynamoDB;
+
+    @Autowired
+    protected GameMatchService gameMatchService;
+
+    @Autowired
+    protected AccountService accountService;
+
+    @Autowired
+    protected BoardgameService boardgameService;
+
+    @Autowired
+    protected BoardgameRepository boardgameRepository;
+
+    @Autowired
+    protected GameMatchRepository gameMatchRepository;
+
+    @Autowired
+    protected AccountRepository accountRepository;
+
+    @Autowired
+    protected NoticeService noticeService;
+
+    @Autowired
+    protected NoticeRepository noticeRepository;
 
 
     protected void initOAuth2Accout(String email) {

@@ -36,7 +36,8 @@ public class Account {
 
     private Integer loseCount;
 
-    private String oneLine;
+    //한줄소개
+    private String onelineIntroduce;
 
     @Enumerated(EnumType.ORDINAL)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -55,7 +56,7 @@ public class Account {
         this.locale = locale;
         this.winCount = 0;
         this.loseCount = 0;
-        this.oneLine = "";
+        this.onelineIntroduce = "";
     }
 
     public Account(String email, String name, String picture, String locale) {

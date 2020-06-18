@@ -5,22 +5,15 @@ import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
 import net.boardrank.boardgame.domain.repository.jpa.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -55,16 +48,6 @@ public class AccountService {
     @Transactional
     public Account getAccount(Long id) {
         return this.accountRepository.findById(id).orElseThrow(RuntimeException::new);
-    }
-
-    @Transactional
-    public Page<Account> getAccounts(Pageable pageable) {
-        return this.accountRepository.findAll(pageable);
-    }
-
-    @Transactional
-    public List<Account> getAllByEmailContaining(String txt) {
-        return this.accountRepository.getAllByEmailContaining(txt);
     }
 
     @Transactional
@@ -191,9 +174,9 @@ public class AccountService {
         }
     }
 
-    public Account changeOneLine(Account account, String value) {
+    public Account changeOnelineIntroduce(Account account, String value) {
         account = this.accountRepository.findByEmail(account.getEmail()).orElseThrow(RuntimeException::new);
-        account.setOneLine(value);
+        account.setOnelineIntroduce(value);
         return saveAccount(account);
     }
 }

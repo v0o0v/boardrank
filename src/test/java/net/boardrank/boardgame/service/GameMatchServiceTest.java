@@ -2,53 +2,16 @@ package net.boardrank.boardgame.service;
 
 import net.boardrank.IntegrationTest;
 import net.boardrank.boardgame.domain.*;
-import net.boardrank.boardgame.domain.repository.jpa.AccountRepository;
-import net.boardrank.boardgame.domain.repository.jpa.BoardgameRepository;
-import net.boardrank.boardgame.domain.repository.jpa.GameMatchRepository;
-import net.boardrank.boardgame.domain.repository.jpa.NoticeRepository;
-import net.boardrank.boardgame.service.matchAcceptFilter.MatchAcceptFilterChain;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 public class GameMatchServiceTest extends IntegrationTest {
-
-    @Autowired
-    GameMatchService gameMatchService;
-
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    BoardgameService boardgameService;
-
-    @Autowired
-    BoardgameRepository boardgameRepository;
-
-    @Autowired
-    GameMatchRepository gameMatchRepository;
-
-    @Autowired
-    AccountRepository accountRepository;
-
-    @Autowired
-    NoticeService noticeService;
-
-    @Autowired
-    NoticeRepository noticeRepository;
-
-    @MockBean
-    MatchAcceptFilterChain matchAcceptFilterChain;
 
 
     //테스트를 위한 기본 데이터 생성
@@ -81,15 +44,6 @@ public class GameMatchServiceTest extends IntegrationTest {
         gameMatch1 = gameMatchService.save(gameMatch1);
 
         initOAuth2Accout(a.getEmail());
-    }
-
-    // 각 테스트마다 의존성을 없애기 위해 테스트 이후 before에서 생성한 데이터 삭제
-    @After
-    public void tearDown() throws Exception {
-        gameMatchRepository.deleteAll();
-        noticeRepository.deleteAll();
-        boardgameRepository.deleteAll();
-        accountRepository.deleteAll();
     }
 
     @Test
