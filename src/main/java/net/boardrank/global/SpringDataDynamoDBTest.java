@@ -19,7 +19,7 @@ import java.util.List;
 
 @Profile("dev")
 @Component
-public class DynamoDBTest implements ApplicationRunner {
+public class SpringDataDynamoDBTest implements ApplicationRunner {
 
 
     @Autowired

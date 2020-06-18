@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface GameMatchRepository extends JpaRepository<GameMatch,Long> {
 
-    public List<GameMatch> findGameMatchesByRankentriesAccount(Account account);
-
     public List<GameMatch> findGameMatchesByRankentriesAccountAndGameMatchStatusIsNot(Account account, GameMatchStatus gameMatchStatus);
 
     public List<GameMatch> findGameMatchesByRankentriesAccountAndGameMatchStatusIs(Account account, GameMatchStatus gameMatchStatus);

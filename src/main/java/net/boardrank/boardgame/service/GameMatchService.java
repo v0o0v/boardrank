@@ -52,15 +52,10 @@ public class GameMatchService {
     }
 
     @Transactional
-    public List<GameMatch> getGamesOfCurrentSessionAccount() {
-        return this.gameMatchRepository.findGameMatchesByRankentriesAccount(this.accountService.getCurrentAccount());
-    }
-
-    @Transactional
     public List<GameMatch> getGamesOfCurrentSessionAccountOnGameStatus(GameMatchStatus gameMatchStatus) {
         return this.gameMatchRepository.findGameMatchesByRankentriesAccountAndGameMatchStatusIs(
                 this.accountService.getCurrentAccount()
-                , GameMatchStatus.resultAccepted);
+                , gameMatchStatus);
     }
 
     @Transactional
@@ -81,6 +76,7 @@ public class GameMatchService {
         return this.gameMatchRepository.save(gameMatch);
     }
 
+    //진행중인 match 리턴
     @Transactional
     public List<GameMatch> getInprogressMatches(Account account) {
         return this.gameMatchRepository
@@ -121,6 +117,7 @@ public class GameMatchService {
         return this.gameMatchRepository.save(gameMatch);
     }
 
+    //me가 notice에 대해서 response 했을 때 처리.
     @Transactional
     public void handleMatchAccept(Notice notice, NoticeResponse response, Account me) {
         GameMatch gameMatch = notice.getGameMatch();
@@ -225,11 +222,6 @@ public class GameMatchService {
 
     public List<GameMatch> getLast5Match(Account account) {
         return this.gameMatchRepository.findTop5GameMatchesByRankentriesAccountAndAcceptedTimeIsNotNullOrderByAcceptedTimeDesc(account);
-    }
-
-    public void addAccountMatchStatus(Long accountId, Long gameMatchID, Long boardgameId, String attribute, String value) {
-        AccountMatchStatus accountMatchStatus = new AccountMatchStatus(accountId, gameMatchID, boardgameId, attribute, value);
-        this.accountMatchStatusRepository.save(accountMatchStatus);
     }
 
     public void addAccountMatchStatusList(List<AccountMatchStatus> statusList) {

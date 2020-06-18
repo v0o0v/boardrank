@@ -4,12 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile({"!test"})
 @Slf4j
 @Aspect
 @Component
 public class LogAspect {
+
 
     @Around("execution(public * net.boardrank..*Service.*(..))")
     public Object controllerLogging(ProceedingJoinPoint point) throws Throwable {
