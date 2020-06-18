@@ -60,6 +60,7 @@ public class AWSConfig {
         return new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey);
     }
 
+
     @Profile({"!test"})
     @Primary
     @Bean
