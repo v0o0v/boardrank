@@ -1,24 +1,19 @@
-# Project Base for Vaadin and Spring Boot
+# BoardRank
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+BoardRank 사이트의 소스 관리 git repository입니다.
 
-The best way to create your own project based on this starter is [start.vaadin.com](https://start.vaadin.com/) - you can get only the necessary parts and choose the package naming you want to use.
+BoardRank 사이트는 아래와 같습니다.
 
-## Running the Application
+https://boardrank.net
 
-Import the project to the IDE of your choosing as a Maven project.
 
-Run the application using `mvn spring-boot:run` or by running the `Application` class directly from your IDE.
+# Technical Stacks
 
-Open http://localhost:8080/ in your browser.
+Front : Vaadin 14+
 
-If you want to run the application locally in the production mode, run `mvn spring-boot:run -Pproduction`.
+Back : Spring Framework 5+
 
-To run Integration Tests, execute `mvn verify -Pintegration-tests`.
+Deploy : AWS Elasticbeanstalk
 
-## More Information
-
-- [Vaadin Flow](https://vaadin.com/flow) documentation
-- [Using Vaadin and Spring](https://vaadin.com/docs/v14/flow/spring/tutorial-spring-basic.html) article
-
+#Contribution
+아직은 허용되지 않습니다. 서버가 안정화 된 이후 개발 참여가 허용될 예정입니다.
