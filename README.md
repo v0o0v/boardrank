@@ -15,5 +15,5 @@ Back : Spring Framework 5+
 
 Deploy : AWS Elasticbeanstalk
 
-#Contribution
+# Contribution
 아직은 허용되지 않습니다. 서버가 안정화 된 이후 개발 참여가 허용될 예정입니다.
