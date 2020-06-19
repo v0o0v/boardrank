@@ -2,10 +2,6 @@
 
 BoardRank 사이트의 소스 관리 git repository입니다.
 
-BoardRank 사이트는 아래와 같습니다.
-
-https://boardrank.net
-
 
 # Technical Stacks
 
