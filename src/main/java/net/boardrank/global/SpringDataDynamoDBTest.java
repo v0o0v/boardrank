@@ -1,16 +1,16 @@
 package net.boardrank.global;
 
-import net.boardrank.boardgame.domain.Comment;
+import net.boardrank.boardgame.domain.AccountMatchStatus;
 import net.boardrank.boardgame.domain.repository.dynamo.AccountMatchStatusRepository;
-import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
 import net.boardrank.boardgame.domain.repository.dynamo.CommentPagingAndSortingRepository;
+import net.boardrank.boardgame.domain.repository.dynamo.CommentRepository;
+import net.boardrank.boardgame.service.AccountMatchStatusAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Profile("dev")
@@ -31,32 +31,10 @@ public class SpringDataDynamoDBTest implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-//        Comment comment = new Comment();
-//        comment.setCreatedAt(LocalDateTime.now());
-//        comment.setContent("으헤헤헤");
-//        comment.setGameMatchId(1);
-//        commentRepository.save(comment);
-//
-//        Comment comment2 = new Comment();
-//        comment2.setCreatedAt(LocalDateTime.now());
-//        comment2.setContent("으헤헤헤");
-//        comment2.setGameMatchId(1);
-//        commentRepository.save(comment2);
-
-//        List<Comment> allByGameMatchIdOrderByCreatedAt = commentRepository.findAllByGameMatchIdOrderByCreatedAtAsc(1);
-//
-//        Page<Comment> createdAt = commentPagingAndSortingRepository
-//                .findAllByGameMatchId(1
-//                        , PageRequest.of(1, 3, Sort.by("createdAt").ascending()));
-//
-//
-//        System.out.println();
-
-
 //        ================================================================================
 
-//        AccountMatchStatus status = new AccountMatchStatus(1L, "v0o0v", 2L, AccountMatchStatusAttribute.WinOrLose.name(), "1");
-//        AccountMatchStatus status2 = new AccountMatchStatus(10L, "v0o0v", 2L, AccountMatchStatusAttribute.WinOrLose.name(), "1");
+//        AccountMatchStatus status = new AccountMatchStatus(1L, 2L, 3L, AccountMatchStatusAttribute.WinOrLose.name(), "aa");
+//        AccountMatchStatus status2 = new AccountMatchStatus(1L, 2L, 3L, AccountMatchStatusAttribute.WinOrLose.name(), "bb");
 //
 //        this.accountMatchStatusRepository.save(status);
 //        this.accountMatchStatusRepository.save(status2);
@@ -65,22 +43,22 @@ public class SpringDataDynamoDBTest implements ApplicationRunner {
 
 //        ================================================================================
 
-        Comment comment = new Comment(1L, 2L, "vvv", "content1");
-        commentRepository.save(comment);
-
-        Comment comment2 = new Comment(1L, 2L, "vvv", "content1");
-        commentRepository.save(comment2);
-
-        Comment comment3 = new Comment(1L, 2L, "vvv", "content1");
-        commentRepository.save(comment3);
-
-
-        List<Comment> allByGameMatchIdOrderByCreatedAtAsc = commentRepository.findAllByGameMatchIdOrderByCreatedAtAsc(1L);
-
-        List<Comment> allByGameMatchIdOrderByCreatedAtDesc = commentRepository.findAllByGameMatchIdOrderByCreatedAtDesc(1L);
-
-        commentRepository.delete(comment);
-
-        commentRepository.deleteAll(Arrays.asList(comment2, comment3));
+//        Comment comment = new Comment(1L, 2L, "vvv", "content1");
+//        commentRepository.save(comment);
+//
+//        Comment comment2 = new Comment(1L, 2L, "vvv", "content1");
+//        commentRepository.save(comment2);
+//
+//        Comment comment3 = new Comment(1L, 2L, "vvv", "content1");
+//        commentRepository.save(comment3);
+//
+//
+//        List<Comment> allByGameMatchIdOrderByCreatedAtAsc = commentRepository.findAllByGameMatchIdOrderByCreatedAtAsc(1L);
+//
+//        List<Comment> allByGameMatchIdOrderByCreatedAtDesc = commentRepository.findAllByGameMatchIdOrderByCreatedAtDesc(1L);
+//
+//        commentRepository.delete(comment);
+//
+//        commentRepository.deleteAll(Arrays.asList(comment2, comment3));
     }
 }

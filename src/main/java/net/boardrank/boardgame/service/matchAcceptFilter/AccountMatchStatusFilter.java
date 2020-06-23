@@ -53,6 +53,7 @@ public class AccountMatchStatusFilter implements MatchAcceptFilter {
         });
 
         //플레이시간
+        skipForDuplicate();
         gameMatch.getRankentries().forEach(rankEntry -> {
             Account account = rankEntry.getAccount();
             statusList.add(new AccountMatchStatus(
@@ -65,6 +66,7 @@ public class AccountMatchStatusFilter implements MatchAcceptFilter {
         });
 
         //획득한 BP(모든 게임 입력)
+        skipForDuplicate();
         gameMatch.getRankentries().forEach(rankEntry -> {
             Account account = rankEntry.getAccount();
             statusList.add(new AccountMatchStatus(
@@ -77,6 +79,7 @@ public class AccountMatchStatusFilter implements MatchAcceptFilter {
         });
 
         //획득한 AP(모든 게임 입력)
+        skipForDuplicate();
         gameMatch.getRankentries().forEach(rankEntry -> {
             Account account = rankEntry.getAccount();
             statusList.add(new AccountMatchStatus(
@@ -90,5 +93,13 @@ public class AccountMatchStatusFilter implements MatchAcceptFilter {
 
 
         gameMatchService.addAccountMatchStatusList(statusList);
+    }
+
+    public void skipForDuplicate(){
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

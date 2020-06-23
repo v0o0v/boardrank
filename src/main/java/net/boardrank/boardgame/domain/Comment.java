@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
+
+//Dynamo DB Attribute Class에는 Lombok 사용불가
+
 @NoArgsConstructor
 @DynamoDBTable(tableName = "boardrank_comment")
 public class Comment {
