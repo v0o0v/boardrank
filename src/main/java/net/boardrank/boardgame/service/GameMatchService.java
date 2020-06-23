@@ -168,8 +168,7 @@ public class GameMatchService {
     }
 
     public void deleteComments(Long gameMatchId, List<Comment> comments) {
-//        this.commentRepository.deleteAll(comments);
-        comments.forEach(comment -> this.commentRepository.deleteById(comment.getId()));
+        this.commentRepository.deleteAll(comments);
     }
 
     public List<Comment> getCommentsByMatchId(Long gameMatchId) {
