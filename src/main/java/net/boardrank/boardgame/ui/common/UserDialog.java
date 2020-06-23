@@ -56,16 +56,18 @@ public class UserDialog extends ResponsiveDialog {
         form.addFormItem(new H5(account.getBoardPoint().toString()), "BoardRank Point");
         form.addFormItem(new H5(account.getAngelPoint().toString()), "Angel Point");
         form.addFormItem(new H5(account.getWinCount() + "승 " + account.getLoseCount() + "패"), "승패");
-        form.addFormItem(new Div(), "최근 Match");
+        form.addFormItem(new Div(), "Last Matches");
         form.add(initLastMatchs());
-
+        form.addFormItem(new Div(), "Friend List");
+        form.add(new FriendGrid(gameMatchService, account));
+        form.addFormItem(new Div(), "");
         form.add(new FriendButton(gameMatchService
                 , gameMatchService.getAccountService().getCurrentAccount()
                 , account
         ));
-
         layout.add(form);
         add(layout);
+
         VerticalLayout bottom = new VerticalLayout();
         bottom.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         bottom.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.END);
