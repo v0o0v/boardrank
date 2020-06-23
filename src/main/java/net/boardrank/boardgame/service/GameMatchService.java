@@ -147,8 +147,17 @@ public class GameMatchService {
     @Transactional
     public void removeMatch(GameMatch gameMatch) {
 
-        //삭제 전에 관련 notice 삭제
+        //관련 notice 삭제
         noticeService.removeNoticeOf(gameMatch);
+
+        //image를 s3에서 삭제
+        gameMatch.getImages().forEach(imageURL -> {
+            deleteImage(gameMatch, imageURL.getFilename());
+        });
+
+        //comment를 dynamoDB에서 삭제
+        List<Comment> commentsByMatchId = getCommentsByMatchId(gameMatch.getId());
+        deleteComments(gameMatch.getId(), commentsByMatchId);
 
         this.gameMatchRepository.delete(gameMatch);
     }
@@ -156,6 +165,11 @@ public class GameMatchService {
     public void addComment(Long gameMatchId, Account currentAccount, String value) {
         Comment comment = new Comment(gameMatchId, currentAccount.getId(), currentAccount.getName(), value);
         this.commentRepository.save(comment);
+    }
+
+    public void deleteComments(Long gameMatchId, List<Comment> comments) {
+//        this.commentRepository.deleteAll(comments);
+        comments.forEach(comment -> this.commentRepository.deleteById(comment.getId()));
     }
 
     public List<Comment> getCommentsByMatchId(Long gameMatchId) {
