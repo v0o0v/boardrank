@@ -9,6 +9,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -272,6 +273,7 @@ public class MatchView extends ResponsiveVerticalLayout {
         finishedTime.setLabel("종료 시간");
         form.add(finishedTime, 1);
 
+        form.add(new H5("Images"),2);
         form.add(createImageView(), 2);
         form.add(createUploadView(), 2);
         form.add(new MatchCommentListView(this.gameMatchService, this.gameMatch.getId()), 2);
@@ -289,7 +291,6 @@ public class MatchView extends ResponsiveVerticalLayout {
 
     private Component createUploadView() {
 
-        upload.setWidth("12em");
         upload.setUploadButton(new Button("사진 올리기"));
         upload.setDropAllowed(false);
         upload.setAcceptedFileTypes("image/jpeg");
