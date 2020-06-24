@@ -156,8 +156,7 @@ public class GameMatchService {
         });
 
         //comment를 dynamoDB에서 삭제
-        List<Comment> commentsByMatchId = getCommentsByMatchId(gameMatch.getId());
-        deleteComments(gameMatch.getId(), commentsByMatchId);
+        deleteComments(getCommentsByMatchId(gameMatch.getId()));
 
         this.gameMatchRepository.delete(gameMatch);
     }
@@ -167,7 +166,7 @@ public class GameMatchService {
         this.commentRepository.save(comment);
     }
 
-    public void deleteComments(Long gameMatchId, List<Comment> comments) {
+    public void deleteComments(List<Comment> comments) {
         this.commentRepository.deleteAll(comments);
     }
 

@@ -70,7 +70,7 @@ public class MatchCommentListView extends VerticalLayout {
         this.layout_commentList.removeAll();
         List<Comment> commentsByMatchId = gameMatchService.getCommentsByMatchId(gameMatchId);
         commentsByMatchId.forEach(comment -> {
-            layout_commentList.add(new CommentView(gameMatchService, comment));
+            layout_commentList.add(new CommentView(gameMatchService, comment, event -> reset()));
         });
     }
 }

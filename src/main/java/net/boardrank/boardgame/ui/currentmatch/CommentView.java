@@ -1,5 +1,9 @@
 package net.boardrank.boardgame.ui.currentmatch;
 
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,15 +15,18 @@ import net.boardrank.boardgame.ui.common.UserButton;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class CommentView extends VerticalLayout {
 
     GameMatchService gameMatchService;
     Comment comment;
+    ComponentEventListener afterDeleteEvent;
 
-    public CommentView(GameMatchService gameMatchService, Comment comment) {
+    public CommentView(GameMatchService gameMatchService, Comment comment, ComponentEventListener<ComponentEvent<CommentView>> afterDeleteEvent) {
         this.gameMatchService = gameMatchService;
         this.comment = comment;
+        this.afterDeleteEvent = afterDeleteEvent;
 
         setSpacing(false);
         setMargin(false);
@@ -41,6 +48,18 @@ public class CommentView extends VerticalLayout {
         LocalDateTime createdAt = TimeUtilService.transUTCToKTC(comment.getCreatedAt());
         info.add(new H6(createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         add(info, new H6(comment.getContent()));
+
+        if (gameMatchService.getAccountService().getCurrentAccount().getId().equals(comment.getAccountId())) {
+            Button btn_remove = new Button("삭제");
+            btn_remove.addThemeVariants(ButtonVariant.LUMO_SMALL);
+            btn_remove.addClickListener(event -> {
+                gameMatchService.deleteComments(Arrays.asList(this.comment));
+                this.afterDeleteEvent.onComponentEvent(null);
+            });
+            add(btn_remove);
+            setHorizontalComponentAlignment(Alignment.END, btn_remove);
+        }
+
     }
 
 }
