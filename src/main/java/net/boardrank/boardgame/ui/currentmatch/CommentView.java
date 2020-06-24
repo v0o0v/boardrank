@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import net.boardrank.boardgame.domain.Account;
 import net.boardrank.boardgame.domain.Comment;
 import net.boardrank.boardgame.service.GameMatchService;
@@ -33,6 +34,7 @@ public class CommentView extends VerticalLayout {
         setPadding(false);
 
         initComponent();
+        setHeightFull();
     }
 
     private void initComponent() {
@@ -47,7 +49,13 @@ public class CommentView extends VerticalLayout {
         info.addAndExpand(new H6(" "));
         LocalDateTime createdAt = TimeUtilService.transUTCToKTC(comment.getCreatedAt());
         info.add(new H6(createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-        add(info, new H6(comment.getContent()));
+        add(info);
+
+        TextArea textArea = new TextArea();
+        textArea.setValue(comment.getContent());
+        textArea.setSizeFull();
+        textArea.setReadOnly(true);
+        add(textArea);
 
         if (gameMatchService.getAccountService().getCurrentAccount().getId().equals(comment.getAccountId())) {
             Button btn_remove = new Button("삭제");
