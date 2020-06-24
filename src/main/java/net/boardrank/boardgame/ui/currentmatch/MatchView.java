@@ -425,9 +425,13 @@ public class MatchView extends ResponsiveVerticalLayout {
                 this.btn_changeMatchStatus.setEnabled(true);
                 if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
                     this.startDate.setReadOnly(true);
+                    this.startDate.setVisible(false);
                     this.startTime.setReadOnly(true);
+                    this.startTime.setVisible(false);
                     this.finishedDate.setReadOnly(true);
+                    this.finishedDate.setVisible(false);
                     this.finishedTime.setReadOnly(true);
+                    this.finishedTime.setVisible(false);
                     this.combo_bgProvider.setReadOnly(false);
                     this.combo_ruleSupporter.setReadOnly(false);
                 }
@@ -437,9 +441,13 @@ public class MatchView extends ResponsiveVerticalLayout {
                 this.btn_changeMatchStatus.setEnabled(true);
                 if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
                     this.startDate.setReadOnly(false);
+                    this.startDate.setVisible(true);
                     this.startTime.setReadOnly(false);
+                    this.startTime.setVisible(true);
                     this.finishedDate.setReadOnly(true);
+                    this.finishedDate.setVisible(false);
                     this.finishedTime.setReadOnly(true);
+                    this.finishedTime.setVisible(false);
                     this.combo_bgProvider.setReadOnly(false);
                     this.combo_ruleSupporter.setReadOnly(false);
                 }
@@ -449,9 +457,13 @@ public class MatchView extends ResponsiveVerticalLayout {
                 this.btn_changeMatchStatus.setEnabled(false);
                 if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
                     this.startDate.setReadOnly(false);
+                    this.startDate.setVisible(true);
                     this.startTime.setReadOnly(false);
+                    this.startTime.setVisible(true);
                     this.finishedDate.setReadOnly(false);
+                    this.finishedDate.setVisible(true);
                     this.finishedTime.setReadOnly(false);
+                    this.finishedTime.setVisible(true);
                     this.combo_bgProvider.setReadOnly(false);
                     this.combo_ruleSupporter.setReadOnly(false);
                 }
@@ -461,9 +473,13 @@ public class MatchView extends ResponsiveVerticalLayout {
                 this.btn_changeMatchStatus.setEnabled(false);
                 if (accountService.getCurrentAccount().equals(gameMatch.getCreatedMember())) {
                     this.startDate.setReadOnly(true);
+                    this.startDate.setVisible(true);
                     this.startTime.setReadOnly(true);
+                    this.startTime.setVisible(true);
                     this.finishedDate.setReadOnly(true);
+                    this.finishedDate.setVisible(true);
                     this.finishedTime.setReadOnly(true);
+                    this.finishedTime.setVisible(true);
                     this.combo_bgProvider.setReadOnly(true);
                     this.combo_ruleSupporter.setReadOnly(true);
                 }
