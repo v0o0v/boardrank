@@ -19,6 +19,7 @@ public class MatchDetailModifyDialog extends Dialog {
     private GameMatch gameMatch;
 
     private Button btn_removeMatch;
+    private final VerticalLayout layout;
 
     public MatchDetailModifyDialog(
             GameMatchService gameMatchService
@@ -26,9 +27,14 @@ public class MatchDetailModifyDialog extends Dialog {
     ) {
         this.gameMatchService = gameMatchService;
         this.gameMatch = gameMatch;
+        layout = new VerticalLayout();
+
+        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        add(layout);
 
         btn_removeMatch = new Button("Match 삭제하기", event -> {
-            if(gameMatch.getGameMatchStatus().equals(GameMatchStatus.resultAccepted)) {
+            if (gameMatch.getGameMatchStatus().equals(GameMatchStatus.resultAccepted)) {
                 Notification notification = new Notification("해당 Match는 삭제할 수 없습니다.(Match Closed)");
                 notification.setDuration(1500);
                 notification.open();
@@ -45,7 +51,14 @@ public class MatchDetailModifyDialog extends Dialog {
             UI.getCurrent().getPage().reload();
         });
         btn_removeMatch.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        add(btn_removeMatch);
+        layout.add(btn_removeMatch);
+
+        VerticalLayout bottom = new VerticalLayout();
+        bottom.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        bottom.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.END);
+        add(bottom);
+
+        bottom.add(new Button("닫기", event -> close()));
     }
 
 }
