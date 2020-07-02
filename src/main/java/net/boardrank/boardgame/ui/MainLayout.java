@@ -22,6 +22,7 @@ import com.vaadin.flow.server.PageConfigurator;
 import net.boardrank.boardgame.service.AccountService;
 import net.boardrank.boardgame.service.BoardgameService;
 import net.boardrank.boardgame.service.GameMatchService;
+import net.boardrank.boardgame.ui.boardgames.BoardgameTab;
 import net.boardrank.boardgame.ui.common.UserIcon;
 import net.boardrank.boardgame.ui.currentmatch.CurrentMatchListTab;
 import net.boardrank.boardgame.ui.matchhistory.GameMatchHistoryTab;
@@ -110,17 +111,17 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         btn_myRank.setWidthFull();
         tabs.add(new Tab(btn_myRank));
 
-        btn_currentMatch = new Button("Current Match", new Icon(VaadinIcon.PLAY));
+        btn_currentMatch = new Button("My Current Match", new Icon(VaadinIcon.PLAY));
         btn_currentMatch.addClickListener(e -> UI.getCurrent().navigate(CurrentMatchListTab.class));
         btn_currentMatch.setWidthFull();
         tabs.add(new Tab(btn_currentMatch));
 
-        Button btn_matchHistory = new Button("Match History", new Icon(VaadinIcon.LINE_CHART));
+        Button btn_matchHistory = new Button("My Match History", new Icon(VaadinIcon.LINE_CHART));
         btn_matchHistory.addClickListener(e -> UI.getCurrent().navigate(GameMatchHistoryTab.class));
         btn_matchHistory.setWidthFull();
         tabs.add(new Tab(btn_matchHistory));
 
-        Button btn_ToDoList = new Button("To Do", new Icon(VaadinIcon.PACKAGE));
+        Button btn_ToDoList = new Button("My To Do", new Icon(VaadinIcon.PACKAGE));
         btn_ToDoList.addClickListener(e -> UI.getCurrent().navigate(ToDoTab.class));
         btn_ToDoList.setWidthFull();
         tabs.add(new Tab(btn_ToDoList));
@@ -129,6 +130,11 @@ public class MainLayout extends AppLayout implements PageConfigurator {
         btn_friend.addClickListener(e -> UI.getCurrent().navigate(FriendTab.class));
         btn_friend.setWidthFull();
         tabs.add(new Tab(btn_friend));
+
+        Button btn_boardgame = new Button("Boardgames", new Icon(VaadinIcon.VIEWPORT));
+        btn_boardgame.addClickListener(e -> UI.getCurrent().navigate(BoardgameTab.class));
+        btn_boardgame.setWidthFull();
+        tabs.add(new Tab(btn_boardgame));
 
         tabs.setSelectedIndex(0);
         addToDrawer(tabs);
