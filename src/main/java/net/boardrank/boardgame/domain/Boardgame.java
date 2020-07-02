@@ -30,6 +30,10 @@ public class Boardgame {
     @OneToMany(mappedBy = "base", fetch = FetchType.EAGER)
     private Set<Boardgame> expansionSet = new HashSet<>();
 
+    private String boardgameGeekURL;
+    private String boardLifeURL;
+    private String engName;
+
     @Override
     public String toString() {
         return this.name;
