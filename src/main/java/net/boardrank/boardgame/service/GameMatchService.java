@@ -46,6 +46,9 @@ public class GameMatchService {
     @Autowired
     AccountMatchStatusRepository accountMatchStatusRepository;
 
+    @Autowired
+    BoardgameService boardgameService;
+
     @Transactional
     public GameMatch getGameMatch(Long id) {
         return this.gameMatchRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -238,5 +241,9 @@ public class GameMatchService {
 
     public void addAccountMatchStatusList(List<AccountMatchStatus> statusList) {
         this.accountMatchStatusRepository.saveAll(statusList);
+    }
+
+    public BoardgameService getBoardgameService() {
+        return boardgameService;
     }
 }
