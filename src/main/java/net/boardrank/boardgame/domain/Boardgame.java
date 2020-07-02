@@ -33,6 +33,7 @@ public class Boardgame {
     private String boardgameGeekURL;
     private String boardLifeURL;
     private String engName;
+    private String imageURL;
 
     @Override
     public String toString() {
