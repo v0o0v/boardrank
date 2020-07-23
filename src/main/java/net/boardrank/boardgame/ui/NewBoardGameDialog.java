@@ -68,11 +68,6 @@ public class NewBoardGameDialog extends ResponsiveDialog {
         grid.removeAllColumns();
         grid.setHeight("12em");
         grid.addColumn(Boardgame::getName).setHeader("이름").setSortable(true);
-//        grid.addComponentColumn(boardgame -> {
-//            Checkbox checkbox = new Checkbox(boardgame.isExp());
-//            checkbox.setReadOnly(true);
-//            return checkbox;
-//        }).setHeader("확장판");
         grid.addColumn(Boardgame::getBase).setHeader("기본판").setSortable(true);
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
